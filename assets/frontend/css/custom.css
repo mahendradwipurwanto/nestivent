@@ -1,0 +1,18 @@
+/* Custom css file */
+
+/* Card IMG */
+
+.img-card-235-140{
+  width: 235px !important;
+  height: 140px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden !important;
+}
+
+.img-card-235-140 > img{
+  flex-shrink: 0 !important;
+  min-width: 100%;
+  min-height: 100%;
+}

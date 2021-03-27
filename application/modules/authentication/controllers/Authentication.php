@@ -8,8 +8,24 @@ class Authentication extends MX_Controller {
 
 	}
 
-	public function index()
-	{
-		$this->load->view('welcome_message');
+	public function index(){
+
+		$data['module'] 		= "authentication";
+		$data['fileview'] 	= "login";
+		echo Modules::run('template/frontend_auth', $data);
+	}
+
+	public function daftar(){
+
+		$data['module'] 		= "authentication";
+		$data['fileview'] 	= "daftar";
+		echo Modules::run('template/frontend_auth', $data);
+	}
+
+	public function recovery(){
+
+		$data['module'] 		= "authentication";
+		$data['fileview'] 	= "recovery";
+		echo Modules::run('template/frontend_auth', $data);
 	}
 }

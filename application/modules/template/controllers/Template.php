@@ -7,12 +7,16 @@ class Template extends MX_Controller {
 		$this->load->model(['M_template']);
 	}
 
-	public function frontend($data){
-		$this->load->view('frontend', $data);
+	public function frontend_util($data){
+		$this->load->view('frontend/frontend_util', $data);
+	}
+
+	public function frontend_auth($data){
+		$this->load->view('frontend/frontend_auth', $data);
 	}
 
 	public function frontend_main($data){
-		$this->load->view('frontend_main', $data);
+		$this->load->view('frontend/frontend_main', $data);
 	}
 
 }

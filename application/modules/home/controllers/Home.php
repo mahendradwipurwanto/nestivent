@@ -3,15 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends MX_Controller{
 
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_home');
 
 	}
 
-	public function index(){
+	// Home page
 
+	public function index(){
 
 		$data['module'] 		= "home";
 		$data['fileview'] 	= "home";
