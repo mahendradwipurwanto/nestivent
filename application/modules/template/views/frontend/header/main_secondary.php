@@ -1,6 +1,6 @@
 <!-- Secondary Content -->
 <div class="navbar-nav-wrap-content text-center">
-  
+
   <!-- Button -->
   <div class="hs-unfold">
     <a class="js-hs-unfold-invoker btn btn-sm btn-outline-primary" href="javascript:;"
@@ -13,55 +13,64 @@
     </a>
 
     <div id="signUpDropdown" class="hs-unfold-content dropdown-menu dropdown-menu-right py-0" style="min-width: 350px;">
-      <div class="card p-5">
+      <div class="card p-3 pt-5 pb-5">
         <form class="js-validate">
 
           <!-- Signup -->
-          <div id="daftar" style="display: none; opacity: 0;">
+          <div id="daftar">
             <!-- Title -->
-            <div class="text-center mb-7">
+            <div class="text-center mb-2">
               <h3 class="mb-0">Buat akun</h3>
               <p>Pilih tipe akun untuk didaftarkan.</p>
             </div>
             <!-- End Title -->
 
-            <div class="hs-mega-menu dropdown-menu" aria-labelledby="kegiatanMegaMenu" style="min-width: 330px;">
-              <!-- Kegiatan Item -->
-              <div class="navbar-promo-item">
-                <a class="navbar-promo-link" href="">
-                  <div class="media align-items-center">
-                    <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-2.svg" alt="SVG">
-                    <div class="media-body">
-                      <span class="navbar-promo-title">
-                        Kompetisi
-                        <span class="badge badge-secondary badge-pill ml-1">Starred</span>
-                      </span>
-                      <small class="navbar-promo-text">Kegiatan kompetisi</small>
-                    </div>
+            <!-- Kegiatan Item -->
+            <div class="navbar-promo-item">
+              <a class="navbar-promo-link" href="">
+                <div class="media align-items-center">
+                  <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-18.svg" alt="SVG">
+                  <div class="media-body">
+                    <span class="navbar-promo-title">
+                      Peserta
+                    </span>
+                    <small class="navbar-promo-text">Daftar sebagai peserta</small>
                   </div>
-                </a>
-              </div>
-              <!-- End Kegiatan Item -->
+                </div>
+              </a>
+            </div>
+            <!-- End Kegiatan Item -->
 
-              <!-- Kegiatan Item -->
-              <div class="navbar-promo-item">
-                <a class="navbar-promo-link" href="">
-                  <div class="media align-items-center">
-                    <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-1.svg" alt="SVG">
-                    <div class="media-body">
-                      <span class="navbar-promo-title">Event</span>
-                      <small class="navbar-promo-text">Event (Seminar, Workshop)</small>
-                    </div>
+            <!-- Kegiatan Item -->
+            <div class="navbar-promo-item">
+              <a class="navbar-promo-link" href="">
+                <div class="media align-items-center">
+                  <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">
+                  <div class="media-body">
+                    <span class="navbar-promo-title">Penyelenggara
+                      <span class="badge badge-secondary badge-pill ml-1">STIKI Malang</span>
+                    </span>
+                    <small class="navbar-promo-text">Elemen lembaga STIKI</small>
                   </div>
-                </a>
-              </div>
-              <!-- End Kegiatan Item -->
+                </div>
+              </a>
+            </div>
+            <!-- End Kegiatan Item -->
+
+            <div class="text-center">
+              <span class="font-size-1 text-muted">Sudah punya akun?</span>
+              <a class="js-animation-link font-size-1 font-weight-bold" href="javascript:;"
+                data-hs-show-animation-options='{
+                  "targetSelector": "#login",
+                  "groupName": "idForm"
+                }'>Login
+              </a>
             </div>
 
           </div>
           <!-- End Signup -->
           <!-- Login -->
-          <div id="login">
+          <div id="login" class="pr-2 pl-2" style="display: none; opacity: 0;">
             <!-- Title -->
             <div class="text-center mb-7">
               <h3 class="mb-0">Sign In to Front</h3>

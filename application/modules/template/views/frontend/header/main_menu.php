@@ -69,7 +69,7 @@
                 <div class="navbar-promo-card navbar-promo-item">
                   <a class="navbar-promo-link" href="demo-help-desk/index.html">
                     <div class="media align-items-center">
-                      <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-4.svg" alt="SVG">
+                      <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-7.svg" alt="SVG">
                       <div class="media-body">
                         <span class="navbar-promo-title">PMB</span>
                         <span class="navbar-promo-text">PMB STIKI Malang</span>
@@ -99,7 +99,7 @@
                 <div class="navbar-promo-card navbar-promo-item">
                   <a class="navbar-promo-link disabled" href="javascript:;">
                     <div class="media align-items-center">
-                      <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-28.svg" alt="SVG">
+                      <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-63.svg" alt="SVG">
                       <div class="media-body">
                         <span class="navbar-promo-title">Lainnya</span>
                         <span class="navbar-promo-text">Lihat semua penyelenggara</span>
@@ -142,7 +142,7 @@
           <div class="navbar-promo-item">
             <a class="navbar-promo-link" href="">
               <div class="media align-items-center">
-                <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-2.svg" alt="SVG">
+                <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">
                 <div class="media-body">
                   <span class="navbar-promo-title">
                     Kompetisi
@@ -159,7 +159,7 @@
           <div class="navbar-promo-item">
             <a class="navbar-promo-link" href="">
               <div class="media align-items-center">
-                <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-1.svg" alt="SVG">
+                <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-33.svg" alt="SVG">
                 <div class="media-body">
                   <span class="navbar-promo-title">Event</span>
                   <small class="navbar-promo-text">Event (Seminar, Workshop)</small>

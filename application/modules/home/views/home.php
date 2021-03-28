@@ -1,6 +1,6 @@
 
 <!-- Hero Section -->
-<div class="container space-top-3 space-top-lg-4 space-bottom-2 space-bottom-lg-3">
+<div class="container space-top-3 space-top-lg-4">
   <div class="row justify-content-lg-between mb-7">
     <div class="col-md-6 col-lg-5">
       <!-- Info -->
@@ -9,12 +9,34 @@
         <p>Kelola kegiatan kompetisi dan event mulai dari pendaftaran hingga pembagian sertifikat secara mudah.</p>
       </div>
 
-      <div class="mb-3">
-        <a class="btn btn-primary btn-wide transition-3d-hover mb-2 mb-sm-0 mr-3" href="#">Daftar sekarang</a>
-        <a class="btn btn-link mb-2 mb-sm-0" href="#">Let's Talk <i class="fas fa-angle-right fa-sm ml-1"></i></a>
+      <div class="row mb-3">
+        <div class="col-6">
+          <!-- Fancybox -->
+          <a class="js-fancybox video-player video-player-btn media align-items-center text-dark" href="javascript:;"
+            data-hs-fancybox-options='{
+              "src": "//youtube.com/0qisGSwZym4",
+              "caption": "",
+              "speed": 700,
+              "buttons": ["fullScreen", "close"],
+              "youtube": {
+                "autoplay": 1
+              }
+            }'>
+            <span class="video-player-icon shadow-soft mr-3">
+              <i class="fa fa-play"></i>
+            </span>
+            <span class="media-body">
+              How it works
+            </span>
+          </a>
+          <!-- End Fancybox -->
+        </div>
+        <div class="col-6 align-items-center">
+          <a class="btn btn-primary btn-wide transition-3d-hover mb-sm-0" style="margin-top: 10px" href="<?= site_url('daftar') ?>">Daftar sekarang</a>
+        </div>
       </div>
 
-      <p class="small">Start free trial. * No credit card required.</p>
+      <p class="small">Penyelenggara hanya dapat berasal dari lembaga STIKI Malang.</p>
       <!-- End Info -->
     </div>
 
@@ -26,52 +48,8 @@
       <!-- End SVG Illustration -->
     </div>
   </div>
-
-  <!-- Clients -->
-  <div class="row justify-content-between text-center">
-    <div class="col-4 col-lg-2 mb-5 mb-lg-0">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/boring-company.svg" alt="Image Description">
-      </div>
-    </div>
-    <div class="col-4 col-lg-2 mb-5 mb-lg-0">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/netflix.svg" alt="Image Description">
-      </div>
-    </div>
-    <div class="col-4 col-lg-2 mb-5 mb-lg-0">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/fitbit.svg" alt="Image Description">
-      </div>
-    </div>
-    <div class="col-4 col-lg-2">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/google.svg" alt="Image Description">
-      </div>
-    </div>
-    <div class="col-4 col-lg-2">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/airbnb.svg" alt="Image Description">
-      </div>
-    </div>
-    <div class="col-4 col-lg-2">
-      <div class="mx-3">
-        <img class="max-w-11rem max-w-md-13rem mx-auto" src="<?= base_url();?>assets/frontend/svg/clients-logo/uber.svg" alt="Image Description">
-      </div>
-    </div>
-  </div>
-  <!-- End Clients -->
 </div>
 <!-- End Hero Section -->
-
-<!-- SVG Top Shape -->
-<figure>
-  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="64px"
-  viewBox="0 0 1921 273" style="margin-bottom: -8px; enable-background:new 0 0 1921 273;" xml:space="preserve">
-  <polygon fill="#f9fbff" points="0,273 1921,273 1921,0 "/>
-</svg>
-</figure>
-<!-- End SVG Top Shape -->
 
 <!-- Features Section -->
 <div class="bg-light">

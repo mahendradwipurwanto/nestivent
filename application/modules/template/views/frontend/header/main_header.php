@@ -48,7 +48,7 @@
           <div class="navbar-nav-wrap">
             <!-- Logo -->
             <a class="navbar-brand navbar-nav-wrap-brand" href="index.html" aria-label="Front">
-              <img src="<?= base_url();?>assets/frontend/svg/logos/logo.svg" alt="Logo">
+              <img src="<?= base_url();?>assets/logo-ts.png" class="img-12-5" alt="Logo">
             </a>
             <!-- End Logo -->
 
