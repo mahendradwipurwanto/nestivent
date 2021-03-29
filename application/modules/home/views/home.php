@@ -56,8 +56,8 @@
   <div class="container space-2 space-lg-3">
     <!-- Title -->
     <div class="w-md-80 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
-      <span class="d-block small font-weight-bold text-cap mb-2">What's Front?</span>
-      <h2>The quickest and easiest theme for every team</h2>
+      <span class="d-block small font-weight-bold text-cap mb-2">Kenapa nestivent?</span>
+      <h2>Kelola segala proses penyelenggaraan kegiatan dalam satu platform</h2>
     </div>
     <!-- End Title -->
 
@@ -72,9 +72,9 @@
                   <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-45.svg" alt="SVG">
                 </figure>
                 <div class="media-body">
-                  <h4 class="mb-0">Easy &amp; fast designing</h4>
+                  <h4 class="mb-0">100% Customisable</h4>
                   <div class="d-none d-lg-block mt-2">
-                    <p class="text-body mb-0">You can work with your existing website.</p>
+                    <p class="text-body mb-0">Atur semua proses sesuai kebutuhan.</p>
                   </div>
                 </div>
               </div>
@@ -88,9 +88,9 @@
                   <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-23.svg" alt="SVG">
                 </figure>
                 <div class="media-body">
-                  <h4 class="mb-0">Powerful features</h4>
+                  <h4 class="mb-0">Mudah dan Cepat</h4>
                   <div class="d-none d-lg-block mt-2">
-                    <p class="text-body mb-0">Easily draft, change, customize and launch.</p>
+                    <p class="text-body mb-0">Semua terintegrasi dalam satu platform.</p>
                   </div>
                 </div>
               </div>
@@ -104,9 +104,9 @@
                   <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-44.svg" alt="SVG">
                 </figure>
                 <div class="media-body">
-                  <h4 class="mb-0">Advanced HTML/CSS editing</h4>
+                  <h4 class="mb-0">Terukur</h4>
                   <div class="d-none d-lg-block mt-2">
-                    <p class="text-body mb-0">You can modify any aspect of your website.</p>
+                    <p class="text-body mb-0">Segala aktifitas tercatat realtime 24 jam.</p>
                   </div>
                 </div>
               </div>
@@ -169,8 +169,8 @@
 <div class="container space-top-2 space-top-lg-3 space-bottom-lg-2">
   <!-- Title -->
   <div class="w-md-80 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
-    <span class="d-block small font-weight-bold text-cap mb-2">Always improving</span>
-    <h2>Solutions rooted in code and design</h2>
+    <span class="d-block small font-weight-bold text-cap mb-2">Memulai kegiatan pertama anda</span>
+    <h2>Three easy steps</h2>
   </div>
   <!-- End Title -->
 
@@ -180,8 +180,8 @@
       <div class="step-content-wrapper">
         <span class="step-icon step-icon-soft-primary">1</span>
         <div class="step-content">
-          <h3>Industry-leading designs</h3>
-          <p>Achieve virtually any design and layout from within the one template.</p>
+          <h3>Pendaftaran</h3>
+          <p>Daftarkan akun anda sebagai penyelenggara / peserta.</p>
         </div>
       </div>
     </li>
@@ -190,8 +190,8 @@
       <div class="step-content-wrapper">
         <span class="step-icon step-icon-soft-primary">2</span>
         <div class="step-content">
-          <h3>Learn from the docs</h3>
-          <p>Whether you're a startup or a global enterprise, learn how to integrate with Front.</p>
+          <h3>Customize</h3>
+          <p>Atur keperluan penyelenggaraan kegiatan dan kebutuhan peserta.</p>
         </div>
       </div>
     </li>
@@ -200,8 +200,8 @@
       <div class="step-content-wrapper">
         <span class="step-icon step-icon-soft-primary">3</span>
         <div class="step-content">
-          <h3>Accelerate your business</h3>
-          <p>We help power millions of businesses to built and run smoothly.</p>
+          <h3>Publish</h3>
+          <p>Publish kegiatan anda, dan biarkan peserta anda mulai mendaftar.</p>
         </div>
       </div>
     </li>
@@ -214,8 +214,8 @@
 <div class="container space-2 space-lg-3">
   <!-- Title -->
   <div class="w-md-80 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
-    <span class="d-block small font-weight-bold text-cap mb-2">Why Front</span>
-    <h2>Do more with an end-to-end solution</h2>
+    <span class="d-block small font-weight-bold text-cap mb-2">Features</span>
+    <h2>Apa yang dapat kami sediakan?</h2>
   </div>
   <!-- End Title -->
 
@@ -228,10 +228,10 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-29.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">Robust libraries</h4>
+          <h4 class="mb-0">Zoom integration</h4>
         </div>
       </div>
-      <p>Use Front thoroughly thought and automated libraries to manage your businesses.</p>
+      <p>Kemudahan mengelolah aktivitas zoom kegiatan dengan build in zoom integration.</p>
       <!-- End Icon Block -->
     </div>
 
@@ -242,10 +242,10 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-44.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">Simplified Snippets tools</h4>
+          <h4 class="mb-0">Kompetisi</h4>
         </div>
       </div>
-      <p>Quickly Front sample components, copy-paste codes, and start right off.</p>
+      <p>Kelola segala proses dalam kompetisi anda dengan mudah dan 100% customisable pada setiap prosesnya.</p>
       <!-- End Icon Block -->
     </div>
 
@@ -256,10 +256,10 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-2.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">Comprehensive docs</h4>
+          <h4 class="mb-0">Event</h4>
         </div>
       </div>
-      <p>Whether you're a startup or a global enterprise, learn how to integrate with Front.</p>
+      <p>Kelola event seminar, webinar dan workshop dengan mudah hingga proses pembagian sertifikat.</p>
       <!-- End Icon Block -->
     </div>
 
@@ -270,10 +270,10 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-37.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">Layout options</h4>
+          <h4 class="mb-0">Pendaftaran</h4>
         </div>
       </div>
-      <p>Apart from 100+ HTML-pages, the theme comes with 6 ready-to-use and stand-alone demo options.</p>
+      <p>Atur kebutuhan pendaftaran pada setiap kegiatan sesuai dengan kebutuhan.</p>
       <!-- End Icon Block -->
     </div>
 
@@ -284,10 +284,10 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-5.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">Speed up</h4>
+          <h4 class="mb-0">Penilaian</h4>
         </div>
       </div>
-      <p>Reduce time and effort on building modern look design with Front only.</p>
+      <p>Lakukan proses penilaian kompetisi langsung pada 1 platfrom.</p>
       <!-- End Icon Block -->
     </div>
 
@@ -298,23 +298,14 @@
           <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-28.svg" alt="SVG">
         </figure>
         <div class="media-body">
-          <h4 class="mb-0">A full solution for start-ups</h4>
+          <h4 class="mb-0">Realtime</h4>
         </div>
       </div>
-      <p>Front comes with design layouts from Corporate to Course platform.</p>
+      <p>Semua data kegiatan dapat diakses 24/7 secara realtime.</p>
       <!-- End Icon Block -->
     </div>
   </div>
   <!-- End Icon Blocks -->
-
-  <div class="text-center">
-    <div class="mb-3">
-      <a class="btn btn-primary btn-wide transition-3d-hover mb-2 mb-sm-0 mx-1" href="#">Sign up and Start Building</a>
-      <a class="btn btn-link mb-2 mb-sm-0 mx-1" href="#">Let's Talk <i class="fas fa-angle-right fa-sm ml-1"></i></a>
-    </div>
-
-    <p class="small">Start free trial. * No credit card required.</p>
-  </div>
 </div>
 <!-- End Features Section -->
 
@@ -334,7 +325,7 @@
 
 <!-- Blockquote -->
 <div class="w-md-75 text-center mx-md-auto mb-6">
-  <blockquote class="h3 text-lh-lg">The template is really nice and offers quite a large set of options. It's beautiful and the coding is done quickly and seamlessly. Thank you!</blockquote>
+  <blockquote class="h3 text-lh-lg">Overall service dari team Eventy sangat baik, siap diganggu 24 jam untuk mencapai hasil yang maksimal. Sukses selalu Nestivent!</blockquote>
 </div>
 <!-- End Blockquote -->
 
@@ -344,8 +335,8 @@
     <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img2.jpg" alt="Image Description">
   </div>
   <div class="ml-3">
-    <h4 class="mb-0">Charlotte Moore</h4>
-    <small class="text-muted">Director Business Planning, Amazon</small>
+    <h4 class="mb-0">Tommy</h4>
+    <small class="text-muted">Teras ide</small>
   </div>
 </div>
 <!-- End Reviewer -->

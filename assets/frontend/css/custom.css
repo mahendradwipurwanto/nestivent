@@ -1,7 +1,8 @@
 /* Custom css file */
 
 .img-12-5{
-    width: 12.5rem !important;
+  width: 12.5rem !important;
+  max-width: 12.5rem !important;
 }
 
 /* Card IMG */

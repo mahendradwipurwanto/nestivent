@@ -48,7 +48,7 @@
                   <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">
                   <div class="media-body">
                     <span class="navbar-promo-title">Penyelenggara
-                      <span class="badge badge-secondary badge-pill ml-1">STIKI Malang</span>
+                      <span class="badge badge-secondary badge-pill ml-1">STIKI</span>
                     </span>
                     <small class="navbar-promo-text">Elemen lembaga STIKI</small>
                   </div>
