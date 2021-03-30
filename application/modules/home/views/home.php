@@ -69,7 +69,7 @@
             <a class="nav-link p-4 active" id="pills-one-code-features-tab" data-toggle="pill" href="#pills-one-code-features" role="tab" aria-controls="pills-one-code-features" aria-selected="true">
               <div class="media align-items-center align-items-lg-start">
                 <figure class="w-100 max-w-6rem mt-2 mr-4">
-                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-45.svg" alt="SVG">
+                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-29.svg" alt="SVG">
                 </figure>
                 <div class="media-body">
                   <h4 class="mb-0">100% Customisable</h4>
@@ -101,7 +101,7 @@
             <a class="nav-link p-4" id="pills-three-code-features-tab" data-toggle="pill" href="#pills-three-code-features" role="tab" aria-controls="pills-three-code-features" aria-selected="false">
               <div class="media align-items-center align-items-lg-start">
                 <figure class="w-100 max-w-6rem mt-2 mr-4">
-                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-44.svg" alt="SVG">
+                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-17.svg" alt="SVG">
                 </figure>
                 <div class="media-body">
                   <h4 class="mb-0">Terukur</h4>
@@ -166,7 +166,7 @@
 <!-- End SVG Bottom Shape -->
 
 <!-- Step Section -->
-<div class="container space-top-2 space-top-lg-3 space-bottom-lg-2">
+<div class="container space-top-lg-3 space-bottom-lg-2">
   <!-- Title -->
   <div class="w-md-80 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
     <span class="d-block small font-weight-bold text-cap mb-2">Memulai kegiatan pertama anda</span>
@@ -235,11 +235,39 @@
       <!-- End Icon Block -->
     </div>
 
+    <div class="col-sm-6 col-md-4 mb-3 mb-sm-7 mb-md-0">
+      <!-- Icon Block -->
+      <div class="media align-items-center mb-2">
+        <figure class="w-100 max-w-6rem mr-3">
+          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-54.svg" alt="SVG">
+        </figure>
+        <div class="media-body">
+          <h4 class="mb-0">APi support</h4>
+        </div>
+      </div>
+      <p>Gunakan APi kami, untuk menghubungkan dengan frontend/website anda sendiri tentang kegiatan yang anda selenggarakan.</p>
+      <!-- End Icon Block -->
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+      <!-- Icon Block -->
+      <div class="media align-items-center mb-2">
+        <figure class="w-100 max-w-6rem mr-3">
+          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-6.svg" alt="SVG">
+        </figure>
+        <div class="media-body">
+          <h4 class="mb-0">Realtime</h4>
+        </div>
+      </div>
+      <p>Semua data kegiatan dapat diakses 24/7 secara realtime.</p>
+      <!-- End Icon Block -->
+    </div>
+
     <div class="col-sm-6 col-md-4 mb-3 mb-sm-7">
       <!-- Icon Block -->
       <div class="media align-items-center mb-2">
         <figure class="w-100 max-w-6rem mr-3">
-          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-44.svg" alt="SVG">
+          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-27.svg" alt="SVG">
         </figure>
         <div class="media-body">
           <h4 class="mb-0">Kompetisi</h4>
@@ -253,7 +281,7 @@
       <!-- Icon Block -->
       <div class="media align-items-center mb-2">
         <figure class="w-100 max-w-6rem mr-3">
-          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-2.svg" alt="SVG">
+          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-58.svg" alt="SVG">
         </figure>
         <div class="media-body">
           <h4 class="mb-0">Event</h4>
@@ -267,41 +295,13 @@
       <!-- Icon Block -->
       <div class="media align-items-center mb-2">
         <figure class="w-100 max-w-6rem mr-3">
-          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-37.svg" alt="SVG">
-        </figure>
-        <div class="media-body">
-          <h4 class="mb-0">Pendaftaran</h4>
-        </div>
-      </div>
-      <p>Atur kebutuhan pendaftaran pada setiap kegiatan sesuai dengan kebutuhan.</p>
-      <!-- End Icon Block -->
-    </div>
-
-    <div class="col-sm-6 col-md-4 mb-3 mb-sm-7 mb-md-0">
-      <!-- Icon Block -->
-      <div class="media align-items-center mb-2">
-        <figure class="w-100 max-w-6rem mr-3">
-          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-5.svg" alt="SVG">
+          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">
         </figure>
         <div class="media-body">
           <h4 class="mb-0">Penilaian</h4>
         </div>
       </div>
       <p>Lakukan proses penilaian kompetisi langsung pada 1 platfrom.</p>
-      <!-- End Icon Block -->
-    </div>
-
-    <div class="col-sm-6 col-md-4">
-      <!-- Icon Block -->
-      <div class="media align-items-center mb-2">
-        <figure class="w-100 max-w-6rem mr-3">
-          <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-28.svg" alt="SVG">
-        </figure>
-        <div class="media-body">
-          <h4 class="mb-0">Realtime</h4>
-        </div>
-      </div>
-      <p>Semua data kegiatan dapat diakses 24/7 secara realtime.</p>
       <!-- End Icon Block -->
     </div>
   </div>
@@ -332,7 +332,7 @@
 <!-- Reviewer -->
 <div class="d-flex justify-content-center align-items-center w-lg-50 mx-auto">
   <div class="avatar avatar-circle">
-    <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img2.jpg" alt="Image Description">
+    <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="Image Description">
   </div>
   <div class="ml-3">
     <h4 class="mb-0">Tommy</h4>

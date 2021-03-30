@@ -97,7 +97,7 @@
 
                 <!-- penyelenggara menu Item -->
                 <div class="navbar-promo-card navbar-promo-item">
-                  <a class="navbar-promo-link disabled" href="javascript:;">
+                  <a class="navbar-promo-link" href="<?= site_url('penyelenggara') ?>">
                     <div class="media align-items-center">
                       <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-63.svg" alt="SVG">
                       <div class="media-body">
@@ -113,7 +113,7 @@
 
             <!-- Promo -->
             <div class="col-lg-4 navbar-promo d-none d-lg-block">
-              <a class="d-block navbar-promo-inner" href="#">
+              <a class="d-block navbar-promo-inner">
                 <div class="position-relative img-card-235-140">
                   <img class="img-fluid rounded mb-3" src="<?= base_url();?>assets/frontend/img/380x227/img1.jpg" alt="Image Description">
                 </div>
@@ -140,7 +140,7 @@
         <div class="hs-mega-menu dropdown-menu" aria-labelledby="kegiatanMegaMenu" style="min-width: 330px;">
           <!-- Kegiatan Item -->
           <div class="navbar-promo-item">
-            <a class="navbar-promo-link" href="">
+            <a class="navbar-promo-link" href="<?= site_url('kompetisi') ?>">
               <div class="media align-items-center">
                 <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">
                 <div class="media-body">
@@ -157,7 +157,7 @@
 
           <!-- Kegiatan Item -->
           <div class="navbar-promo-item">
-            <a class="navbar-promo-link" href="">
+            <a class="navbar-promo-link" href="<?= site_url('event') ?>">
               <div class="media align-items-center">
                 <img class="navbar-promo-icon" src="<?= base_url();?>assets/frontend/svg/icons/icon-33.svg" alt="SVG">
                 <div class="media-body">
@@ -172,6 +172,25 @@
         <!-- End Kegiatan - Submenu -->
       </li>
       <!-- End Kegiatan -->
+
+      <!-- Layanan -->
+      <li class="hs-has-sub-menu navbar-nav-item">
+        <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle " href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Layanan</a>
+
+        <!-- Blog - Submenu -->
+        <div id="blogSubMenu" class="hs-sub-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 230px;">
+          <a class="dropdown-item" href="<?= site_url('pricing') ?>">Pricing</a>
+          <a class="dropdown-item" href="<?= site_url('product') ?>">Product</a>
+          <a class="dropdown-item" href="<?= site_url('api-references') ?>">APi References</a>
+          <a class="dropdown-item" href="<?= site_url('zoom-integration') ?>">Zoom Integration</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<?= site_url('blog') ?>">Blog</a>
+          <a class="dropdown-item" href="<?= site_url('hire-us') ?>">Hire Us</a>
+          <a class="dropdown-item" href="<?= site_url('careers') ?>">Careers</a>
+        </div>
+        <!-- End Submenu -->
+      </li>
+      <!-- End Layanan -->
     </ul>
   </div>
 </div>

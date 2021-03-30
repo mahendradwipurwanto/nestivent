@@ -16,14 +16,14 @@
       </a>
 
       <div id="jumpToDropdown" class="hs-unfold-content dropdown-menu">
-        <a class="dropdown-item" href="">Pusat Bantuan</a>
+        <a class="dropdown-item" href="<?= site_url('pusat-bantuan') ?>">Pusat Bantuan</a>
       </div>
     </div>
     <!-- End Jump To -->
 
     <!-- Links -->
     <div class="nav nav-sm nav-y-0 d-none d-sm-flex ml-sm-auto">
-      <a class="nav-link" href="">Pusat Bantuan</a>
+      <a class="nav-link" href="<?= site_url('pusat-bantuan') ?>">Pusat Bantuan</a>
     </div>
     <!-- End Links -->
   </div>
@@ -43,16 +43,6 @@
     </div>
   </li>
   <!-- End Search -->
-
-  <!-- Account Login -->
-  <li class="list-inline-item">
-    <div class="hs-unfold">
-      <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary" href="javascript:;" data-toggle="modal" data-target="#signupModal">
-        <i class="fas fa-user-circle"></i>
-      </a>
-    </div>
-  </li>
-  <!-- End Account Login -->
 </ul>
 </div>
 </div>

@@ -26,8 +26,8 @@
     <div class="header-section">
       <div id="logoAndNav" class="container">
         <nav class="navbar">
-          <a class="navbar-brand" href="index.html" aria-label="Front">
-            <img src="<?= base_url();?>assets/frontend/svg/logos/logo.svg" alt="Logo">
+          <a class="navbar-brand" href="<?= base_url() ?>" aria-label="Nestivent">
+            <img src="<?= base_url();?>assets/logo-ts.png" class="img-12-5" alt="Logo">
           </a>
         </nav>
       </div>

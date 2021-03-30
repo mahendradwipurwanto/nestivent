@@ -71,7 +71,14 @@ $route['coming-soon']   = 'utilities/coming_soon';
 $route['404-not-found'] = 'utilities/e_404';
 
 $route['about-us']      = 'utilities/about';
+$route['contact-us']    = 'utilities/contact';
+$route['pusat-bantuan'] = 'utilities/bantuan';
+
+$route['pricing']       = 'utilities/package';
+
 $route['careers']       = 'utilities/careers';
+$route['careers/(:any)']= 'utilities/careers_detail/$1';
+$route['hire-us']       = 'utilities/hireus';
 
 $route['privacy-policy']  = 'utilities/privacy';
 $route['term-of-service'] = 'utilities/term';

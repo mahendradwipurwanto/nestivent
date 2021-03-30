@@ -29,7 +29,7 @@
     <?php $this->load->view($module.'/'.$fileview); ?>
   </main>
 
-  <?php $this->load->view('footer/footer.php') ?>
+  <?php $this->load->view('footer/main_footer.php') ?>
 
 
   <!-- JS Implementing Plugins -->
@@ -39,6 +39,7 @@
   <script src="<?= base_url();?>assets/frontend/js/theme.min.js"></script>
 
   <!-- JS Plugins Init. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous"></script>
 
   <script>
     $(document).on('ready', function () {
@@ -92,6 +93,16 @@
       // =======================================================
       $('.js-circle').each(function () {
         var circle = $.HSCore.components.HSCircles.init($(this));
+      });
+
+      // INITIALIZATION OF LEAFLET
+      // =======================================================
+      $('#map').each(function () {
+        var leaflet = $.HSCore.components.HSLeaflet.init($(this)[0]);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+          id: 'mapbox/light-v9'
+        }).addTo(leaflet);
       });
 
 

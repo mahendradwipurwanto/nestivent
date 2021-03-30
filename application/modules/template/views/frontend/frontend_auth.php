@@ -34,8 +34,8 @@
           <!-- End White Logo -->
 
           <!-- Default Logo -->
-          <a class="d-flex d-lg-none navbar-brand header-navbar-brand header-navbar-brand-collapsed" href="index.html" aria-label="Front">
-            <img src="<?= base_url();?>assets/frontend/svg/logos/logo.svg" alt="Logo">
+          <a class="d-flex d-lg-none navbar-brand header-navbar-brand header-navbar-brand-collapsed" href="<?= base_url() ?>" aria-label="Nestivent">
+            <img src="<?= base_url();?>assets/logo-ts.png" class="img-12-5" alt="Logo">
           </a>
           <!-- End Default Logo -->
 

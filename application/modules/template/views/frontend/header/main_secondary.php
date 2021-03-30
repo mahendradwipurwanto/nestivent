@@ -83,43 +83,117 @@
               <label class="input-label">Email</label>
               <div class="input-group input-group-sm mb-2">
                 <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" required
-                data-msg="Please enter a valid email address.">
+                  data-msg="Please enter a valid email address.">
+                </div>
+              </div>
+              <!-- End Input Group -->
+
+              <!-- Input Group -->
+              <div class="js-form-message mb-3">
+                <label class="input-label">Password</label>
+                <div class="input-group input-group-sm mb-2">
+                  <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" required
+                  data-msg="Your password is invalid. Please try again.">
+                </div>
+              </div>
+              <!-- End Input Group -->
+
+              <div class="d-flex justify-content-end mb-4">
+                <a class="js-animation-link font-size-1 link-underline" href="<?= site_url('lupa-password') ?>">Lupa password?</a>
+              </div>
+
+              <div class="mb-3">
+                <button type="submit" class="btn btn-sm btn-primary btn-block">Login</button>
+              </div>
+
+              <div class="text-center">
+                <span class="font-size-1 text-muted">Belum punya akun?</span>
+                <a class="js-animation-link font-size-1 font-weight-bold" href="javascript:;"
+                  data-hs-show-animation-options='{
+                    "targetSelector": "#daftar",
+                    "groupName": "idForm"
+                  }'>Daftar
+                </a>
               </div>
             </div>
-            <!-- End Input Group -->
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Button -->
 
-            <!-- Input Group -->
-            <div class="js-form-message mb-3">
-              <label class="input-label">Password</label>
-              <div class="input-group input-group-sm mb-2">
-                <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" required
-                data-msg="Your password is invalid. Please try again.">
-              </div>
-            </div>
-            <!-- End Input Group -->
+    <!-- Account -->
+    <div class="hs-unfold ml-2">
+      <a class="js-hs-unfold-invoker rounded-circle" href="javascript:;"
+      data-hs-unfold-options='{
+        "target": "#accountDropdown",
+        "type": "css-animation",
+        "event": "hover",
+        "duration": 50,
+        "delay": 0,
+        "hideOnScroll": "true"
+      }'>
+      <span class="avatar avatar-xs avatar-circle">
+        <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="Image Description">
+      </span>
+    </a>
 
-            <div class="d-flex justify-content-end mb-4">
-              <a class="js-animation-link font-size-1 link-underline" href="<?= site_url('lupa-password') ?>">Lupa password?</a>
+    <div id="accountDropdown" class="hs-unfold-content dropdown-menu dropdown-menu-sm-right dropdown-menu-no-border-on-mobile p-0" style="min-width: 245px;">
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header p-4">
+          <a class="media align-items-center" href="#">
+            <div class="avatar mr-3">
+              <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="Image Description">
             </div>
+            <div class="media-body">
+              <span class="d-block font-weight-bold">Nataly Gaga <span class="badge badge-success ml-1">Pro</span></span>
+              <span class="d-block small text-muted">natalygaga@gmail.com</span>
+            </div>
+          </a>
+        </div>
+        <!-- End Header -->
 
-            <div class="mb-3">
-              <button type="submit" class="btn btn-sm btn-primary btn-block">Login</button>
-            </div>
+        <!-- Body -->
+        <div class="card-body py-3">
+          <a class="dropdown-item px-0" href="<?= base_url('pengguna/') ?>">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-user"></i>
+            </span> Akun
+          </a>
+          <a class="dropdown-item px-0" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-comments"></i>
+            </span> Kompetisi
+          </a>
+          <a class="dropdown-item px-0" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-comments"></i>
+            </span> Event
+          </a>
+          <a class="dropdown-item d-lg-none" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-tasks"></i>
+            </span> Event
+          </a>
 
-            <div class="text-center">
-              <span class="font-size-1 text-muted">Belum punya akun?</span>
-              <a class="js-animation-link font-size-1 font-weight-bold" href="javascript:;"
-                data-hs-show-animation-options='{
-                  "targetSelector": "#daftar",
-                  "groupName": "idForm"
-                }'>Daftar
-              </a>
-            </div>
-          </div>
-        </form>
+          <div class="dropdown-divider"></div>
+
+          <a class="dropdown-item px-0" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-question-circle"></i>
+            </span> Pengaturan
+          </a>
+          <a class="dropdown-item px-0" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-power-off"></i>
+            </span> Log out
+          </a>
+        </div>
+        <!-- End Body -->
       </div>
     </div>
   </div>
-<!-- End Button -->
+  <!-- End Account -->
 </div>
 <!-- End Secondary Content -->

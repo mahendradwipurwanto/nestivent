@@ -47,7 +47,7 @@
         <nav class="js-mega-menu navbar navbar-expand-lg">
           <div class="navbar-nav-wrap">
             <!-- Logo -->
-            <a class="navbar-brand navbar-nav-wrap-brand" href="index.html" aria-label="Front">
+            <a class="navbar-brand navbar-nav-wrap-brand" href="<?= base_url() ?>" aria-label="Nestivent">
               <img src="<?= base_url();?>assets/logo-ts.png" class="img-12-5" alt="Logo">
             </a>
             <!-- End Logo -->

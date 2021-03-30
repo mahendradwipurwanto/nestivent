@@ -15,4 +15,11 @@ class Event extends MX_Controller {
 		echo Modules::run('template/frontend_main', $data);
 	}
 
+	public function event_detail($id){
+
+		$data['module'] 		= "event";
+		$data['fileview'] 	= "event_detail";
+		echo Modules::run('template/frontend_main', $data);
+	}
+
 }?>

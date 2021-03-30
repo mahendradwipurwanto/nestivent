@@ -43,23 +43,21 @@
 
           <!-- Nav Link -->
           <ul class="nav nav-sm nav-x-0 nav-white flex-column">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Careers <span class="badge badge-primary ml-1">We're hiring</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('about-us') ?>">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('careers') ?>">Careers <span class="badge badge-primary ml-1">We're hiring</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('blog') ?>">Blog</a></li>
           </ul>
           <!-- End Nav Link -->
         </div>
 
         <div class="col-6 col-md-3 col-lg">
           <h5 class="text-white">Documentation</h5>
-
           <!-- Nav Link -->
           <ul class="nav nav-sm nav-x-0 nav-white flex-column">
-            <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Docs</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Status</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">API Reference</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('pusat-bantuan') ?>">Pusat Bantuan</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('contact-us') ?>">Contact Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('api-reference') ?>">API Reference</a></li>
           </ul>
           <!-- End Nav Link -->
         </div>
@@ -74,11 +72,11 @@
           <!-- Nav Link -->
           <ul class="nav nav-sm nav-white nav-x-sm align-items-center">
             <li class="nav-item">
-              <a class="nav-link" href="#">Privacy &amp; Policy</a>
+              <a class="nav-link" href="<?= site_url('privacy-policy') ?>">Privacy &amp; Policy</a>
             </li>
             <li class="nav-item opacity mx-3">&#47;</li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Terms</a>
+              <a class="nav-link" href="<?= site_url('term-of-service') ?>">Terms of Service</a>
             </li>
           </ul>
           <!-- End Nav Link -->
@@ -133,21 +131,21 @@
     <div class="row align-items-sm-center">
       <div class="col-sm-8 mb-3 mb-sm-0">
         <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="defaultCheckbox" checked readonly>
+          <input type="checkbox" class="custom-control-input" id="defaultCheckbox" checked disabled>
           <label class="custom-control-label" for="defaultCheckbox">
             <small>Strictly necessary</small>
           </label>
         </div>
 
         <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="functionalCheckbox" checked readonly>
+          <input type="checkbox" class="custom-control-input" id="functionalCheckbox" checked disabled>
           <label class="custom-control-label" for="functionalCheckbox">
             <small>Functional</small>
           </label>
         </div>
 
         <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="visitorStatisticsCheckbox" checked readonly>
+          <input type="checkbox" class="custom-control-input" id="visitorStatisticsCheckbox" checked disabled>
           <label class="custom-control-label" for="visitorStatisticsCheckbox">
             <small>Visitor statistics</small>
           </label>
