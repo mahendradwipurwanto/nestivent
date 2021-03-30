@@ -63,12 +63,20 @@ $route['lupa-password'] = 'authentication/recovery';
 $route['kegiatan']      = 'home/kegiatan';
 $route['penyelenggara'] = 'home/penyelenggara';
 
-// UTIL HOME PAGE
+// END HOME
+
+// UTIL PAGE
 $route['maintenance']   = 'utilities/maintenance';
 $route['coming-soon']   = 'utilities/coming_soon';
 $route['404-not-found'] = 'utilities/e_404';
 
-// END HOME
+$route['about-us']      = 'utilities/about';
+$route['careers']       = 'utilities/careers';
+
+$route['privacy-policy']  = 'utilities/privacy';
+$route['term-of-service'] = 'utilities/term';
+
+// END UTIL
 
 // DEFAULT ROUTEs
 $route['default_controller'] = 'home';
