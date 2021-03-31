@@ -106,12 +106,6 @@
       });
 
 
-      // INITIALIZATION OF AOS
-      // =======================================================
-      AOS.init({
-        duration: 650,
-        once: true
-      });
 
 
       // INITIALIZATION OF GO TO
