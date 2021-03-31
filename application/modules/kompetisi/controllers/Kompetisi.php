@@ -15,4 +15,25 @@ class Kompetisi extends MX_Controller {
 		echo Modules::run('template/frontend_main', $data);
 	}
 
+	public function kompetisi_list(){
+
+		$data['module'] 		= "kompetisi";
+		$data['fileview'] 	= "kompetisi_list";
+		echo Modules::run('template/frontend_main', $data);
+	}
+
+	public function kompetisi_detail($id){
+
+		$data['module'] 		= "kompetisi";
+		$data['fileview'] 	= "kompetisi_detail";
+		echo Modules::run('template/frontend_main', $data);
+	}
+
+	public function galeri_karya($id){
+
+		$data['module'] 		= "kompetisi";
+		$data['fileview'] 	= "galeri_karya";
+		echo Modules::run('template/frontend_main', $data);
+	}
+
 }?>

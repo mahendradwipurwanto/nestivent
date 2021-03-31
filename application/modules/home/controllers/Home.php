@@ -17,20 +17,4 @@ class Home extends MX_Controller{
 		$data['fileview'] 	= "home";
 		echo Modules::run('template/frontend_main', $data);
 	}
-
-	public function penyelenggara(){
-
-
-		$data['module'] 		= "home";
-		$data['fileview'] 	= "penyelenggara";
-		echo Modules::run('template/frontend_main', $data);
-	}
-
-	public function kegiatan(){
-
-
-		$data['module'] 		= "home";
-		$data['fileview'] 	= "kegiatan";
-		echo Modules::run('template/frontend_main', $data);
-	}
 }

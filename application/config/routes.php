@@ -57,13 +57,22 @@ $route['lupa-password'] = 'authentication/recovery';
 
 // END LOGIN
 
-// HOME
+// PENYELENGGARA
+$route['penyelenggara/(:any)']  = 'penyelenggara/penyelenggara_detail/$1';
 
-// MAIN HOME PAGE
-$route['kegiatan']      = 'home/kegiatan';
-$route['penyelenggara'] = 'home/penyelenggara';
+// END PENYELENGGARA
 
-// END HOME
+// KOMPETISI
+$route['kompetisi-list']        = 'kompetisi/kompetisi_list';
+$route['kompetisi/(:any)']      = 'kompetisi/kompetisi_detail/$1';
+$route['galeri-karya/(:any)']   = 'kompetisi/galeri_karya/$1';
+
+// END KOMPETISI
+
+// EVENT
+$route['event/(:any)']          = 'event/event_detail/$1';
+
+// END EVENT
 
 // UTIL PAGE
 $route['maintenance']   = 'utilities/maintenance';

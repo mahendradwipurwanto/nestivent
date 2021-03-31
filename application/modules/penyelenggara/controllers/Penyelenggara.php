@@ -16,7 +16,7 @@ class Penyelenggara extends MX_Controller {
 	}
 
 	public function penyelenggara_detail($id){
-
+		$data['test']				= "haha";
 		$data['module'] 		= "penyelenggara";
 		$data['fileview'] 	= "penyelenggara_detail";
 		echo Modules::run('template/frontend_main', $data);
