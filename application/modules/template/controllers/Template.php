@@ -19,4 +19,29 @@ class Template extends MX_Controller {
 		$this->load->view('frontend/frontend_main', $data);
 	}
 
+	public function backend_main($data){
+		$this->load->view('backend/backend_main', $data);
+	}
+
+	function cookie_agrement(){
+
+		$cookie= array(
+
+      'name'   => 'cookie_agrement',
+      'value'  => TRUE,
+      'expire' => 86400*30,
+      'domain' => 'https://nestivent.org/',
+      'path'   => '/',
+
+		);
+
+		$this->input->set_cookie($cookie);
+
+		log_message('debug', 'Cookies agrement check');
+
+		redirect(base_url());
+		// echo $this->input->cookie('cookie_agrement', TRUE);
+	}
+
+
 }

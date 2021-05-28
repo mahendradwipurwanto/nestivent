@@ -325,7 +325,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'Nestivent2021CreativeCrewByMahendraDwiPurwanto';
+$config['encryption_key'] = hex2bin("30aca97bcfacb0e620e702d629a8abc3");
 
 /*
 |--------------------------------------------------------------------------

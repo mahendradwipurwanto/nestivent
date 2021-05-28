@@ -9,44 +9,48 @@
       </div>
 
       <div class="row mb-3">
-        <div class="col-6">
+        <div class="col-5">
           <!-- Fancybox -->
           <a class="js-fancybox video-player video-player-btn media align-items-center text-dark" href="javascript:;"
-            data-hs-fancybox-options='{
-              "src": "//youtube.com/0qisGSwZym4",
-              "caption": "",
-              "speed": 700,
-              "buttons": ["fullScreen", "close"],
-              "youtube": {
-                "autoplay": 1
-              }
-            }'>
-            <span class="video-player-icon shadow-soft mr-3">
-              <i class="fa fa-play"></i>
-            </span>
-            <span class="media-body">
-              How it works
-            </span>
-          </a>
-          <!-- End Fancybox -->
-        </div>
-        <div class="col-6 align-items-center">
-          <a class="btn btn-primary btn-wide transition-3d-hover mb-sm-0" style="margin-top: 10px" href="<?= site_url('daftar') ?>">Daftar sekarang</a>
-        </div>
+          data-hs-fancybox-options='{
+            "src": "//youtube.com/0qisGSwZym4",
+            "caption": "",
+            "speed": 700,
+            "buttons": ["fullScreen", "close"],
+            "youtube": {
+              "autoplay": 1
+            }
+          }'>
+          <span class="video-player-icon shadow-soft mr-3">
+            <i class="fa fa-play"></i>
+          </span>
+          <span class="media-body">
+            Find More
+          </span>
+        </a>
+        <!-- End Fancybox -->
       </div>
-
-      <p class="small">Penyelenggara hanya dapat berasal dari lembaga STIKI Malang.</p>
-      <!-- End Info -->
+      <div class="col-7 align-items-center">
+        <?php if ($this->session->userdata("logged_in") == TRUE || $this->session->userdata("logged_in")) { ?>
+          <a class="btn btn-primary btn-wide transition-3d-hover mb-sm-0" style="margin-top: 10px" href="<?= site_url('pendaftaran/penyelenggara') ?>">Akses PENYELENGGARA</a>
+        <?php }else{?>
+          <a class="btn btn-primary btn-wide transition-3d-hover mb-sm-0" style="margin-top: 10px" href="<?= site_url('daftar') ?>">Daftar sekarang</a>
+        <?php }?>
+      </div>
     </div>
 
-    <div class="col-md-6 d-none d-md-inline-block">
-      <!-- SVG Illustration -->
-      <figure class="w-100">
-        <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/illustrations/hiker-man.svg" alt="Image Description">
-      </figure>
-      <!-- End SVG Illustration -->
-    </div>
+    <p class="small">Penyelenggara hanya dapat berasal dari lembaga STIKI Malang.</p>
+    <!-- End Info -->
   </div>
+
+  <div class="col-md-6 d-none d-md-inline-block">
+    <!-- SVG Illustration -->
+    <figure class="w-100">
+      <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/illustrations/hiker-man.svg" alt="Image Description">
+    </figure>
+    <!-- End SVG Illustration -->
+  </div>
+</div>
 </div>
 <!-- End Hero Section -->
 

@@ -76,9 +76,13 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'nestive7_admin',
-	'password' => '@)1l51(MQ??a',
-	'database' => 'nestive7_cms',
+	// 'username' => 'nestive7_admin',
+	// 'password' => '@)1l51(MQ??a',
+	// 'database' => 'nestive7_cms',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'nestivent',
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

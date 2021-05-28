@@ -122,6 +122,9 @@
 <!-- ========== END FOOTER ========== -->
 
 <!-- ========== SECONDARY CONTENTS ========== -->
+
+<?php if ($this->input->cookie('cookie_agrement', TRUE)) {?>
+
 <!-- Cookie Alert -->
 <div class="container position-fixed bottom-0 right-0 left-0 z-index-4">
   <div class="alert bg-white w-lg-80 border shadow-sm mx-auto" role="alert">
@@ -153,12 +156,15 @@
       </div>
 
       <div class="col-sm-4 text-sm-right">
-        <button type="button" class="btn btn-sm btn-primary transition-3d-hover" data-dismiss="alert" aria-label="Close">Got it!</button>
+        <a href="<?= site_url("agree-cookies") ?>" class="btn btn-sm btn-primary transition-3d-hover" data-dismiss="alert" aria-label="Close">Got it!</a>
       </div>
     </div>
   </div>
 </div>
 <!-- End Cookie Alert -->
+
+<?php } ?>
+
 <!-- ========== END SECONDARY CONTENTS ========== -->
 
 <!-- Go to Top -->

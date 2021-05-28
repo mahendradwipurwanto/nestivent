@@ -51,9 +51,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // LOGIN
+$route['agree-cookies'] = 'template/cookie_agrement';
+
 $route['login']         = 'authentication';
+$route['logout']        = 'authentication/logout';
 $route['daftar']        = 'authentication/daftar';
-$route['lupa-password'] = 'authentication/recovery';
+
+$route['pendaftaran/pengguna']        = 'authentication/daftar/1';
+$route['pendaftaran/penyelenggara']   = 'authentication/daftar/2';
+
+$route['aktivasi/(:any)']             = 'authentication/aktivasi/$1';
+$route['email-verification']          = 'authentication/aktivasi_email';
+$route['hold-verification']           = 'authentication/waiting';
+
+$route['lupa-password']               = 'authentication/recovery';
+$route['recovery-password/(:any)']    = 'authentication/ubah_pass/$1';
 
 // END LOGIN
 
