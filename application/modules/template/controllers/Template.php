@@ -16,10 +16,15 @@ class Template extends MX_Controller {
 	}
 
 	public function frontend_main($data){
+		$data['kPanel']		= $this->M_template->have_panel($this->session->userdata('email'));
 		$this->load->view('frontend/frontend_main', $data);
 	}
 
 	public function backend_main($data){
+		$data['kPanel']		= $this->M_template->have_panel($this->session->userdata('email'));
+		$data['pFoto']		= $this->M_template->get_foto($this->session->userdata('kode_user'));
+		$data['aktivasi']	= $this->M_template->cek_aktivasi($this->session->userdata('kode_user'));
+
 		$this->load->view('backend/backend_main', $data);
 	}
 

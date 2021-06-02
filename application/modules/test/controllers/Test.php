@@ -25,6 +25,11 @@ class Test extends MX_Controller {
 
   }
 
+  function qr_code(){
+    $text = date("d-m-Y H:i:s");
+    echo '<img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl='.$text.'&choe=UTF-8" title="Link to Google.com" />';
+  }
+
   function word(){
     $str = 'qwerty!@#$@#$^@#$Hello %#$sdsds654ss';
     echo preg_replace(array('~[^a-zA-Z0-9\s]+~', '/ /'), array('', '-'), strtolower($str));

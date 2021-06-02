@@ -17,6 +17,29 @@
 
     <!-- Form Group -->
     <div class="js-form-message form-group">
+      <label for="listingBathrooms" class="input-label">Jenis Kelamin <span class="text-danger">*</span></label>
+      <div class="input-group input-group-down-break">
+        <!-- Custom Radio -->
+        <div class="form-control">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="jk" id="jk1" value="L" checked>
+            <label class="custom-control-label" for="jk1">Laki-laki</label>
+          </div>
+        </div>
+        <!-- End Custom Radio -->
+
+        <!-- Custom Radio -->
+        <div class="form-control">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="jk" id="jk2" value="P">
+            <label class="custom-control-label" for="jk2">Perempuan</label>
+          </div>
+        </div>
+        <!-- End Custom Radio -->
+      </div>
+
+    <!-- Form Group -->
+    <div class="js-form-message form-group">
       <label class="input-label" for="signinSrInstansi">Asal Instansi <span class="text-danger">*</span></label>
       <input type="text" class="form-control" name="instansi" id="signinSrInstansi" placeholder="Asal Instansi anda" aria-label="Asal Instansi anda" required data-msg="Harap masukkan asal Instansi.">
     </div>
@@ -83,6 +106,7 @@
         <input type="tel" class="form-control" name="hp" id="signinSrTelepon" placeholder="Nomor telepon anda" aria-label="Nomor telepon anda" required data-msg="Harap masukkan nomor telepon anda.">
       </div>
       <!-- End Input Group -->
+      <small class="text-muted">Ex: 81987123465</small>
     </div>
     <!-- End Form Group -->
 

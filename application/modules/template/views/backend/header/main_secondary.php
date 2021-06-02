@@ -165,20 +165,17 @@
             <i class="fas fa-user"></i>
           </span> Akun
         </a>
-        <a class="dropdown-item px-0" href="#">
-          <span class="dropdown-item-icon">
-            <i class="fas fa-comments"></i>
-          </span> Kompetisi
-        </a>
-        <a class="dropdown-item px-0" href="#">
-          <span class="dropdown-item-icon">
-            <i class="fas fa-comments"></i>
-          </span> Event
-        </a>
+        <?php if ($kPanel == TRUE) { ?>
+          <a class="dropdown-item px-0" href="#">
+            <span class="dropdown-item-icon">
+              <i class="fas fa-comments"></i>
+            </span> K-Panel
+          </a>
+        <?php } ?>
 
         <div class="dropdown-divider"></div>
 
-        <a class="dropdown-item px-0" href="<?= site_url('Pengaturan') ?>">
+        <a class="dropdown-item px-0" href="<?= site_url('pengguna/pengaturan') ?>">
           <span class="dropdown-item-icon">
             <i class="fas fa-question-circle"></i>
           </span> Pengaturan

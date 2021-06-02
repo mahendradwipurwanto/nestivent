@@ -121,52 +121,6 @@
 </footer>
 <!-- ========== END FOOTER ========== -->
 
-<!-- ========== SECONDARY CONTENTS ========== -->
-
-<?php if (!$this->input->cookie('cookie_agrement', TRUE) || $this->input->cookie('cookie_agrement', TRUE) != TRUE) {?>
-
-<!-- Cookie Alert -->
-<div class="container position-fixed bottom-0 right-0 left-0 z-index-4">
-  <div class="alert bg-white w-lg-80 border shadow-sm mx-auto" role="alert">
-    <h5 class="text-dark">Cookie preferences</h5>
-    <p class="small"><span class="font-weight-bold">Note!</span>This website uses the following types of cookies; strictly necessary, functional and visitor statistics cookies to ensure you get the best experience on our website.</p>
-
-    <div class="row align-items-sm-center">
-      <div class="col-sm-8 mb-3 mb-sm-0">
-        <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="defaultCheckbox" checked disabled>
-          <label class="custom-control-label" for="defaultCheckbox">
-            <small>Strictly necessary</small>
-          </label>
-        </div>
-
-        <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="functionalCheckbox" checked disabled>
-          <label class="custom-control-label" for="functionalCheckbox">
-            <small>Functional</small>
-          </label>
-        </div>
-
-        <div class="custom-control custom-checkbox custom-control-inline text-muted">
-          <input type="checkbox" class="custom-control-input" id="visitorStatisticsCheckbox" checked disabled>
-          <label class="custom-control-label" for="visitorStatisticsCheckbox">
-            <small>Visitor statistics</small>
-          </label>
-        </div>
-      </div>
-
-      <div class="col-sm-4 text-sm-right">
-        <a href="<?= site_url("agree-cookies") ?>" class="btn btn-sm btn-primary transition-3d-hover" data-dismiss="alert" aria-label="Close">Got it!</a>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Cookie Alert -->
-
-<?php } ?>
-
-<!-- ========== END SECONDARY CONTENTS ========== -->
-
 <!-- Go to Top -->
 <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;"
    data-hs-go-to-options='{

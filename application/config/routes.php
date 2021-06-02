@@ -67,6 +67,8 @@ $route['hold-verification']           = 'authentication/waiting';
 $route['lupa-password']               = 'authentication/recovery';
 $route['recovery-password/(:any)']    = 'authentication/ubah_pass/$1';
 
+$route['ubah-password']         = 'authentication/ubah_password';
+
 // END LOGIN
 
 // PENYELENGGARA

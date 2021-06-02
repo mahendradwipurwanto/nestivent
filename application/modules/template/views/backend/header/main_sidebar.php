@@ -58,8 +58,14 @@
               <!-- Avatar -->
               <div class="d-none d-lg-block text-center mb-5">
                 <div class="avatar avatar-xxl avatar-circle mb-3">
-                  <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="Image Description">
-                  <img class="avatar-status avatar-lg-status" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" data-toggle="tooltip" data-placement="top" title="Verified user">
+                  <?php if ($pFoto->PROFIL == null) {?>
+                    <img class="avatar-img cursor" data-toggle="modal" data-target="#ubah_profil" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="<?= $this->session->userdata('nama') ?>">
+                  <?php }else { ?>
+                    <img class="avatar-img cursor" data-toggle="modal" data-target="#ubah_profil" src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
+                  <?php } ?>
+                  <?php if ($kPanel == TRUE) { ?>
+                    <img class="avatar-status avatar-lg-status" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" data-toggle="tooltip" data-placement="top" title="AKSES K-PANEL">
+                  <?php }?>
                 </div>
 
                 <h4 class="card-title"><?php $nama = explode(" ", $this->session->userdata('nama')); echo $nama[0]; ?></h4>
@@ -70,31 +76,85 @@
               </div>
               <!-- End Avatar -->
 
+              <!-- CHANGE FOTO PROFIL -->
+
+              <div id="ubah_profil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubah_profil" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                  <div class="modal-content">
+                    <form action="<?= site_url('pengguna/ubah_foto') ?>" method="post" enctype="multipart/form-data">
+                      <div class="modal-body">
+                        <!-- Form Group -->
+                        <div class="form-group mx-auto">
+                          <label for="fotoLabel" class="input-label">Foto Profl</label>
+                          <label for="GETP_FOTO" class="upload-card">
+                            <img id="P_FOTO" class="upload-img w-100 P_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
+                          </label>
+                          <input type="file" id="GETP_FOTO" class="form-control-file hidden" name="profil"  onchange="previewP_FOTO(this);" accept="image/*">
+                          <small class="text-muted">Max 2Mb size, and use 1:1 ratio.</small>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-white" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Ubah foto</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <script type="text/javascript">
+
+              function previewP_FOTO(input){
+                $(".P_FOTO").removeClass('hidden');
+                var file = $("#GETP_FOTO").get(0).files[0];
+
+                if(file){
+                  var reader = new FileReader();
+
+                  reader.onload = function(){
+                    $("#P_FOTO").attr("src", reader.result);
+                  }
+
+                  reader.readAsDataURL(file);
+                }
+              }
+              </script>
+              <!-- END CHANGE FOTO PROFIL -->
+
               <!-- Nav -->
               <h6 class="text-cap small">Dashboard</h6>
 
               <!-- List -->
               <ul class="nav nav-sub nav-sm nav-tabs nav-list-y-2 mb-4">
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == "pengguna" ? "active" : "") ?>" href="<?= site_url('pengguna') ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == "pengguna" && empty($this->uri->segment(2)) ? "active" : "") ?>" href="<?= site_url('pengguna') ?>">
                     <i class="fas fa-id-card nav-icon"></i> Dashboard
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == "notifikasi" ? "active" : "") ?>" href="<?= site_url('dashboard/notifikasi') ?>">
+                  <a class="nav-link <?= ($this->uri->segment(2) == "notifikasi" ? "active" : "") ?>" href="<?= site_url('pengguna/notifikasi') ?>">
                     <i class="fas fa-bell nav-icon"></i> Notifikasi
                     <span class="badge badge-soft-dark badge-pill nav-link-badge">1</span>
                   </a>
                 </li>
+                <?php if ($kPanel == TRUE) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link <?= ($this->uri->segment(1) == "k-panel" ? "active" : "") ?>" href="<?= site_url('k-panel') ?>">
+                      <i class="fas fa-bell nav-icon"></i> K-Panel
+                      <span class="badge badge-soft-dark badge-pill nav-link-badge">1</span>
+                    </a>
+                  </li>
+                <?php } ?>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == "pengaturan" ? "active" : "") ?>" href="<?= site_url('dashboard/pengaturan') ?>">
+                  <a class="nav-link <?= ($this->uri->segment(2) == "pengaturan" ? "active" : "") ?>" href="<?= site_url('pengguna/pengaturan') ?>">
                     <i class="fas fa-sliders-h nav-icon"></i> Pengaturan
                   </a>
                 </li>
               </ul>
               <!-- End List -->
 
-              <h6 class="text-cap small">Pelatihan</h6>
+              <h6 class="text-cap small">Kegiatan</h6>
 
               <!-- List -->
               <ul class="nav nav-sub nav-sm nav-tabs nav-list-y-2 mb-4">

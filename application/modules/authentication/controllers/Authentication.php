@@ -5,6 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // 1. AKTIVASI
 // 2. RECOVERY ACCOUNT
 
+// SAVE LOG
+// 1. LOGIN
+// 2. DAFTAR
+// 3. AKTIVASI
+// 4. RECOVERY
+// 5. PENGAJUAN
+
 class Authentication extends MX_Controller {
 	public function __construct(){
 		parent::__construct();
@@ -48,7 +55,7 @@ class Authentication extends MX_Controller {
 
 			if ($this->session->userdata('logged_in') == TRUE || $this->session->userdata('logged_in')) {
 
-				$akun = $this->M_auth->get_aktivasi($this->session->userdata('kode_user'));
+				$akun = $this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE));
 
 				if ($akun->STATUS == 1) {
 					$data['fileview'] 	= "penyelenggara";
@@ -70,6 +77,24 @@ class Authentication extends MX_Controller {
 		$data['module'] 		= "authentication";
 		$data['fileview'] 	= "recovery";
 		echo Modules::run('template/frontend_auth', $data);
+	}
+
+	public function ubah_password(){
+		if ($this->session->userdata('logged_in') == FALSE || !$this->session->userdata('logged_in')){
+			if (!empty($_SERVER['QUERY_STRING'])) {
+				$uri = uri_string() . '?' . $_SERVER['QUERY_STRING'];
+			} else {
+				$uri = uri_string();
+			}
+			$this->session->set_userdata('redirect', $uri);
+			$this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
+			redirect('login');
+		}else{
+
+			$data['module'] 		= "authentication";
+			$data['fileview'] 	= "ubah_password";
+			echo Modules::run('template/frontend_auth', $data);
+		}
 	}
 
 	public function hash(){
@@ -108,53 +133,51 @@ class Authentication extends MX_Controller {
 
 				$aktivasi = $this->M_auth->get_aktivasi($pengguna->KODE_USER);
 
-				if ($aktivasi->STATUS == 0) {
-					$this->session->set_flashdata('error', 'Harap melakukan aktivasi email terlebih dahulu !!');
-					redirect(site_url('hold-verification'));
-				}else{
+				// SAVE LOG
+				$this->M_auth->log_aktivitas($pengguna->KODE_USER, 1, "login sistem pada ".date("H:i d-m-Y"));
 
-					// SAVE LOG
-					// 1. LOGIN
-					$this->M_auth->log_aktivitas($pengguna->KODE_USER, 1, "login sistem pada ".date("H:i d-m-Y"));
+				// ADMIN
+				if ($pengguna->ROLE == 0) {
 
-					// ADMIN
-					if ($pengguna->ROLE == 0) {
-
-						// CEK HAK AKSES
-						if ($this->session->userdata('redirect')) {
-							$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
-							redirect($this->session->userdata('redirect'));
-						} else {
-							$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
-							redirect(site_url('pengguna'));
-						}
-
-						// PENGGUNA
-					}elseif ($pengguna->ROLE == 1) {
-
-						if ($this->session->userdata('redirect')) {
-							$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
-							redirect($this->session->userdata('redirect'));
-						} else {
-							$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
-							redirect(site_url('pengguna'));
-						}
-
-						// PENYELENGGARA
-					}elseif ($pengguna->ROLE == 2) {
-
-						if ($this->session->userdata('redirect')) {
-							$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
-							redirect($this->session->userdata('redirect'));
-						} else {
-							$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
-							redirect(base_url());
-						}
-
-					}else{
-						$this->session->set_flashdata('error', 'Hak akses bermasalah !!');
-						redirect($this->agent->referrer());
+					// CEK HAK AKSES
+					if ($this->session->userdata('redirect')) {
+						$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
+						redirect($this->session->userdata('redirect'));
+					} else {
+						$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
+						redirect(site_url('pengguna'));
 					}
+
+					// PENGGUNA
+				}elseif ($pengguna->ROLE == 1) {
+
+					if ($this->session->userdata('redirect')) {
+						$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
+						redirect($this->session->userdata('redirect'));
+					} else {
+						if ($aktivasi->STATUS == 0) {
+							$this->session->set_flashdata('error', 'Harap melakukan aktivasi email terlebih dahulu !!');
+							redirect(site_url('hold-verification'));
+						}else{
+							$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
+							redirect(site_url('pengguna'));
+						}
+					}
+
+					// PENYELENGGARA
+				}elseif ($pengguna->ROLE == 2) {
+
+					if ($this->session->userdata('redirect')) {
+						$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
+						redirect($this->session->userdata('redirect'));
+					} else {
+						$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
+						redirect(base_url());
+					}
+
+				}else{
+					$this->session->set_flashdata('error', 'Hak akses bermasalah !!');
+					redirect($this->agent->referrer());
 				}
 
 			}else{
@@ -188,6 +211,9 @@ class Authentication extends MX_Controller {
 
 					$this->session->set_userdata($sessiondata);
 
+					// SAVE LOG
+					$this->M_auth->log_aktivitas($pengguna->KODE_USER, 2, "pendaftaran akun pengguna pada ".date("H:i d-m-Y"));
+
 					redirect(site_url('email-verification'));
 
 				}else {
@@ -208,14 +234,14 @@ class Authentication extends MX_Controller {
 	// AKTIVASI AKUN
 	public function aktivasi_email(){
 		if ($this->session->userdata('logged_in') == TRUE) {
-			$email 		= $this->session->userdata('email');
+			$email 		= htmlspecialchars($this->session->userdata('email'), TRUE);
 
-			if ($this->M_auth->get_aktivasi($this->session->userdata('kode_user')) == FALSE) {
+			if ($this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE)) == FALSE) {
 				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengambil data anda !!');
 				redirect(site_url('login'));
 
 			}else {
-				$aktivasi = $this->M_auth->get_aktivasi($this->session->userdata('kode_user'));
+				$aktivasi = $this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE));
 
 				if ($aktivasi->STATUS == 0) {
 					$subject	= "KODE AKTIVASI AKUN NESTIVENT";
@@ -254,15 +280,15 @@ class Authentication extends MX_Controller {
 	public function waiting(){
 		if ($this->session->userdata('logged_in') == TRUE || $this->session->userdata('logged_in')) {
 
-			$email 		= $this->session->userdata('email');
+			$email 		= htmlspecialchars($this->session->userdata('email'), TRUE);
 
-			if ($this->M_auth->get_aktivasi($this->session->userdata('kode_user')) == FALSE) {
+			if ($this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE)) == FALSE) {
 
 				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengambil data anda !!');
 				redirect(site_url('login'));
 
 			}else {
-				$aktivasi = $this->M_auth->get_aktivasi($this->session->userdata('kode_user'));
+				$aktivasi = $this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE));
 
 				if ($aktivasi->STATUS == 0) {
 					$subject	= "KODE AKTIVASI AKUN NESTIVENT";
@@ -302,9 +328,9 @@ class Authentication extends MX_Controller {
 
 		if ($this->session->userdata('logged_in') == TRUE || $this->session->userdata('logged_in')) {
 
-			$kode_aktivasi 	= $this->input->post('kode_aktivasi');
+			$kode_aktivasi 	= htmlspecialchars($this->input->post('kode_aktivasi'), TRUE);
 
-			$aktivasi 			= $this->M_auth->get_aktivasi($this->session->userdata('kode_user'));
+			$aktivasi 			= $this->M_auth->get_aktivasi(htmlspecialchars($this->session->userdata('kode_user'), TRUE), TRUE);
 
 			if(time() - $aktivasi->DATE_CREATED < (60*60*24)){
 
@@ -313,7 +339,7 @@ class Authentication extends MX_Controller {
 
 						// SAVE LOG
 						// 2. AKTIVASI AKUN
-						$this->M_auth->log_aktivitas($pengguna->KODE_USER, 2, "aktivasi akun pada ".date("H:i d-m-Y"));
+						$this->M_auth->log_aktivitas($this->session->userdata('kode_user'), 3, "aktivasi akun pada ".date("H:i d-m-Y"));
 
 						$this->session->set_flashdata('success', 'Berhasil aktivasi akun, Selamat datang di NESTIVENT !!');
 						redirect(base_url());
@@ -327,7 +353,12 @@ class Authentication extends MX_Controller {
 				}
 
 			}else {
-				$this->db->delete("TB_TOKEN", array('KODE' => $this->session->userdata('kode_user'), 'TYPE' => 1));
+
+				$kode_user = htmlspecialchars($this->session->userdata('kode_user'), TRUE);
+
+				$kode_user = $this->db->escape($kode_user);
+
+				$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 1));
 				$this->session->set_flashdata('error', 'Token aktivasi akun untuk akun anda telah melewati batas waktu. Harap melakukan proses pendaftaran akun kembali. ');
 				redirect(site_url('pendaftaran/pengguna'));
 			}
@@ -349,11 +380,13 @@ class Authentication extends MX_Controller {
 	// PROSES LUPA PASSWORD
 
 	public function proses_lupa(){
-		if ($this->M_auth->cek_akun($this->input->post("email")) == TRUE) {
+		if ($this->M_auth->cek_akun(htmlspecialchars($this->input->post("email"), TRUE)) == TRUE) {
 
-			$user = $this->M_auth->get_auth($this->input->post("email"));
+			$user = $this->M_auth->get_auth(htmlspecialchars($this->input->post("email"), TRUE));
 
-			$this->db->delete("TB_TOKEN", array('KODE' => $user->KODE_USER, 'TYPE' => 2));
+			$kode_user = $this->db->escape($user->KODE_USER);
+
+			$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
 
 			do {
 				$token = bin2hex(random_bytes(32));
@@ -368,12 +401,14 @@ class Authentication extends MX_Controller {
 
 			$this->db->insert("TB_TOKEN", $data);
 
-			$subject	= "RESET PASSWORD AKUN NESTIVENT";
-			$message = "Hai, kami mendapatkan permintaan recovery password atas akun dengan email <b>{$this->input->post("email")}</b>.<br> Harap klik link berikut untuk melanjutkan proses recovery password! <br><hr>".base_url()."recovery-password/{$token}</br><small class='text-muted'>Tautan tersebut akan aktif selama 1x24JAM, jika melebihi waktu tersebut harap melakukan proses recovery password anda dari awal atau abaikan email ini jika anda tidak melakukan permintaan recovery password</small></br></br></br><span class='text-muted'>Regards,</br></br>NESTIVENT</span>";
+			$email 		= htmlspecialchars($this->input->post("email"), TRUE);
 
-			if ($this->send_email($this->input->post("email"), $subject, $message) == TRUE) {
+			$subject	= "RESET PASSWORD AKUN NESTIVENT";
+			$message 	= "Hai, kami mendapatkan permintaan recovery password atas akun dengan email <b>{$email}</b>.<br> Harap klik link berikut untuk melanjutkan proses recovery password! <br><hr>".base_url()."recovery-password/{$token}</br><small class='text-muted'>Tautan tersebut akan aktif selama 1x24JAM, jika melebihi waktu tersebut harap melakukan proses recovery password anda dari awal atau abaikan email ini jika anda tidak melakukan permintaan recovery password</small></br></br></br><span class='text-muted'>Regards,</br></br>NESTIVENT</span>";
+
+			if ($this->send_email($email, $subject, $message) == TRUE) {
 				$this->session->set_flashdata('success', 'Berhasil mengirimkan email, cek kontak masuk atau folder spam anda');
-				redirect(site_url('lupa-password'));
+				redirect($this->agent->referrer());
 			}else {
 				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengirimkan token recovery pass ke email anda !!');
 				redirect($this->agent->referrer());
@@ -406,7 +441,10 @@ class Authentication extends MX_Controller {
 				echo Modules::run('template/frontend_auth', $data);
 
 			}else {
-				$this->db->delete("TB_TOKEN", array('KODE' => $user->KODE_USER, 'TYPE' => 2));
+
+				$kode_user = $this->db->escape($user->KODE_USER);
+
+				$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
 				$this->session->set_flashdata('error', 'Token URL recovery password untuk akun anda telah melewati batas. Harap melakukan proses recovery password kembali. ');
 				redirect(site_url('lupa-password'));
 			}
@@ -416,12 +454,12 @@ class Authentication extends MX_Controller {
 
 	public function reset_pass(){
 
-		if ($this->M_auth->cek_akun($this->input->post("email")) == TRUE) {
-			$user = $this->M_auth->get_auth($this->input->post("email"));
+		if ($this->M_auth->cek_akun(htmlspecialchars($this->input->post("email"), TRUE)) == TRUE) {
+			$user = $this->M_auth->get_auth(htmlspecialchars($this->input->post("email"), TRUE));
 
-			$data = array('PASSWORD' => password_hash($this->input->post("password"), PASSWORD_DEFAULT));
+			$data = array('PASSWORD' => password_hash(htmlspecialchars($this->input->post("password"), TRUE), PASSWORD_DEFAULT));
 
-			$this->db->where("EMAIL", $this->input->post("email"));
+			$this->db->where("EMAIL", htmlspecialchars($this->input->post("email"), TRUE));
 			$this->db->update('TB_AUTH', $data);
 
 			$cek = ($this->db->affected_rows() != 1) ? false : true;
@@ -430,15 +468,20 @@ class Authentication extends MX_Controller {
 
 				// SAVE LOG
 				// 3. RECOVERY PASSWORD
-				$this->M_auth->log_aktivitas($pengguna->KODE_USER, 3, "recovery password pada ".date("H:i d-m-Y"));
+				$this->M_auth->log_aktivitas($user->KODE_USER, 4, "recovery password pada ".date("H:i d-m-Y"));
 
-				$this->db->delete("TB_TOKEN", array('KODE' => $user->KODE_USER, 'TYPE' => 2));
+				$kode_user = $this->db->escape($user->KODE_USER);
+
+				$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
 
 				$subject	= "PERUBAHAN PASSWORD AKUN NESTIVENT";
 				$now 			= date("H:i | d-m-Y");
-				$message 	= "Hai, password akun nestivent anda dengan email <b>{$this->input->post("email")}</b> telah dirubah pada {$now}.<br> Jika anda tidak merasa melakukan perubahan password harap segera menghubungi admin.</br></br></br><span class='text-muted'>Regards,</br></br>NESTIVENT</span>";
 
-				$this->send_email($this->input->post("email"), $subject, $message);
+				$email 		= htmlspecialchars($this->input->post("email"), TRUE);
+
+				$message 	= "Hai, password akun nestivent anda dengan email <b>{$email}</b> telah dirubah pada {$now}.<br> Jika anda tidak merasa melakukan perubahan password harap segera menghubungi admin.</br></br></br><span class='text-muted'>Regards,</br></br>NESTIVENT</span>";
+
+				$this->send_email(htmlspecialchars($this->input->post("email"), TRUE), $subject, $message);
 
 				$this->session->set_flashdata('success', 'Berhasil mereset password anda, harap masuk menggunakan hak akses baru anda');
 				redirect(site_url('login'));
@@ -459,7 +502,7 @@ class Authentication extends MX_Controller {
 
 			// MAKE KODE
 
-			$BASE_NAMA = preg_replace(array('~[^a-zA-Z0-9\s]+~', '/ /'), array('', '-'), strtolower($this->input->post("nama")));
+			$BASE_NAMA = preg_replace(array('~[^a-zA-Z0-9\s]+~', '/ /'), array('', ''), strtolower(htmlspecialchars($this->input->post("nama"), TRUE)));
 
 			$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
 			$scrap  = str_replace($vocal, "", $BASE_NAMA);
@@ -470,8 +513,8 @@ class Authentication extends MX_Controller {
 
 			do {
 				for ($i = 0; $i < 8; $i++){
-					$uniqid      .= $chars[mt_rand(0, strlen($chars)-1)];
-					$KODE 	= strtoupper($begin.'-'.$uniqid);
+					$uniqid   .= $chars[mt_rand(0, strlen($chars)-1)];
+					$KODE 		= strtoupper($begin.'-'.$uniqid);
 				}
 
 			} while ($this->M_auth->cek_penyelenggara($KODE) > 0);
@@ -529,6 +572,9 @@ class Authentication extends MX_Controller {
 
 				}
 
+				// SAVE LOG
+				$this->M_auth->log_aktivitas($this->session->userdata("kode_user"), 5, "pengajuan akses K-Panel pada ".date("H:i d-m-Y"));
+
 				$this->session->set_flashdata('success', 'Berhasil mengirimkan pengajuan AKSES PENYELENGGARA!');
 				redirect(site_url('pengguna'));
 			}else{
@@ -568,7 +614,7 @@ class Authentication extends MX_Controller {
 	// LOGOUT
 	public function logout(){
 		// LOGGED
-		$this->db->where('KODE_USER', $this->session->userdata('kode_user'));
+		$this->db->where('KODE_USER', htmlspecialchars($this->session->userdata('kode_user'), TRUE));
 		$this->db->update('TB_AUTH', array('LOGGED' => 0));
 
 		// SESS DESTROY

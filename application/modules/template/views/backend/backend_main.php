@@ -49,7 +49,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/som-components/css">
-<script src="https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.js"></script>
+<!-- <script src="https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.js"></script> -->
 
 <?php if ($this->session->flashdata('success')) { ?>
   <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
