@@ -18,7 +18,7 @@
           <!-- Countdown -->
           <div class="js-countdown row mb-5"
           data-hs-countdown-options='{
-            "endDate": "2021/07/01"
+            "endDate": "2021/07/16"
           }'>
           <div class="col-3">
             <span class="js-cd-days font-size-3 text-primary font-weight-bold mb-0"></span>
@@ -38,19 +38,6 @@
           </div>
         </div>
         <!-- End Countdown -->
-        
-        <!-- Input -->
-        <form class="js-validate js-form-message">
-          <label class="sr-only" for="subscribeSrEmail">Your email</label>
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" id="subscribeSrEmail" placeholder="Your email" aria-label="Your email" aria-describedby="subscribeEmailButton" required
-            data-msg="Please enter a valid email address.">
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-primary" id="subscribeEmailButton">Subscribe</button>
-            </div>
-          </div>
-        </form>
-        <!-- End Input -->
       </div>
     </div>
   </div>

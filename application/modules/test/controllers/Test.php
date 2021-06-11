@@ -6,6 +6,13 @@ class Test extends MX_Controller {
     parent::__construct();
   }
 
+  public function backend(){
+
+    $data['module'] 		= "Test";
+    $data['fileview'] 	= "test";
+    echo Modules::run('template/backend_main', $data);
+  }
+
   public function index(){
 
     $stack = array();

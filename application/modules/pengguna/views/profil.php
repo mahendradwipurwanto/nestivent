@@ -10,8 +10,8 @@
     </div>
     <!-- End Alert -->
   <?php } ?>
-    <div class="card-footer">
-    </div>
+  <div class="card-footer">
+  </div>
 </div>
 <!-- End Card -->
 
@@ -75,9 +75,10 @@
     <div class="card">
       <div class="card-header">
         <h5 class="card-header-title">Kegiatan terbaru</h5>
+        <a href="<?= site_url('kegiatan') ?>" class="btn btn-primary btn-xs pull-right">more</a>
       </div>
       <!-- Table -->
-      <div class="table-responsive">
+      <div class="card-body scroll-y-400">
         <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle">
           <thead class="thead-light">
             <tr>
@@ -107,38 +108,76 @@
         </table>
       </div>
       <!-- End Table -->
+
+      <!-- Footer -->
+      <div class="card-footer d-flex justify-content-end">
+      </div>
+      <!-- End Footer -->
     </div>
   </div>
   <div class="col-md-5">
     <div class="card">
       <div class="card-header">
         <h5 class="card-header-title">Notifikasi terbaru</h5>
+        <a href="<?= site_url('pengguna/notifikasi') ?>" class="btn btn-primary btn-xs pull-right">more</a>
       </div>
       <!-- Table -->
-      <div class="table-responsive">
-        <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle">
-          <thead>
-            <tr>
-              <td>
+      <div class="card-body scroll-y-400">
+        <?php if ($notifikasi == false): ?>
+          <div class="row">
+            <div class="col-12">
+              <div class="media align-items-center">
+                <div class="media-body">
+                  <a class="d-inline-block text-dark">
+                    <h6 class="text-hover-primary mb-0"><center>Tidak ada notifikasi terbaru</center></h6>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php else: ?>
+          <?php foreach ($notifikasi as $key): ?>
+            <div class="row mb-4 cursor" data-target="#detail_notif<?= $key->ID_AKTIVITAS?>" data-toggle="modal">
+              <div class="col-12">
                 <div class="media align-items-center">
                   <div class="media-body">
-                    <a class="d-inline-block text-dark" href="#">
-                      <h6 class="text-hover-primary mb-0">Akses penyelenggara anda terhadap..<img class="avatar avatar-xss ml-1" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" data-toggle="tooltip" data-placement="top" title="Verified user"></h6>
+                    <a class="d-inline-block text-dark">
+                      <h6 class="text-hover-primary mb-0"><?= $key->TYPE_DESC ?></h6>
                     </a>
-                    <small class="d-block">STIKI MALANG</small>
+                    <small class="d-block"><?= $key->AKTIVITAS ?></small>
                   </div>
                 </div>
-              </td>
-            </tr>
-          </thead>
-        </table>
+              </div>
+              <div class="col-12 text-right">
+                <small class="text-muted pull-right"><?= date("d F Y - H:i:s", strtotime($key->LOG_TIME)) ?></small>
+              </div>
+            </div>
+
+            <!-- DELETE ACCOUNT -->
+
+            <div id="detail_notif<?= $key->ID_AKTIVITAS; ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubah_profil" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <!-- Form Group -->
+                    <p>AKTIVITAS: <b><?= $key->TYPE_DESC ?></b></p>
+                    <p><?= $key->AKTIVITAS ?> <small class="text-muted float-right pull-right"><?= date("d F Y - H:i:s", strtotime($key->LOG_TIME)) ?></small> </p>
+                    <hr>
+                    <button type="button" class="btn btn-xs btn-white btn-block" data-dismiss="modal">Tutup</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END DELETE ACCOUNT -->
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
       <!-- End Table -->
 
-            <!-- Footer -->
-            <div class="card-footer d-flex justify-content-end">
-            </div>
-            <!-- End Footer -->
+      <!-- Footer -->
+      <div class="card-footer d-flex justify-content-end">
+      </div>
+      <!-- End Footer -->
     </div>
   </div>
 </div>

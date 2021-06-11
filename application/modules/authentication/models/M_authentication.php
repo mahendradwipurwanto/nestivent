@@ -108,6 +108,7 @@ class M_authentication extends CI_Model {
 
 		if ($jabatan == 3) {
 			$jabatan = htmlspecialchars($this->input->post('lainnya'), true);
+			$jabatan = "3|".$jabatan;
 		}
 
 		$email        = htmlspecialchars($this->input->post('email'), true);
@@ -143,7 +144,7 @@ class M_authentication extends CI_Model {
 				'KODE_USER' 	=> $KODE_USER,
 				'NAMA'  			=> $nama,
 				'JK'  				=> $jk,
-				'HP' 					=> "+62".$hp,
+				'HP' 					=> $hp,
 				'ALAMAT'			=> $alamat,
 				'INSTAGRAM'		=> $instagram,
 				'INSTANSI'		=> $instansi,

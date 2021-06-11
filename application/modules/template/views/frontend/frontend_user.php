@@ -31,68 +31,31 @@
 
   <!-- JS Front -->
   <script src="<?= base_url();?>assets/frontend/js/theme.min.js"></script>
-
-  <!-- JS Plugins Init. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <?php $this->load->view('header/main_header.php') ?>
+  <?php $this->load->view('header/user_header.php') ?>
 
   <main id="content" role="main">
+    <?php $this->load->view('header/main_sidebar.php') ?>
     <?php $this->load->view($module.'/'.$fileview); ?>
-  </main>
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Row -->
+</div>
+<!-- End Content Section -->
+</main>
 
-  <?php $this->load->view('footer/main_footer.php') ?>
+<?php $this->load->view('footer/main_footer.php') ?>
 
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/som-components/css">
-  <script src="<?php echo base_url();?>assets/frontend/js/som-components.js"></script>
+<!-- JS Plugins Init. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous"></script>
 
-  <?php if ($this->session->flashdata('success')) { ?>
-    <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-body" style="padding-bottom: 0px !important;">
-            <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <som-alert type="success" headline="Notifikasi!"><?php echo $this->session->flashdata('success'); ?>
-            </som-alert>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-    $(window).on('load',function(){
-      $('#notifikasi').modal('show');
-    });
-    </script>
-  <?php }?>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/som-components/css">
+<!-- <script src="https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.js"></script> -->
 
-  <?php if ($this->session->flashdata('warning')) { ?>
-    <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-body" style="padding-bottom: 0px !important;">
-            <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('warning'); ?>
-            </som-alert>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-    $(window).on('load',function(){
-      $('#notifikasi').modal('show');
-    });
-  </script>
-<?php }?>
-
-<?php if ($this->session->flashdata('error')) { ?>
+<?php if ($this->session->flashdata('success')) { ?>
   <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <!-- Modal content-->
@@ -101,7 +64,7 @@
           <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('error'); ?>
+          <som-alert type="success" headline="Notifikasi!"><?php echo $this->session->flashdata('success'); ?>
           </som-alert>
         </div>
       </div>
@@ -111,6 +74,50 @@
   $(window).on('load',function(){
     $('#notifikasi').modal('show');
   });
+  </script>
+  <?php }?>
+
+<?php if ($this->session->flashdata('warning')) { ?>
+  <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body" style="padding-bottom: 0px !important;">
+          <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('warning'); ?>
+          </som-alert>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  $(window).on('load',function(){
+    $('#notifikasi').modal('show');
+  });
+</script>
+<?php }?>
+
+<?php if ($this->session->flashdata('error')) { ?>
+<div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body" style="padding-bottom: 0px !important;">
+        <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('error'); ?>
+        </som-alert>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(window).on('load',function(){
+  $('#notifikasi').modal('show');
+});
 </script>
 <?php }?>
 

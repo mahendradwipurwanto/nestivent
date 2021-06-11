@@ -86,7 +86,7 @@
                         <!-- Form Group -->
                         <div class="form-group mx-auto">
                           <label for="fotoLabel" class="input-label">Foto Profl</label>
-                          <label for="GETP_FOTO" class="upload-card">
+                          <label for="GETP_FOTO" class="upload-card mx-auto">
                             <img id="P_FOTO" class="upload-img w-100 P_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
                           </label>
                           <input type="file" id="GETP_FOTO" class="form-control-file hidden" name="profil"  onchange="previewP_FOTO(this);" accept="image/*">
@@ -135,7 +135,7 @@
                 <li class="nav-item">
                   <a class="nav-link <?= ($this->uri->segment(2) == "notifikasi" ? "active" : "") ?>" href="<?= site_url('pengguna/notifikasi') ?>">
                     <i class="fas fa-bell nav-icon"></i> Notifikasi
-                    <span class="badge badge-soft-dark badge-pill nav-link-badge">1</span>
+                    <?= ($c_notifikasi > 0 ? '<span class="badge badge-soft-dark badge-pill nav-link-badge">'.$c_notifikasi.'</span>' : '') ?>
                   </a>
                 </li>
                 <?php if ($kPanel == TRUE) { ?>

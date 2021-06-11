@@ -10,7 +10,7 @@
     <!-- Form Group -->
     <div class="js-form-message form-group">
       <label class="input-label" for="signinSrEmail">Email anda</label>
-      <input type="email" class="form-control" name="email" id="signinSrEmail" value="<?= $this->session->userdata('email') ?>" aria-label="Email akun address" required
+      <input type="email" class="form-control" name="email" id="signinSrEmail" value="<?= $this->session->userdata('email') ?>" aria-label="Email akun address" required readonly
       data-msg="Please enter a valid email address.">
       <small class="text-muted">Harap cek email anda yang telah anda masukkan, untuk dapat mengakses link ubah password anda. Ini biasanya membutuhkan 2 s/d 5 menit untuk link dapat masuk ke email anda</small>
     </div>

@@ -6,6 +6,13 @@ class M_template extends CI_Model {
 		parent::__construct();
 	}
 
+	// NOTIFIKASI
+
+	public function count_notifikasi($kode_user){
+		$query = $this->db->query("SELECT * FROM log_aktivitas WHERE KODE_USER = '$kode_user'");
+		return $query->num_rows();
+	}
+
 	public function cek_aktivasi($kode_user){
 		$query = $this->db->query("SELECT * FROM TB_TOKEN WHERE KODE = '$kode_user' AND TYPE = 1");
 		if ($query->num_rows() > 0) {

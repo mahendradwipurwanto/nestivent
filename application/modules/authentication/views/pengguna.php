@@ -52,7 +52,7 @@
         <!-- Custom Radio -->
         <div class="form-control">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" name="jabatan" id="jabatan1" value="Pelajar /  Mahasiswa" checked>
+            <input type="radio" class="custom-control-input" name="jabatan" id="jabatan1" value="1|Pelajar / Mahasiswa" checked>
             <label class="custom-control-label" for="jabatan1">Pelajar / Mahasiswa</label>
           </div>
         </div>
@@ -61,7 +61,7 @@
         <!-- Custom Radio -->
         <div class="form-control">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" name="jabatan" id="jabatan2" value="Dosen / Guru">
+            <input type="radio" class="custom-control-input" name="jabatan" id="jabatan2" value="2|Dosen / Guru">
             <label class="custom-control-label" for="jabatan2">Dosen / Guru</label>
           </div>
         </div>

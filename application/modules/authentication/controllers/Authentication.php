@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // 3. AKTIVASI
 // 4. RECOVERY
 // 5. PENGAJUAN
+// 6. HAPUS AKUN
 
 class Authentication extends MX_Controller {
 	public function __construct(){
@@ -127,29 +128,25 @@ class Authentication extends MX_Controller {
 
 				$this->session->set_userdata($sessiondata);
 
-				// LOGGED
-				$this->db->where('KODE_USER', $pengguna->KODE_USER);
-				$this->db->update('TB_AUTH', array('LOGGED' => 1));
-
-				$aktivasi = $this->M_auth->get_aktivasi($pengguna->KODE_USER);
-
 				// SAVE LOG
 				$this->M_auth->log_aktivitas($pengguna->KODE_USER, 1, "login sistem pada ".date("H:i d-m-Y"));
 
+				// CEK HAK AKSES
 				// ADMIN
 				if ($pengguna->ROLE == 0) {
-
-					// CEK HAK AKSES
 					if ($this->session->userdata('redirect')) {
 						$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
 						redirect($this->session->userdata('redirect'));
 					} else {
 						$this->session->set_flashdata('success', "Selamat Datang, {$pengguna->NAMA}");
-						redirect(site_url('pengguna'));
+						redirect(site_url('admin'));
 					}
 
-					// PENGGUNA
+				// PENGGUNA
 				}elseif ($pengguna->ROLE == 1) {
+
+					// CHECK AKTIVASI
+					$aktivasi = $this->M_auth->get_aktivasi($pengguna->KODE_USER);
 
 					if ($this->session->userdata('redirect')) {
 						$this->session->set_flashdata('success', 'Hai, anda telah login. Silahkan melanjutkan aktivitas anda !!');
@@ -164,7 +161,7 @@ class Authentication extends MX_Controller {
 						}
 					}
 
-					// PENYELENGGARA
+				// PENYELENGGARA
 				}elseif ($pengguna->ROLE == 2) {
 
 					if ($this->session->userdata('redirect')) {
@@ -613,9 +610,6 @@ class Authentication extends MX_Controller {
 
 	// LOGOUT
 	public function logout(){
-		// LOGGED
-		$this->db->where('KODE_USER', htmlspecialchars($this->session->userdata('kode_user'), TRUE));
-		$this->db->update('TB_AUTH', array('LOGGED' => 0));
 
 		// SESS DESTROY
 		$user_data = $this->session->all_userdata();

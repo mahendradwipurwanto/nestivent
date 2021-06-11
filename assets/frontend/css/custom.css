@@ -4,6 +4,10 @@
     max-height: calc(80% - 3.5rem) !important;
   }
 } */
+.scroll-y-400{
+  height: 400px !important;
+  overflow-y: auto !important;
+}
 .no-hover:hover{
   color: #fff !important;
 }
@@ -12,6 +16,10 @@
   /* background-size: 381.84px 381.84px; */
   background-size: 100% 100%;
   /* overflow: hidden; */
+}
+.setting-item{
+  padding: 10px 0 !important;
+  margin: 0 !important;
 }
 .alcs{
   z-index: 999;
