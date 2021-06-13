@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_pungguna extends CI_Model {
+class M_pengguna extends CI_Model {
 	function __construct(){
 		parent::__construct();
 	}
@@ -18,12 +18,12 @@ class M_pungguna extends CI_Model {
 	// NOTIFIKASI
 
 	public function countAllNotifikasi($kode_user){
-		$query = $this->db->query("SELECT a.*, b.TYPE as TYPE_DESC FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE KODE_USER = '$kode_user'");
+		$query = $this->db->query("SELECT * FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE a.RECEIVER = '$kode_user' AND b.TYPE = 1");
 		return $query->num_rows();
 	}
 
 	public function get_AllNotifikasi($kode_user, $limit, $start){
-		$query = $this->db->query("SELECT a.*, b.TYPE as TYPE_DESC FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE KODE_USER = '$kode_user' ORDER BY a.LOG_TIME DESC LIMIT $start, $limit");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE a.RECEIVER = '$kode_user' AND b.TYPE = 1 ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -32,11 +32,36 @@ class M_pungguna extends CI_Model {
 	}
 
 	public function get_notifikasi($kode_user){
-		$query = $this->db->query("SELECT a.*, b.TYPE as TYPE_DESC FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE KODE_USER = '$kode_user' ORDER BY a.LOG_TIME DESC LIMIT 5");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE a.RECEIVER = '$kode_user' AND b.TYPE = 1 ORDER BY a.CREATED_AT DESC LIMIT 5");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
 			return false;
+		}
+	}
+
+	public function get_sender($kode){
+
+		if ($kode == "System") {
+				return "System";
+		}else {
+			$part	= explode("_", $kode);
+
+			$this->db->select("NAMA");
+			if($part[0] == "USR"):
+				$this->db->where("KODE_USER", $kode);
+				$sender = $this->db->get("TB_PENGGUNA")->row()->NAMA;
+			elseif($part[0] == "PYL"):
+				$this->db->where("KODE_PENYELENGGGARA", $kode);
+				$sender = $this->db->get("TB_PENYELENGGGARA")->row()->NAMA;
+			elseif($part[0] == "JRI"):
+				$this->db->where("KODE_USER", $kode);
+				$sender = $this->db->get("TB_PENGGUNA")->row()->NAMA;
+			else:
+				$sender = "System";
+			endif;
+
+			return $sender;
 		}
 	}
 
@@ -95,9 +120,9 @@ class M_pungguna extends CI_Model {
 
 		if ($cek == true) {
 			$data = array(
-				'KODE_USER' => $kode_user,
-				'TYPE' 			=> 6,
-				'AKTIVITAS' => "PENGHAPUSAN AKUN {$nama} PADA: {$date}",
+				'RECEIVER'  => $kode_user,
+				'SENDER' 		=> "System",
+				'TYPE'		  => 6,
 			);
 			$this->db->insert('LOG_AKTIVITAS', $data);
 			return ($this->db->affected_rows() != 1) ? false : true;
@@ -112,14 +137,14 @@ class M_pungguna extends CI_Model {
 		$nama 			= $this->session->userdata('nama');
 
 		$this->db->where('KODE_USER', $kode_user);
-		$this->db->update('TB_AUTH', array('NONAKTIF' => 0, 'DEADLINE' => null));
+		$this->db->update('TB_AUTH', array('NONAKTIF' => 0, 'DEADLINE' => NULL));
 		$cek 				= ($this->db->affected_rows() != 1) ? false : true;
 
 		if ($cek == true) {
 			$data = array(
-				'KODE_USER' => $kode_user,
-				'TYPE' 			=> 7,
-				'AKTIVITAS' => "PEMBATALAN PROSES PENGHAPUSAN AKUN {$nama}",
+				'RECEIVER'  => $kode_user,
+				'SENDER' 		=> "System",
+				'TYPE'		  => 7,
 			);
 			$this->db->insert('LOG_AKTIVITAS', $data);
 			return ($this->db->affected_rows() != 1) ? false : true;

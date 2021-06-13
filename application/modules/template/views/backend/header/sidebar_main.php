@@ -20,117 +20,147 @@
       <div class="navbar-vertical-content">
         <ul class="navbar-nav navbar-nav-lg nav-tabs">
           <!-- Dashboards -->
-          <li class="navbar-vertical-aside-has-menu show">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle active" href="javascript:;" title="Dashboards">
-              <i class="tio-home-vs-1-outlined nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Dashboards</span>
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(1) == 'admin' ? 'active' : '') ?>" href="<?= site_url('admin') ?>" title="Dashboard" data-placement="left">
+              <i class="tio-dashboard-vs-outlined nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- Pengguna -->
+          <li class="navbar-vertical-aside-has-menu <?= ($this->uri->segment(1) == 'notifikasi-sistem' || $this->uri->segment(1) == 'aktivitas-sistem' ? 'show' : '') ?>">
+            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Pages">
+              <i class="tio-browser-windows nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Sistem</span>
             </a>
 
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-              <li class="nav-item">
-                <a class="nav-link active" href="index.html" title="Default">
+
+              <li class="nav-item ">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'notifikasi-sistem' ? 'active' : '') ?>" href="<?= site_url('notifikasi-sistem') ?>" title="Notifikasi">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Default</span>
+                  <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Notifikasi</span>
                 </a>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link " href="dashboard-alternative.html" title="Alternative">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'aktivitas-sistem' ? 'active' : '') ?>" href="<?= site_url('aktivitas-sistem') ?>" title="Aktivitas">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Alternative</span>
+                  <span class="text-truncate">Aktivitas</span>
                 </a>
               </li>
             </ul>
+          </li>
+          <!-- End Pengguna -->
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(1) == 'pengaturan-admin' ? 'active' : '') ?>" href="<?= site_url('pengaturan-admin') ?>" title="Pengaturan" data-placement="left">
+              <i class="tio-tune nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pengaturan</span>
+            </a>
           </li>
           <!-- End Dashboards -->
 
           <li class="nav-item">
-            <small class="nav-subtitle" title="Pages">Pages</small>
+            <small class="nav-subtitle" title="Pages">Data</small>
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li>
 
-          <!-- Pages -->
-          <li class="navbar-vertical-aside-has-menu ">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Pages">
-              <i class="tio-pages-outlined nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pages</span>
+          <!-- Pengguna -->
+          <li class="nav-item">
+            <a class="nav-link <?= ($this->uri->segment(1) == 'data-pengguna' ? 'active' : '') ?>" href="<?= site_url('data-pengguna') ?>" title="Data pengguna">
+              <span class="tio-group-junior nav-icon"></span>
+              <span class="text-truncate">Data pengguna</span>
+            </a>
+          </li>
+          <!-- End Pengguna -->
+
+          <!-- Pengajuan -->
+          <li class="navbar-vertical-aside-has-menu <?= ($this->uri->segment(1) == 'pengajuan-kpanel' || $this->uri->segment(1) == 'riwayat-pengajuan-kpanel' ? 'show' : '') ?>">
+            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Pengajuan K-Panel">
+              <i class="tio-files-labeled-outlined nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pengajuan K-Panel</span>
             </a>
 
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-              <li class="navbar-vertical-aside-has-menu ">
-                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;" title="Users">
-                  <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Users</span>
-                </a>
 
-                <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-                  <li class="nav-item">
-                    <a class="nav-link " href="users.html" title="Overview">
-                      <span class="tio-circle-outlined nav-indicator-icon"></span>
-                      <span class="text-truncate">Overview</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link " href="users-leaderboard.html" title="Leaderboard">
-                      <span class="tio-circle-outlined nav-indicator-icon"></span>
-                      <span class="text-truncate">Leaderboard</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link " href="users-add-user.html" title="Add User">
-                      <span class="tio-circle-outlined nav-indicator-icon"></span>
-                      <span class="text-truncate">Add User <span class="badge badge-info badge-pill ml-1">Hot</span></span>
-                    </a>
-                  </li>
-                </ul>
+              <li class="nav-item">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('pengajuan-kpanel') ?>" title="Data pengajuan">
+                  <span class="tio-circle nav-indicator-icon"></span>
+                  <span class="text-truncate">Data pengajuan</span>
+                </a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link " href="referrals.html" title="Referrals">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'riwayat-pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('riwayat-pengajuan-kpanel') ?>" title="Riwayat pengajuan">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Referrals</span>
+                  <span class="text-truncate">Riwayat pengajuan</span>
                 </a>
               </li>
             </ul>
           </li>
-          <!-- End Pages -->
+          <!-- End Pengajuan -->
+
+          <!-- Penyelenggara -->
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(1) == 'data-penyelenggara' ? 'active' : '') ?>" href="<?= site_url('data-penyelenggara') ?>" title="Data penyelenggara" data-placement="left">
+              <i class="tio-canvas-text nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data penyelenggara</span>
+            </a>
+          </li>
+          <!-- End Penyelenggara -->
+
+          <!-- Kompetisi -->
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(1) == 'data-kompetisi' ? 'active' : '') ?>" href="<?= site_url('data-kompetisi') ?>" title="Data kompetisi" data-placement="left">
+              <i class="tio-medal nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data kompetisi</span>
+            </a>
+          </li>
+          <!-- End Kompetisi -->
+
+          <!-- Kompetisi -->
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(1) == 'data-event' ? 'active' : '') ?>" href="<?= site_url('data-event') ?>" title="Data event" data-placement="left">
+              <i class="tio-event nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data event</span>
+            </a>
+          </li>
+          <!-- End Kompetisi -->
 
           <li class="nav-item">
-            <small class="nav-subtitle" title="Layouts">Layouts</small>
+            <small class="nav-subtitle" title="Layouts">APi</small>
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li>
 
           <li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link " href="layouts/layouts.html" title="Layouts" data-placement="left">
-              <i class="tio-dashboard-vs-outlined nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Layouts</span>
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'rest-api' ? 'active' : '') ?>" href="<?= site_url('admin/rest-api') ?>" title="REST APi" data-placement="left">
+              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/rest-api.png" alt="REST APi">
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">REST APi</span>
+            </a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'zoom' ? 'active' : '') ?>" href="<?= site_url('admin/zoom') ?>" title="Zoom" data-placement="left">
+              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/zoom.png" alt="Zoom">
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Zoom</span>
+            </a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'midtrans' ? 'active' : '') ?>" href="<?= site_url('admin/midtrans') ?>" title="Midtrans" data-placement="left">
+              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/midtrans.png" alt="Midtrans">
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Midtrans</span>
             </a>
           </li>
 
           <li class="nav-item">
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li>
-
-          <!-- Help -->
-          <li class="navbar-vertical-aside-has-menu nav-footer-item ">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Help">
-              <i class="tio-home-vs-1-outlined nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Help</span>
-            </a>
-
-            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Resources &amp; tutorials">
-                  <i class="tio-book-outlined dropdown-item-icon"></i> Resources &amp; tutorials
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Contact support">
-                  <i class="tio-chat-outlined dropdown-item-icon"></i> Contact support
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- End Help -->
         </ul>
       </div>
       <!-- End Content -->
@@ -140,33 +170,6 @@
         <ul class="navbar-vertical-footer-list">
 
           <li class="navbar-vertical-footer-list-item">
-            <!-- Other Links -->
-            <div class="hs-unfold">
-              <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-                data-hs-unfold-options='{
-                  "target": "#otherLinksDropdown",
-                  "type": "css-animation",
-                  "animationIn": "slideInDown",
-                  "hideOnScroll": true
-                }'>
-                <i class="tio-help-outlined"></i>
-              </a>
-
-              <div id="otherLinksDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu navbar-vertical-footer-dropdown">
-                <span class="dropdown-header">Help</span>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-book-outlined dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Resources &amp; tutorials">Resources &amp; tutorials</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <span class="dropdown-header">Contacts</span>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-chat-outlined dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Contact support">Contact support</span>
-                </a>
-              </div>
-            </div>
-            <!-- End Other Links -->
           </li>
         </ul>
       </div>

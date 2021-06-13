@@ -16,242 +16,240 @@
         <i class="tio-last-page navbar-vertical-aside-toggle-full-align" data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-toggle="tooltip" data-placement="right" title="Expand"></i>
       </button>
       <!-- End Navbar Vertical Toggle -->
-
-      <!-- Search Form -->
-      <div class="d-none d-md-block">
-        <form class="position-relative">
-          <!-- Input Group -->
-          <div class="input-group input-group-merge input-group-borderless input-group-hover-light navbar-input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <i class="tio-search"></i>
-              </div>
-            </div>
-            <input type="search" class="js-form-search form-control" placeholder="Search in front" aria-label="Search in front">
-            <a class="input-group-append" href="javascript:;">
-              <span class="input-group-text">
-                <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
-              </span>
-            </a>
-          </div>
-          <!-- End Input Group -->
-        </form>
-      </div>
-      <!-- End Search Form -->
     </div>
 
     <!-- Secondary Content -->
     <div class="navbar-nav-wrap-content-right">
       <!-- Navbar -->
       <ul class="navbar-nav align-items-center flex-row">
-        <li class="nav-item d-md-none">
-          <!-- Search Trigger -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-              data-hs-unfold-options='{
-                "target": "#searchDropdown",
-                "type": "css-animation",
-                "animationIn": "fadeIn",
-                "hasOverlay": "rgba(46, 52, 81, 0.1)",
-                "closeBreakpoint": "md"
-              }'>
-              <i class="tio-search"></i>
-            </a>
+
+      <li class="nav-item d-none d-sm-inline-block">
+        <!-- Notification -->
+        <div class="hs-unfold">
+          <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+          data-hs-unfold-options='{
+            "target": "#notificationDropdown",
+            "type": "css-animation"
+          }'>
+          <i class="tio-notifications-on-outlined"></i>
+          <?php if ($c_notifikasi > 0): ?>
+            <span class="btn-status btn-sm-status btn-status-danger"></span>
+          <?php endif; ?>
+        </a>
+
+        <div id="notificationDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu" style="width: 25rem;">
+          <!-- Header -->
+          <div class="card-header">
+            <span class="card-title h4">Notifikasi</span>
           </div>
-          <!-- End Search Trigger -->
-        </li>
+          <!-- End Header -->
 
-        <li class="nav-item d-none d-sm-inline-block">
-          <!-- Notification -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-              data-hs-unfold-options='{
-                "target": "#notificationDropdown",
-                "type": "css-animation"
-              }'>
-              <i class="tio-notifications-on-outlined"></i>
-              <span class="btn-status btn-sm-status btn-status-danger"></span>
-            </a>
-
-            <div id="notificationDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu" style="width: 25rem;">
-              <!-- Header -->
-              <div class="card-header">
-                <span class="card-title h4">Notifications</span>
-              </div>
-              <!-- End Header -->
-
-              <!-- Body -->
-              <div class="card-body-height">
-                <ul class="list-group list-group-flush navbar-card-list-group">
+          <!-- Body -->
+          <div class="card-body-height">
+            <ul class="list-group list-group-flush navbar-card-list-group">
+              <?php if ($notifikasi == FALSE): ?>
+                <!-- Item -->
+                <li class="list-group-item custom-checkbox-list-wrapper">
+                  <div class="row">
+                    <div class="col-12 text-center">
+                      <p class="card-text font-size-sm">Tidak ada notifikasi terbaru</p>
+                    </div>
+                  </div>
+                </li>
+                <!-- End Item -->
+              <?php else: ?>
+                <?php foreach ($notifikasi as $key): ?>
                   <!-- Item -->
                   <li class="list-group-item custom-checkbox-list-wrapper">
                     <div class="row">
                       <div class="col-auto position-static">
                         <div class="d-flex align-items-center">
-                          <div class="custom-control custom-checkbox custom-checkbox-list">
-                            <input type="checkbox" class="custom-control-input" id="notificationCheck1" checked>
-                            <label class="custom-control-label" for="notificationCheck1"></label>
-                            <span class="custom-checkbox-list-stretched-bg"></span>
-                          </div>
-                          <div class="avatar avatar-sm avatar-circle">
-                            <img class="avatar-img" src="<?= base_url();?>assets/backend/img/160x160/img3.jpg" alt="Image Description">
+                          <?php if ($key->READ == 0): ?>
+                            <div class="custom-control custom-checkbox custom-checkbox-list">
+                              <input type="checkbox" class="custom-control-input" id="notificationCheck2" checked>
+                              <label class="custom-control-label" for="notificationCheck2"></label>
+                              <span class="custom-checkbox-list-stretched-bg"></span>
+                            </div>
+                          <?php endif; ?>
+                          <div class="avatar avatar-sm avatar-soft-dark avatar-circle">
+                            <?php if ($CI->M_template->get_profil($key->SENDER) == FALSE): ?>
+                              <span class="avatar-initials"><?= substr($CI->M_template->get_sender($key->SENDER), 0, 1)?></span>
+                            <?php else: ?>
+                              <img class="avatar-img" src="<?= base_url() ?>berkas/pengguna/<?= $key->SENDER ?>/foto/<?= $CI->M_template->get_profil($key->SENDER) ?>" alt="Image Description">
+                            <?php endif; ?>
                           </div>
                         </div>
                       </div>
                       <div class="col ml-n3">
-                        <span class="card-title h5">Brian Warner</span>
-                        <p class="card-text font-size-sm">changed an issue from "In Progress" to <span class="badge badge-success">Review</span></p>
+                        <span class="card-title h5"><?php $sender = explode(" ", $CI->M_template->get_sender($key->SENDER)); echo $sender[0];?></span>
+                        <p class="card-text font-size-sm ellipsis-150"><?= $key->MESSAGE ?></p>
                       </div>
-                      <small class="col-auto text-muted text-cap">2hr</small>
+                      <small class="col-auto text-muted text-cap"><?= $CI->time_elapsed($key->CREATED_AT) ?></small>
                     </div>
-                    <a class="stretched-link" href="#"></a>
                   </li>
                   <!-- End Item -->
-                </ul>
-              </div>
-              <!-- End Body -->
-
-              <!-- Card Footer -->
-              <a class="card-footer text-center" href="#">
-                View all notifications
-                <i class="tio-chevron-right"></i>
-              </a>
-              <!-- End Card Footer -->
-            </div>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </ul>
           </div>
-          <!-- End Notification -->
-        </li>
-
-        <li class="nav-item d-none d-sm-inline-block">
-          <!-- Apps -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-              data-hs-unfold-options='{
-                "target": "#appsDropdown",
-                "type": "css-animation"
-              }'>
-              <i class="tio-menu-vs-outlined"></i>
+          <!-- End Body -->
+          <?php if ($c_notifikasi > 5): ?>
+            <!-- Card Footer -->
+            <a class="card-footer text-center" href="<?= site_url('notifikasi-sistem') ?>">
+              Lihat semua notifikasi
+              <i class="tio-chevron-right"></i>
             </a>
+            <!-- End Card Footer -->
+          <?php endif; ?>
+        </div>
+      </div>
+      <!-- End Notification -->
+    </li>
 
-            <div id="appsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu" style="width: 25rem;">
-              <!-- Header -->
-              <div class="card-header">
-                <span class="card-title h4">Web apps &amp; services</span>
-              </div>
-              <!-- End Header -->
+    <li class="nav-item d-none d-sm-inline-block">
+      <!-- Apps -->
+      <div class="hs-unfold">
+        <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+        data-hs-unfold-options='{
+          "target": "#appsDropdown",
+          "type": "css-animation"
+        }'>
+        <i class="tio-menu-vs-outlined"></i>
+      </a>
 
-              <!-- Body -->
-              <div class="card-body card-body-height">
-                <!-- Nav -->
-                <div class="nav nav-pills flex-column">
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                      <span class="mr-3">
-                        <img class="avatar avatar-xs avatar-4by3" src="<?= base_url();?>assets/backend/svg/brands/atlassian.svg" alt="Image Description">
-                      </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">Atlassian</span>
-                        <span class="d-block font-size-sm text-body">Security and control across Cloud</span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <!-- End Nav -->
-              </div>
-              <!-- End Body -->
+      <div id="appsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu" style="width: 25rem;">
+        <!-- Header -->
+        <div class="card-header">
+          <span class="card-title h4">APi Modules</span>
+        </div>
+        <!-- End Header -->
 
-              <!-- Footer -->
-              <a class="card-footer text-center" href="#">
-                View all apps
-                <i class="tio-chevron-right"></i>
-              </a>
-              <!-- End Footer -->
-            </div>
-          </div>
-          <!-- End Apps -->
-        </li>
+        <!-- Body -->
+        <div class="card-body card-body-height" style="height: 15rem">
+          <!-- Nav -->
+          <div class="nav nav-pills flex-column">
 
-        <li class="nav-item d-none d-sm-inline-block">
-          <!-- Activity -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-              data-hs-unfold-options='{
-                "target": "#activitySidebar",
-                "type": "css-animation",
-                "animationIn": "fadeInRight",
-                "animationOut": "fadeOutRight",
-                "hasOverlay": true,
-                "smartPositionOff": true
-              }'>
-              <i class="tio-voice-line"></i>
-            </a>
-          </div>
-          <!-- Activity -->
-        </li>
-
-        <li class="nav-item">
-          <!-- Account -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
-              data-hs-unfold-options='{
-                "target": "#accountNavbarDropdown",
-                "type": "css-animation"
-              }'>
-              <div class="avatar avatar-sm avatar-circle">
-                <img class="avatar-img" src="<?= base_url();?>assets/backend/img/160x160/img6.jpg" alt="Image Description">
-                <span class="avatar-status avatar-sm-status avatar-status-success"></span>
-              </div>
-            </a>
-
-            <div id="accountNavbarDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account" style="width: 16rem;">
-              <div class="dropdown-item-text">
-                <div class="media align-items-center">
-                  <div class="avatar avatar-sm avatar-circle mr-2">
-                    <img class="avatar-img" src="<?= base_url();?>assets/backend/img/160x160/img6.jpg" alt="Image Description">
-                  </div>
-                  <div class="media-body">
-                    <span class="card-title h5">Mark Williams</span>
-                    <span class="card-text">mark@example.com</span>
-                  </div>
+            <!-- ITEMS -->
+            <a class="nav-link" href="<?= site_url('admin/rest-api') ?>">
+              <div class="media align-items-center">
+                <span class="mr-3">
+                  <img class="avatar avatar-xs avatar-4by3" src="<?= base_url();?>assets/backend/img/logo/rest-api.png" alt="Image Description">
+                </span>
+                <div class="media-body text-truncate">
+                  <span class="h5 mb-0">REST APi</span>
+                  <span class="d-block font-size-sm text-body">Manage REST APi Key</span>
                 </div>
               </div>
+            </a>
+            <!-- END ITEMS -->
 
-              <div class="dropdown-divider"></div>
-
-              <a class="dropdown-item" href="#">
-                <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
-              </a>
-
-              <a class="dropdown-item" href="#">
-                <span class="text-truncate pr-2" title="Settings">Settings</span>
-              </a>
-
-              <div class="dropdown-divider"></div>
-
-              <a class="dropdown-item" href="#">
-                <div class="media align-items-center">
-                  <div class="avatar avatar-sm avatar-dark avatar-circle mr-2">
-                    <span class="avatar-initials">HS</span>
-                  </div>
-                  <div class="media-body">
-                    <span class="card-title h5">Htmlstream <span class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
-                    <span class="card-text">hs.example.com</span>
-                  </div>
+            <!-- ITEMS -->
+            <a class="nav-link" href="<?= site_url('admin/zoom') ?>">
+              <div class="media align-items-center">
+                <span class="mr-3">
+                  <img class="avatar avatar-xs avatar-4by3" src="<?= base_url();?>assets/backend/img/logo/zoom.png" alt="Image Description">
+                </span>
+                <div class="media-body text-truncate">
+                  <span class="h5 mb-0">Zoom</span>
+                  <span class="d-block font-size-sm text-body">Zoom integrated modules</span>
                 </div>
-              </a>
+              </div>
+            </a>
+            <!-- END ITEMS -->
 
-              <div class="dropdown-divider"></div>
-
-              <a class="dropdown-item" href="#">
-                <span class="text-truncate pr-2" title="Sign out">Sign out</span>
-              </a>
-            </div>
+            <!-- ITEMS -->
+            <a class="nav-link" href="<?= site_url('admin/midtrans') ?>">
+              <div class="media align-items-center">
+                <span class="mr-3">
+                  <img class="avatar avatar-xs avatar-4by3" src="<?= base_url();?>assets/backend/img/logo/midtrans.png" alt="Image Description">
+                </span>
+                <div class="media-body text-truncate">
+                  <span class="h5 mb-0">Midtrans</span>
+                  <span class="d-block font-size-sm text-body">Payments gateway</span>
+                </div>
+              </div>
+            </a>
+            <!-- END ITEMS -->
           </div>
-          <!-- End Account -->
-        </li>
-      </ul>
-      <!-- End Navbar -->
+          <!-- End Nav -->
+        </div>
+        <!-- End Body -->
+      </div>
     </div>
-    <!-- End Secondary Content -->
+    <!-- End Apps -->
+  </li>
+
+  <li class="nav-item d-none d-sm-inline-block">
+    <!-- Activity -->
+    <div class="hs-unfold">
+      <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+      data-hs-unfold-options='{
+        "target": "#activitySidebar",
+        "type": "css-animation",
+        "animationIn": "fadeInRight",
+        "animationOut": "fadeOutRight",
+        "hasOverlay": true,
+        "smartPositionOff": true
+      }'>
+      <i class="tio-voice-line"></i>
+    </a>
   </div>
+  <!-- Activity -->
+</li>
+
+<li class="nav-item">
+  <!-- Account -->
+  <div class="hs-unfold">
+    <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
+    data-hs-unfold-options='{
+      "target": "#accountNavbarDropdown",
+      "type": "css-animation"
+    }'>
+    <div class="avatar avatar-sm avatar-circle">
+      <?php if ($pFoto->PROFIL == null) {?>
+        <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="<?= $this->session->userdata('nama') ?>">
+      <?php }else { ?>
+        <img class="avatar-img" src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
+      <?php } ?>
+      <span class="avatar-status avatar-sm-status avatar-status-success"></span>
+    </div>
+  </a>
+
+  <div id="accountNavbarDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account" style="width: 16rem;">
+    <div class="dropdown-item-text">
+      <div class="media align-items-center">
+        <div class="avatar avatar-sm avatar-circle mr-2">
+          <?php if ($pFoto->PROFIL == null) {?>
+            <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="<?= $this->session->userdata('nama') ?>">
+          <?php }else { ?>
+            <img class="avatar-img" src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
+          <?php } ?>
+        </div>
+        <div class="media-body">
+          <span class="card-title h5"><?php $nama = explode(" ", $this->session->userdata('nama')); echo $nama[0]; ?></span>
+          <span class="card-text"><?= mb_substr($this->session->userdata('email'), 0, 3) ?>***@<?php $mail = explode("@", $this->session->userdata('email')); echo $mail[1]; ?></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <a class="dropdown-item" href="<?= site_url('pengaturan-admin'); ?>">
+      <span class="text-truncate pr-2" title="Pengaturan">Pengaturan</span>
+    </a>
+
+    <div class="dropdown-divider"></div>
+
+    <a class="dropdown-item" href="<?= site_url('logout'); ?>">
+      <span class="text-truncate pr-2" title="Sign out">logout</span>
+    </a>
+  </div>
+</div>
+<!-- End Account -->
+</li>
+</ul>
+<!-- End Navbar -->
+</div>
+<!-- End Secondary Content -->
+</div>
 </header>

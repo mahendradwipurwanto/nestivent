@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 // TB_TOKEN
 // 1. AKTIVASI
 // 2. RECOVERY ACCOUNT
@@ -14,6 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // 6. HAPUS AKUN
 
 class Authentication extends MX_Controller {
+
+	private $sender = "System";
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_authentication', 'M_auth');
@@ -129,7 +131,7 @@ class Authentication extends MX_Controller {
 				$this->session->set_userdata($sessiondata);
 
 				// SAVE LOG
-				$this->M_auth->log_aktivitas($pengguna->KODE_USER, 1, "login sistem pada ".date("H:i d-m-Y"));
+				$this->M_auth->log_aktivitas($pengguna->KODE_USER, $pengguna->KODE_USER, 1);
 
 				// CEK HAK AKSES
 				// ADMIN
@@ -209,7 +211,7 @@ class Authentication extends MX_Controller {
 					$this->session->set_userdata($sessiondata);
 
 					// SAVE LOG
-					$this->M_auth->log_aktivitas($pengguna->KODE_USER, 2, "pendaftaran akun pengguna pada ".date("H:i d-m-Y"));
+					$this->M_auth->log_aktivitas($pengguna->KODE_USER, $pengguna->KODE_USER, 2);
 
 					redirect(site_url('email-verification'));
 
@@ -336,7 +338,7 @@ class Authentication extends MX_Controller {
 
 						// SAVE LOG
 						// 2. AKTIVASI AKUN
-						$this->M_auth->log_aktivitas($this->session->userdata('kode_user'), 3, "aktivasi akun pada ".date("H:i d-m-Y"));
+						$this->M_auth->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 3);
 
 						$this->session->set_flashdata('success', 'Berhasil aktivasi akun, Selamat datang di NESTIVENT !!');
 						redirect(base_url());
@@ -465,7 +467,7 @@ class Authentication extends MX_Controller {
 
 				// SAVE LOG
 				// 3. RECOVERY PASSWORD
-				$this->M_auth->log_aktivitas($user->KODE_USER, 4, "recovery password pada ".date("H:i d-m-Y"));
+				$this->M_auth->log_aktivitas($user->KODE_USER, $user->KODE_USER, 4);
 
 				$kode_user = $this->db->escape($user->KODE_USER);
 
@@ -479,6 +481,8 @@ class Authentication extends MX_Controller {
 				$message 	= "Hai, password akun nestivent anda dengan email <b>{$email}</b> telah dirubah pada {$now}.<br> Jika anda tidak merasa melakukan perubahan password harap segera menghubungi admin.</br></br></br><span class='text-muted'>Regards,</br></br>NESTIVENT</span>";
 
 				$this->send_email(htmlspecialchars($this->input->post("email"), TRUE), $subject, $message);
+
+				$this->session->sess_destroy();
 
 				$this->session->set_flashdata('success', 'Berhasil mereset password anda, harap masuk menggunakan hak akses baru anda');
 				redirect(site_url('login'));
@@ -503,15 +507,15 @@ class Authentication extends MX_Controller {
 
 			$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
 			$scrap  = str_replace($vocal, "", $BASE_NAMA);
-			$begin  = substr($scrap, 0, 5);
+			$begin  = substr($scrap, 0, 3);
 
 			$chars 	= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			$uniqid 	= "";
 
 			do {
-				for ($i = 0; $i < 8; $i++){
+				for ($i = 0; $i < 10; $i++){
 					$uniqid   .= $chars[mt_rand(0, strlen($chars)-1)];
-					$KODE 		= strtoupper($begin.'-'.$uniqid);
+					$KODE 		= strtoupper("PYL_".$begin.'-'.$uniqid);
 				}
 
 			} while ($this->M_auth->cek_penyelenggara($KODE) > 0);
@@ -570,7 +574,7 @@ class Authentication extends MX_Controller {
 				}
 
 				// SAVE LOG
-				$this->M_auth->log_aktivitas($this->session->userdata("kode_user"), 5, "pengajuan akses K-Panel pada ".date("H:i d-m-Y"));
+				$this->M_auth->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 5);
 
 				$this->session->set_flashdata('success', 'Berhasil mengirimkan pengajuan AKSES PENYELENGGARA!');
 				redirect(site_url('pengguna'));

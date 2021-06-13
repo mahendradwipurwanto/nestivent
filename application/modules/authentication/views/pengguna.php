@@ -119,7 +119,7 @@
 
     <!-- Form Group -->
     <div class="js-form-message form-group">
-      <label class="input-label" for="signinSrInstagram">ID Instagram anda <span class="text-danger">*</span></label>
+      <label class="input-label" for="signinSrInstagram">ID Instagram anda <small class="text-muted">(Optional)</small></label>
       <!-- Input Group -->
       <div class="input-group input-group-merge">
         <div class="input-group-prepend">
@@ -127,7 +127,7 @@
             @
           </span>
         </div>
-        <input type="text" class="form-control" name="instagram" id="signinSrInstagram" placeholder="ID Instagram anda" aria-label="ID Instagram anda" required data-msg="Harap masukkan ID Instagram anda.">
+        <input type="text" class="form-control" name="instagram" id="signinSrInstagram" placeholder="ID Instagram anda" aria-label="ID Instagram anda" data-msg="Harap masukkan ID Instagram anda.">
       </div>
       <!-- End Input Group -->
     </div>

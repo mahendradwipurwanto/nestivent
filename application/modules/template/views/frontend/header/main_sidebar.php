@@ -57,21 +57,16 @@
             <div class="card-body">
               <!-- Avatar -->
               <div class="d-none d-lg-block text-center mb-5">
-                <div class="avatar avatar-xxl avatar-circle mb-3">
-                  <?php if ($pFoto->PROFIL == null) {?>
-                    <img class="avatar-img cursor" data-toggle="modal" data-target="#ubah_profil" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="<?= $this->session->userdata('nama') ?>">
-                  <?php }else { ?>
-                    <img class="avatar-img cursor" data-toggle="modal" data-target="#ubah_profil" src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
-                  <?php } ?>
-                  <?php if ($kPanel == TRUE) { ?>
-                    <img class="avatar-status avatar-lg-status" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" data-toggle="tooltip" data-placement="top" title="AKSES K-PANEL">
-                  <?php }?>
+                <div class="avatar avatar-xxl avatar-circle avatar-circle-uploader avatar-border-lg cursor shadow-soft mb-3" data-toggle="modal" data-target="#ubah_profil">
+                    <img class="avatar-img" src="<?= ($pFoto->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$this->session->userdata('kode_user').'/foto/'.$pFoto->PROFIL);?>" alt="<?= $this->session->userdata('nama') ?>">
+                    <span class="avatar-status avatar-lg-status shadow-soft cursor">
+                      <i class="fa fa-pencil-alt"></i>
+                    </span>
                 </div>
 
                 <h4 class="card-title"><?php $nama = explode(" ", $this->session->userdata('nama')); echo $nama[0]; ?></h4>
                 <p class="card-text font-size-1">
-                  <?= mb_substr($this->session->userdata('email'), 0, 3) ?>***
-                  @<?php $mail = explode("@", $this->session->userdata('email')); echo $mail[1]; ?>
+                  <?= mb_substr($this->session->userdata('email'), 0, 3) ?>***@<?php $mail = explode("@", $this->session->userdata('email')); echo $mail[1]; ?>
                 </p>
               </div>
               <!-- End Avatar -->
@@ -82,9 +77,9 @@
                 <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                   <div class="modal-content">
                     <form action="<?= site_url('pengguna/ubah_foto') ?>" method="post" enctype="multipart/form-data">
-                      <div class="modal-body">
+                      <div class="modal-body pb-0">
                         <!-- Form Group -->
-                        <div class="form-group mx-auto">
+                        <div class="form-group mx-auto mb-2">
                           <label for="fotoLabel" class="input-label">Foto Profl</label>
                           <label for="GETP_FOTO" class="upload-card mx-auto">
                             <img id="P_FOTO" class="upload-img w-100 P_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
@@ -96,6 +91,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-white" data-dismiss="modal">Batal</button>
+                        <a href="<?= site_url('pengguna/hapus_foto') ?>" class="btn btn-sm btn-danger">Hapus foto</a>
                         <button type="submit" class="btn btn-sm btn-primary">Ubah foto</button>
                       </div>
                     </form>

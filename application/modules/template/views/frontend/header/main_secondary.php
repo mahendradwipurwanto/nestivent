@@ -154,14 +154,13 @@
               <?php if ($pFoto->PROFIL == null) {?>
                 <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg" alt="<?= $this->session->userdata('nama') ?>">
               <?php }else { ?>
-                <img class="avatar-img" src="<?= base_url();?>berkas/admin/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
+                <img class="avatar-img" src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>" alt="<?= $this->session->userdata('nama') ?>">
               <?php } ?>
             </div>
             <div class="media-body">
               <span class="d-block font-weight-bold"><?php $nama = explode(" ", $this->session->userdata('nama')); echo $nama[0]; ?></span>
               <span class="d-block small text-muted">
-                <?= mb_substr($this->session->userdata('email'), 0, 3) ?>***
-                @<?php $mail = explode("@", $this->session->userdata('email')); echo $mail[1]; ?>
+                <?= mb_substr($this->session->userdata('email'), 0, 3) ?>***@<?php $mail = explode("@", $this->session->userdata('email')); echo $mail[1]; ?>
               </span>
             </div>
           </a>

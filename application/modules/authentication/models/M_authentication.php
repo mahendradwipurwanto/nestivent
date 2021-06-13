@@ -6,11 +6,11 @@ class M_authentication extends CI_Model {
 		parent::__construct();
 	}
 
-	public function log_aktivitas($KODE_USER, $TYPE, $AKTIVITAS){
+	public function log_aktivitas($KODE_USER, $SENDER, $TYPE){
 		$data = array(
-			'KODE_USER' => $KODE_USER,
+			'RECEIVER'  => $KODE_USER,
+			'SENDER' 		=> $SENDER,
 			'TYPE'	 		=> $TYPE,
-			'AKTIVITAS' => $AKTIVITAS
 		);
 		$this->db->insert('LOG_AKTIVITAS', $data);
 	}

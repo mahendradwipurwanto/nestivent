@@ -7,7 +7,43 @@ class Template extends MX_Controller {
 		$this->load->model(['M_template']);
 	}
 
+	function time_elapsed($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'min',
+        's' => 'sec',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+	}
+
 	public function backend_main($data){
+		$data['pFoto']				= $this->M_template->get_foto($this->session->userdata('kode_user'));
+		$data['notifikasi']		= $this->M_template->get_notifikasiAdmin();
+		$data['aktivitas']		= $this->M_template->get_aktivitasAdmin();
+		$data['c_notifikasi']	= $this->M_template->count_notifikasiAdmin();
+		$data['c_aktivitas']	= $this->M_template->count_aktivitasAdmin();
+		$data['CI']						= $this;
+
 		$this->load->view('backend/backend_main', $data);
 	}
 

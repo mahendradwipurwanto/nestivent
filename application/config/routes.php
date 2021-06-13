@@ -50,6 +50,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
+// ADMIN
+$route['data-pengguna']               = 'admin/data_pengguna';
+$route['aktivitas-sistem']            = 'admin/aktivitas';
+$route['aktivitas-sistem/(:num)']     = 'admin/aktivitas';
+$route['notifikasi-sistem']           = 'admin/notifikasi';
+$route['notifikasi-sistem/(:num)']    = 'admin/notifikasi';
+// END ADMIN
+
 // LOGIN
 $route['agree-cookies'] = 'template/cookie_agrement';
 

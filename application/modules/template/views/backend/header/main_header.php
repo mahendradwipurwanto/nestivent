@@ -1,18 +1,26 @@
 <?php $this->load->view('header/builder'); ?>
 
 <!-- JS Preview mode only -->
+
+<!-- USED HEADER -->
 <div id="headerMain" class="d-none">
   <?php $this->load->view('header/header_main'); ?>
 </div>
+<!-- END USED HEADER -->
+
 <div id="headerFluid" class="d-none">
   <?php $this->load->view('header/header_fuild') ?>
 </div>
 <div id="headerDouble" class="d-none">
   <?php $this->load->view('header/header_double') ?>
 </div>
+
+<!-- USED SIDEBAR MENU -->
 <div id="sidebarMain" class="d-none">
   <?php $this->load->view('header/sidebar_main') ?>
 </div>
+<!-- END USED SIDEBAR MENU -->
+
 <div id="sidebarCompact" class="d-none">
   <?php $this->load->view('header/sidebar_compact') ?>
 </div>
@@ -20,34 +28,3 @@
 <script src="<?= base_url();?>assets/backend/js/demo.js"></script>
 
 <!-- END ONLY DEV -->
-
-<!-- Search Form -->
-<div id="searchDropdown" class="hs-unfold-content dropdown-unfold search-fullwidth d-md-none">
-  <form class="input-group input-group-merge input-group-borderless">
-    <div class="input-group-prepend">
-      <div class="input-group-text">
-        <i class="tio-search"></i>
-      </div>
-    </div>
-
-    <input class="form-control rounded-0" type="search" placeholder="Search in front" aria-label="Search in front">
-
-    <div class="input-group-append">
-      <div class="input-group-text">
-        <div class="hs-unfold">
-          <a class="js-hs-unfold-invoker" href="javascript:;"
-          data-hs-unfold-options='{
-            "target": "#searchDropdown",
-            "type": "css-animation",
-            "animationIn": "fadeIn",
-            "hasOverlay": "rgba(46, 52, 81, 0.1)",
-            "closeBreakpoint": "md"
-          }'>
-          <i class="tio-clear tio-lg"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-</form>
-</div>
-<!-- End Search Form -->

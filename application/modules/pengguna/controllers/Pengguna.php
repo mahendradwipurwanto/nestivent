@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Pengguna extends MX_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('M_pungguna');
+		$this->load->model('M_pengguna');
 		if ($this->session->userdata('logged_in') == FALSE || !$this->session->userdata('logged_in')){
 			if (!empty($_SERVER['QUERY_STRING'])) {
 				$uri = uri_string() . '?' . $_SERVER['QUERY_STRING'];
@@ -16,12 +16,12 @@ class Pengguna extends MX_Controller {
 			redirect('login');
 		}
 
-		if ($this->session->userdata('role') != 2) {
+		if ($this->session->userdata('role') != 1) {
 			$this->session->set_flashdata('error', "Mohon maaf hak akses anda tidak diperuntukan untuk halaman ini");
 			redirect($this->agent->referrer());
 		}
 
-		$pengguna 	= $this->M_pungguna->cek_aktivasi($this->session->userdata('kode_user'));
+		$pengguna 	= $this->M_pengguna->cek_aktivasi($this->session->userdata('kode_user'));
 		$profil			= ($this->uri->segment(1) == "pengguna" && empty($this->uri->segment(2)) ? TRUE : FALSE);
 
 		if ($pengguna->STATUS == 0 AND $profil == FALSE) {
@@ -30,8 +30,38 @@ class Pengguna extends MX_Controller {
 		}
 	}
 
+	function time_elapsed($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'min',
+        's' => 'sec',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
+
 	public function index(){
-		$data['notifikasi']	= $this->M_pungguna->get_notifikasi($this->session->userdata("kode_user"));
+		$data['notifikasi']	= $this->M_pengguna->get_notifikasi($this->session->userdata("kode_user"));
+		$data['CI']					= $this;
 
 		$data['module'] 		= "pengguna";
 		$data['fileview'] 	= "profil";
@@ -42,7 +72,7 @@ class Pengguna extends MX_Controller {
 		$this->load->library('pagination');
 
 		$config['base_url'] 					= base_url().'pengguna/notifikasi';
-		$config['total_rows'] 				= $this->M_pungguna->countAllNotifikasi($this->session->userdata("kode_user"));
+		$config['total_rows'] 				= $this->M_pengguna->countAllNotifikasi($this->session->userdata("kode_user"));
 		$config['per_page'] 					= 10;
 
 		$config['full_tag_open'] 			= '<nav class="d-flex justify-content-between align-items-center" aria-label="Page navigation example"><ul class="pagination pagination-sm">';
@@ -66,7 +96,8 @@ class Pengguna extends MX_Controller {
 
 		$this->pagination->initialize($config);
 
-		$data['notifikasi']	= $this->M_pungguna->get_AllNotifikasi($this->session->userdata("kode_user"), $config['per_page'], (!$this->uri->segment(3) ? 0 : $this->uri->segment(3)));
+		$data['notifikasi']	= $this->M_pengguna->get_AllNotifikasi($this->session->userdata("kode_user"), $config['per_page'], (!$this->uri->segment(3) ? 0 : $this->uri->segment(3)));
+		$data['CI']					= $this;
 
 		$data['module'] 		= "pengguna";
 		$data['fileview'] 	= "notifikasi";
@@ -88,11 +119,11 @@ class Pengguna extends MX_Controller {
 	}
 
 	public function pengaturan(){
-		if ($this->M_pungguna->get_userDetail($this->session->userdata("kode_user")) == false) {
+		if ($this->M_pengguna->get_userDetail($this->session->userdata("kode_user")) == false) {
 			$this->session->set_flashdata('error', "Terjadi kesalahan saat menampilkan data diri anda!");
 			redirect(base_url());
 		}else{
-			$data['user']				= $this->M_pungguna->get_userDetail($this->session->userdata("kode_user"));
+			$data['user']				= $this->M_pengguna->get_userDetail($this->session->userdata("kode_user"));
 
 			$data['module'] 		= "pengguna";
 			$data['fileview'] 	= "pengaturan";
@@ -102,7 +133,7 @@ class Pengguna extends MX_Controller {
 
 	// PROSES
 	function ubah_profil(){
-		if ($this->M_pungguna->ubah_profil($this->session->userdata("kode_user")) == TRUE) {
+		if ($this->M_pengguna->ubah_profil($this->session->userdata("kode_user")) == TRUE) {
 			$this->session->set_flashdata('success', "Berhasil mengubah data diri anda!");
 			redirect(site_url('pengguna/pengaturan'));
 		}else {
@@ -146,11 +177,31 @@ class Pengguna extends MX_Controller {
 				$this->db->where('KODE_USER', $kode_user);
 				$this->db->update('TB_PENGGUNA', array('PROFIL' => $filename));
 
-				$this->session->set_flashdata('success', 'Berhasil mengubah foto profil akun anda!!');
-				redirect($this->agent->referrer());
+				if ($cek == TRUE) {
+					$this->session->set_flashdata('success', 'Berhasil mengubah foto profil akun anda!!');
+					redirect($this->agent->referrer());
+				}else {
+					$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah foto profil akun anda!");
+					redirect($this->agent->referrer());
+				}
 			}
 		}else {
 			$this->session->set_flashdata('error', 'Harap pilih foto untuk dapat diupload!!');
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function hapus_foto(){
+
+		$this->db->where('KODE_USER', $this->session->userdata("kode_user"));
+		$this->db->update('TB_PENGGUNA', array('PROFIL' => null));
+
+		$cek = ($this->db->affected_rows() != 1) ? false : true;
+		if ($cek == TRUE) {
+			$this->session->set_flashdata('success', "Berhasil menghapus foto profil anda !!");
+			redirect($this->agent->referrer());
+		}else {
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat menghapus foto profil akun anda!");
 			redirect($this->agent->referrer());
 		}
 	}
@@ -160,7 +211,7 @@ class Pengguna extends MX_Controller {
 		$deadline		= strtotime("+7 day", time());
 
 		if ($hapus_akun == "hapus/{$this->session->userdata('email')}") {
-			if ($this->M_pungguna->hapus_akun($this->session->userdata("kode_user"), $deadline) == TRUE) {
+			if ($this->M_pengguna->hapus_akun($this->session->userdata("kode_user"), $deadline) == TRUE) {
 				$date = date("d F Y : H:i");
 				$this->session->set_flashdata('success', "Berhasil melakukan proses penghapusan akun. Anda dapat membatalkan hal ini di pengaturan > batal hapus akun. Sebelum {$date} !!");
 				redirect(site_url('pengguna/pengaturan'));
@@ -178,7 +229,7 @@ class Pengguna extends MX_Controller {
 		$batal_hapus = $this->input->post('batal_hapus');
 
 		if ($batal_hapus == "batal/{$this->session->userdata('email')}") {
-			if ($this->M_pungguna->batal_hapus() == TRUE) {
+			if ($this->M_pengguna->batal_hapus() == TRUE) {
 				$this->session->set_flashdata('success', "Berhasil melakukan membatalkan proses penghapusan akun anda, senang anda bergabung kembali !!");
 				redirect(site_url('pengguna/pengaturan'));
 			}else {
