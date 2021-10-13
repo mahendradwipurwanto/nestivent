@@ -10,14 +10,16 @@ class Blog extends MX_Controller {
 
 	public function index(){
 
-		$data['module'] 		= "blog";
+		$data['CI']			= $this;
+
+		$data['module'] 	= "blog";
 		$data['fileview'] 	= "blog_list";
 		echo Modules::run('template/frontend_main', $data);
 	}
 
-	public function blog_detail($id){
+	public function artikel($id){
 
-		$data['module'] 		= "blog";
+		$data['module'] 	= "blog";
 		$data['fileview'] 	= "blog_detail";
 		echo Modules::run('template/frontend_main', $data);
 	}

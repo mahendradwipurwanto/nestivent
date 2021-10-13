@@ -9,10 +9,10 @@
 <!-- END USED HEADER -->
 
 <div id="headerFluid" class="d-none">
-  <?php $this->load->view('header/header_fuild') ?>
+  <header id="header" class="navbar navbar-expand-xl navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered  "></header>
 </div>
 <div id="headerDouble" class="d-none">
-  <?php $this->load->view('header/header_double') ?>
+  <header id="header" class="navbar navbar-expand-lg navbar-bordered flex-lg-column px-0"></header>
 </div>
 
 <!-- USED SIDEBAR MENU -->
@@ -22,7 +22,7 @@
 <!-- END USED SIDEBAR MENU -->
 
 <div id="sidebarCompact" class="d-none">
-  <?php $this->load->view('header/sidebar_compact') ?>
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  "></aside>
 </div>
 
 <script src="<?= base_url();?>assets/backend/js/demo.js"></script>

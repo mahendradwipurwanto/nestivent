@@ -3,7 +3,7 @@
   <div class="w-lg-80 text-center mx-lg-auto">
     <div class="mb-5 mb-md-11">
       <h1 class="display-4">About Us</h1>
-      <p class="lead">Nestivent.org merupakan platform penyedia layanan bagi organisasi maupun perusahaan agar dapat menyelenggarakan kegiatan mereka secara mudah dengan berbagai features yang telah kami sediakan.</p>
+      <p class="lead">Nestivent.site merupakan platform penyedia layanan bagi organisasi maupun perusahaan agar dapat menyelenggarakan kegiatan mereka secara mudah dengan berbagai features yang telah kami sediakan.</p>
     </div>
   </div>
 </div>
@@ -15,8 +15,8 @@
     <div class="col-sm-4 col-lg-3 mb-7 mb-sm-0">
       <!-- Stats -->
       <div class="text-center">
-        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0">7</span>
-        <span>total penyelenggara</span>
+        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0"><?= $c_penyelenggara;?></span>
+        <span>Penyelenggara</span>
       </div>
       <!-- End Stats -->
     </div>
@@ -24,8 +24,8 @@
     <div class="col-sm-4 col-lg-3 mb-7 mb-sm-0">
       <!-- Stats -->
       <div class="text-center">
-        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0">3,5k+</span>
-        <span>total kegiatan</span>
+        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0"><?= $c_kegiatan;?></span>
+        <span>Kegiatan</span>
       </div>
       <!-- End Stats -->
     </div>
@@ -33,8 +33,8 @@
     <div class="col-sm-4 col-lg-3">
       <!-- Stats -->
       <div class="text-center">
-        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0">85%</span>
-        <span>happy customers</span>
+        <span class="d-block display-4 font-size-md-down-4 text-dark text-uppercase mb-0"><?= $c_pengguna;?></span>
+        <span>Pengguna</span>
       </div>
       <!-- End Stats -->
     </div>
@@ -54,11 +54,11 @@
 <div class="container space-2 space-lg-3">
   <div class="row justify-content-lg-between">
     <div class="col-lg-4 mb-5 mb-lg-0">
-      <h2>Nestivent.org</h2>
+      <h2>Nestivent.site</h2>
     </div>
     <div class="col-lg-6">
       <p><b>IT Start Up</b> baru yang berfokus pada platform penyedia layanan penyelenggaraan kegiatan bagi <i>organisasi</i>, <i>perusahaan</i> maupun <i>individu</i>.</p>
-      <p>Dimulai dari sebuah ide <b>nestivent.org</b> memiliki makna <i>sarang</i> (tempat berkumpulnya) <i>event</i> (baik kompetisi dan seminar maupun workshop) dimana tidak hanya menyediakan layanan penyimpanan data maupun publikasi, tetapi menyediakan layanan seperti <b>build in zoom integration</b>, <b>100% custumasible proses penilaian</b> pada kompetisi, serta menyediakan <b>APi</b> bagi penyelenggara untuk dapat membuat frontend sendiri dengan data yang telah ada di admin panel kegiatan penyelenggara.</p>
+      <p>Dimulai dari sebuah ide <b>nestivent.site</b> memiliki makna <i>sarang</i> (tempat berkumpulnya) <i>event</i> (baik kompetisi dan seminar maupun workshop) dimana tidak hanya menyediakan layanan penyimpanan data maupun publikasi, tetapi menyediakan layanan seperti <b>99% custumasible fitur</b> pada kompetisi, serta menyediakan <b>berbagai fitur lainnya</b> bagi penyelenggara.</p>
     </div>
   </div>
 </div>
@@ -99,17 +99,17 @@
           <!-- Social Networks -->
           <ul class="list-inline mb-0">
             <li class="list-inline-item">
-              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" href="#">
+              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" target="_blank" href="https://www.facebook.com/mahendra.fathe">
                 <i class="fab fa-facebook-f"></i>
               </a>
             </li>
             <li class="list-inline-item">
-              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" href="#">
-                <i class="fab fa-google"></i>
+              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" target="_blank" href="https://www.linkedin.com/in/mahendra-dwipurwanto-4a1305121/">
+                <i class="fab fa-linkedin-in"></i>
               </a>
             </li>
             <li class="list-inline-item">
-              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" href="#">
+              <a class="btn btn-xs btn-icon btn-soft-secondary rounded" target="_blank" href="https://twitter.com/MahendraDwi_P">
                 <i class="fab fa-twitter"></i>
               </a>
             </li>

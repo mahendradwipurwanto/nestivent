@@ -9,38 +9,40 @@
       <div class="col-lg-5">
         <div class="card card-body shadow">
           <!-- Title -->
-          <div class="mb-4">
+          <div class="mb-2">
             <h1>We're coming soon.</h1>
             <p>Our website is under construction. We'll be here soon with our new awesome site, subscribe to be notified.</p>
           </div>
           <!-- End Title -->
 
           <!-- Countdown -->
-          <div class="js-countdown row mb-5"
-          data-hs-countdown-options='{
-            "endDate": "2021/07/16"
-          }'>
-          <div class="col-3">
-            <span class="js-cd-days font-size-3 text-primary font-weight-bold mb-0"></span>
-            <span class="h5 d-block mb-0">Days</span>
+          <div class="js-countdown">
+            <div class="row mb-2">
+              <div class="col-12">
+                <span class="font-size-3 text-primary font-weight-bold mb-0"></span>
+                <span class="h1 d-block mb-0 text-primary">12:00 AM</span>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-4">
+                <span class="font-size-3 text-primary font-weight-bold mb-0"></span>
+                <span class="h2 d-block mb-0 text-primary">16th</span>
+              </div>
+              <div class="col-4">
+                <span class="font-size-3 text-primary font-weight-bold mb-0"></span>
+                <span class="h2 d-block mb-0 text-primary">July</span>
+              </div>
+              <div class="col-4">
+                <span class="font-size-3 text-primary font-weight-bold mb-0"></span>
+                <span class="h2 d-block mb-0 text-primary">2021</span>
+              </div>
+            </div>
           </div>
-          <div class="col-3">
-            <span class="js-cd-hours font-size-3 text-primary font-weight-bold mb-0"></span>
-            <span class="h5 d-block mb-0">Hours</span>
-          </div>
-          <div class="col-3">
-            <span class="js-cd-minutes font-size-3 text-primary font-weight-bold mb-0"></span>
-            <span class="h5 d-block mb-0">Mins</span>
-          </div>
-          <div class="col-3">
-            <span class="js-cd-seconds font-size-3 text-primary font-weight-bold mb-0"></span>
-            <span class="h5 d-block mb-0">Secs</span>
-          </div>
+          <!-- End Countdown -->
         </div>
-        <!-- End Countdown -->
       </div>
     </div>
   </div>
-</div>
 </div>
 <!-- End Hero Section -->

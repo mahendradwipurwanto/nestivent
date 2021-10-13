@@ -1,6 +1,11 @@
 <!-- Login Form -->
 <div class="container space-2 space-lg-3">
   <form class="js-validate w-md-75 w-lg-50 mx-md-auto" action="<?= site_url('authentication/daftar_pengguna') ?>" method="post">
+    <?php if ($email != null) :?>
+      <input type="hidden" name="KOLABOLATOR" value="true">
+    <?php else:?>
+      <input type="hidden" name="KOLABOLATOR" value="false">
+    <?php endif;?>
     <!-- Title -->
     <div class="mb-5 mb-md-7">
       <h1 class="h2 mb-0">Gabung sekarang!</h1>
@@ -18,7 +23,7 @@
     <!-- Form Group -->
     <div class="js-form-message form-group">
       <label for="listingBathrooms" class="input-label">Jenis Kelamin <span class="text-danger">*</span></label>
-      <div class="input-group input-group-down-break">
+      <div class="input-group input-group-up-break">
         <!-- Custom Radio -->
         <div class="form-control">
           <div class="custom-control custom-radio">
@@ -37,6 +42,7 @@
         </div>
         <!-- End Custom Radio -->
       </div>
+    </div>
 
     <!-- Form Group -->
     <div class="js-form-message form-group">
@@ -89,7 +95,7 @@
     <!-- Form Group -->
     <div class="js-form-message form-group">
       <label class="input-label" for="signinSrEmail">Email anda <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" name="email" id="signinSrEmail" placeholder="Email anda" aria-label="Email anda" required data-msg="Harap masukkan email anda.">
+      <input type="text" class="form-control" name="email" id="signinSrEmail" <?= ($email == null ? 'placeholder="Email anda"' : 'value="'.$email.'"');?> aria-label="Email anda" required data-msg="Harap masukkan email anda.">
     </div>
     <!-- End Form Group -->
 
@@ -315,16 +321,16 @@
 
 <script type="text/javascript">
 
-$('input:radio[name="jabatan"]').change(
-  function(){
-    if (this.checked && this.value == '3') {
-      $("#lainnya").removeClass('hidden');
-      console.log("check");
-    }else {
-      $("#lainnya").addClass('hidden');
-      console.log("uncheck");
-    }
-  });
+  $('input:radio[name="jabatan"]').change(
+    function(){
+      if (this.checked && this.value == '3') {
+        $("#lainnya").removeClass('hidden');
+        console.log("check");
+      }else {
+        $("#lainnya").addClass('hidden');
+        console.log("uncheck");
+      }
+    });
 
   $("#signinSrTelepon").keyup(function(){
     var value = $(this).val();

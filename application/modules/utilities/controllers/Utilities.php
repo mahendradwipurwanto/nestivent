@@ -36,7 +36,11 @@ class Utilities extends MX_Controller{
 
 	public function about(){
 
-		$data['module'] 		= "utilities";
+		$data['c_penyelenggara']	= $this->M_uti->c_penyelenggara();
+		$data['c_kegiatan']			= $this->M_uti->c_kegiatan();
+		$data['c_pengguna']			= $this->M_uti->c_pengguna();
+
+		$data['module'] 	= "utilities";
 		$data['fileview'] 	= "about";
 		echo Modules::run('template/frontend_main', $data);
 	}

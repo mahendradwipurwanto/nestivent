@@ -16,6 +16,7 @@
       </a>
 
       <div id="jumpToDropdown" class="hs-unfold-content dropdown-menu">
+        <a class="dropdown-item" href="<?= site_url('discover') ?>">Discover</a>
         <a class="dropdown-item" href="<?= site_url('pusat-bantuan') ?>">Pusat Bantuan</a>
       </div>
     </div>
@@ -23,6 +24,7 @@
 
     <!-- Links -->
     <div class="nav nav-sm nav-y-0 d-none d-sm-flex ml-sm-auto">
+      <a class="nav-link" href="<?= site_url('discover') ?>">Discover</a>
       <a class="nav-link" href="<?= site_url('pusat-bantuan') ?>">Pusat Bantuan</a>
     </div>
     <!-- End Links -->

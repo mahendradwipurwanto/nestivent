@@ -149,8 +149,8 @@
       <!-- End Form Group -->
 
       <!-- Footer -->
-      <div class="card-footer d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary btn-sm">Simpan perubahan</button>
+      <div class="card-footer d-flex justify-content-end px-0">
+        <button type="submit" class="btn btn-primary btn-sm <?= $CI->agent->is_mobile() ? 'btn-block' : '';?>">Simpan perubahan</button>
       </div>
       <!-- End Footer -->
     </form>
@@ -170,8 +170,7 @@
         <a href="<?= site_url('ubah-password') ?>" class="btn btn-danger btn-sm btn-block transition-3d-hover">ubah password</a>
       </div>
     </div>
-    <hr>
-    <div class="row">
+    <div class="row d-none">
       <?php if ($user->NONAKTIF == 1): ?>
         <div class="col-md-9 col-sm-12">
           <p class="setting-item">Pembatalan hapus akun anda, <span class="text-danger">Batas akhir <?= date("d F Y - H:i", $user->DEADLINE) ?></span> </p>

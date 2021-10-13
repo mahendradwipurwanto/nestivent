@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/frontend/css/stepy.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/frontend/css/stepy.css?<?= time() ?>">
 
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -12,55 +12,23 @@
               <div class="connecting-line"></div>
               <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
-                  <a href="#mulai" data-toggle="tab" aria-controls="mulai" role="tab" aria-expanded="true"><span class="round-tab">1 </span> </a>
+                  <a href="#syarat" data-toggle="tab" aria-controls="syarat" role="tab" aria-expanded="fatruelse"><span class="round-tab">1 </span> </a>
                 </li>
                 <li role="presentation" class="disabled">
-                  <a href="#syarat" data-toggle="tab" aria-controls="syarat" role="tab" aria-expanded="false"><span class="round-tab">2 </span> </a>
+                  <a href="#akun" data-toggle="tab" aria-controls="akun" role="tab" aria-expanded="false"><span class="round-tab">2</span> </a>
                 </li>
                 <li role="presentation" class="disabled">
-                  <a href="#akun" data-toggle="tab" aria-controls="akun" role="tab" aria-expanded="false"><span class="round-tab">3</span> </a>
+                  <a href="#informasi" data-toggle="tab" aria-controls="informasi" role="tab" aria-expanded="false"><span class="round-tab">3</span> </a>
                 </li>
                 <li role="presentation" class="disabled">
-                  <a href="#informasi" data-toggle="tab" aria-controls="informasi" role="tab" aria-expanded="false"><span class="round-tab">4</span> </a>
-                </li>
-                <li role="presentation" class="disabled">
-                  <a href="#selesai" data-toggle="tab" aria-controls="selesai" role="tab"><span class="round-tab">5</span> </a>
+                  <a href="#selesai" data-toggle="tab" aria-controls="selesai" role="tab"><span class="round-tab">4</span> </a>
                 </li>
               </ul>
             </div>
 
             <form role="form" action="<?= site_url('authentication/ajukan_penyelenggara') ?>" name="form" method="post" enctype="multipart/form-data" class="login-box">
               <div class="tab-content" id="main_form">
-                <div class="tab-pane active" role="tabpanel" id="mulai">
-                  <div class="row mt-5">
-                    <div class="col-md-12">
-                      <!-- CONTENT -->
-                      <div class="text-center mx-md-auto">
-                        <i class="fas fa-folder-open text-primary fa-5x mb-3"></i>
-                        <div class="mb-3">
-                          <h1 class="h2">AKSES PENYELENGGARA</h1>
-                          <p>Ikuti langkah-langkah berikut ini untuk melakukan pengajuan akses <b>PENYELENGGARA</b>.</p>
-                          <div class="text-left col-8 mx-md-auto">
-                            <p class="card-text h4 text-bold text-dark">Persiapan awal</p>
-
-                            <ul class="text-dark">
-                              <li>Akun <mark>PENGGUNA</mark> terverifikasi</li>
-                              <li>Berasal dari lembaga <b>STIKI MALANG</b></li>
-                            </ul>
-                          </div>
-                          <p>Setelah pengajuan diterima maka akses <mark>K-Panel</mark> akan terbuka pada akun anda untuk melakukan manajemen kegiatan Penyelenggara anda.</p>
-                        </div>
-                      </div>
-                      <!-- END CONTENT -->
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <button type="button" class="btn btn-block next-step no-hover btn-lg">Ayo mulai <i class="fa fa-thumbs-up ml-2"></i> </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane" role="tabpanel" id="syarat">
+                <div class="tab-pane active" role="tabpanel" id="syarat">
                   <div class="row mb-2">
                     <div class="col-md-12 text-center">
                       <div class="text-gray-700 text-xl font-weight-700">Syarat dan Ketentuan</div>
@@ -85,24 +53,6 @@
                                     <div class="media-body">
                                       <h2 class="h3">Akses AKUN</h2>
                                       <p class="font-size-1 text-body mb-0">Memiliki akun <b class="text-primary">NESTIVENT</b> yang telah <span class="text-success">terverifikasi</span>.</p>
-                                    </div>
-                                  </div>
-                                  <!-- End Icon Block -->
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="row mb-4">
-                              <div class="card card-frame h-100 col-12">
-                                <div class="card-body">
-                                  <!-- Icon Block -->
-                                  <div class="media d-block d-sm-flex">
-                                    <figure class="w-100 max-w-8rem mb-2 mb-sm-0 mr-sm-4">
-                                      <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-7.svg" alt="SVG">
-                                    </figure>
-                                    <div class="media-body">
-                                      <h2 class="h3">Naungan Lembaga</h2>
-                                      <p class="font-size-1 text-body mb-0">Berasal dari lembaga <b>STIKI Malang</b>, atau telah disetujui oleh Lembaga <b>STIKI Malang</b></p>
                                     </div>
                                   </div>
                                   <!-- End Icon Block -->
@@ -150,10 +100,7 @@
                   </div>
                   <hr class="mb-0 mt-0">
                   <div class="row">
-                    <div class="col-md-2 pr-0">
-                      <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
-                    </div>
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                       <button type="button" class="btn btn-block no-hover next-step">Ok, mengerti <i class="fa fa-vote-yea ml-2"></i> </button>
                     </div>
                   </div>
@@ -203,186 +150,172 @@
                       <!-- Form Group -->
                       <div class="js-add-field form-group"
                       data-hs-add-field-options='{
-                        "template": "#addEmailFieldTemplate",
-                        "container": "#addEmailFieldContainer",
-                        "defaultCreated": 0
-                      }'>
-                      <label for="emailLabel" class="input-label title">Tambahkan <mark>PANITIA KOLABOLATOR</mark> <small class="text-muted">(optional)</small></label>
+                      "template": "#addEmailFieldTemplate",
+                      "container": "#addEmailFieldContainer",
+                      "defaultCreated": 0
+                    }'>
+                    <label for="emailLabel" class="input-label title">Tambahkan <mark>KOLABOLATOR</mark> <small class="text-muted">(optional)</small></label>
 
-                      <div class="input-group align-items-center">
-                        <input type="email" class="js-masked-input form-control" name="kolabolator[]" id="emailLabel" placeholder="Masukkan email panitia kolabolator" aria-label="Masukkan email panitia kolabolator">
-
-                        <div class="input-group-append">
-                          <!-- Select -->
-                          <select class="js-custom-select custom-select dropdown-toggle" name="bagian[]"
-                          data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "customClass": "custom-select",
-                            "dropdownAutoWidth": true,
-                            "width": true
-                          }'>
-                          <option value="1" selected>PANITIA</option>
-                          <option value="0">ADMIN</option>
-                        </select>
-                        <!-- End Select -->
-                      </div>
-                    </div>
-
-                    <!-- Container For Input Field -->
-                    <div id="addEmailFieldContainer"></div>
-
-                    <a href="javascript:;" class="js-create-field form-link btn btn-xs btn-no-focus btn-ghost-primary">
-                      <i class="fas fa-plus mr-1"></i> Tambahkan <mark>PANITIA KOLABOLATOR</mark>
-                    </a>
-                  </div>
-                  <!-- End Form Group -->
-
-                  <!-- Add Phone Input Field -->
-                  <div id="addEmailFieldTemplate" style="display: none;">
-                    <div class="input-group input-group-add-field">
-                      <input type="email" class="js-masked-input form-control" data-name="kolabolator[]" name="kolabolator[]" id="emailLabel" placeholder="Masukkan email panitia kolabolator" aria-label="Masukkan email panitia kolabolator">
+                    <div class="input-group align-items-center">
+                      <input type="email" class="js-masked-input form-control" name="kolabolator[]" id="emailLabel" placeholder="Masukkan email panitia kolabolator" aria-label="Masukkan email panitia kolabolator">
 
                       <div class="input-group-append">
                         <!-- Select -->
-                        <select class="js-custom-select-dynamic btn btn-white dropdown-toggle"
-                        data-name="bagian[]" name="bagian[]"
+                        <select class="js-custom-select custom-select dropdown-toggle" name="bagian[]"
                         data-hs-select2-options='{
-                          "minimumResultsForSearch": "Infinity",
-                          "customClass": "custom-select",
-                          "dropdownAutoWidth": true,
-                          "width": true
-                        }'>
-                        <option value="1" selected>PANITIA</option>
-                        <option value="0">ADMIN</option>
-                      </select>
-                      <!-- End Select -->
-                    </div>
-
-                    <a class="js-delete-field input-group-add-field-delete" href="javascript:;">
-                      <i class="fas fa-times"></i>
-                    </a>
+                        "minimumResultsForSearch": "Infinity",
+                        "customClass": "custom-select",
+                        "dropdownAutoWidth": true,
+                        "width": true
+                      }'>
+                      <option value="1" selected>ADMIN</option>
+                      <option value="2">PANITIA</option>
+                    </select>
+                    <!-- End Select -->
                   </div>
                 </div>
-                <!-- End Add Phone Input Field -->
-                <!-- END CONTENT -->
-              </div>
-            </div>
-            <hr class="mb-0 mt-0">
-            <div class="row">
-              <div class="col-md-2 pr-0">
-                <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
-              </div>
-              <div class="col-md-10">
-                <button type="button" class="btn btn-block no-hover next-step">Lanjutkan <i class="fa fa-pen-fancy ml-2"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane" role="tabpanel" id="informasi">
-            <div class="row mb-4">
-              <div class="col-md-12 text-center">
-                <div class="text-gray-700 text-xl font-weight-700">Informasi Penyelenggara</div>
-                <div class="text-gray-500 small">Isi data penyelenggara berikut dengan benar.</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 mb-0">
-                <!-- CONTENT -->
-                <!-- Form Group -->
-                <div class="form-group">
-                  <label for="nameLabel" class="input-label">Nama penyelenggara <small class="text-danger">*</small></label>
 
-                  <input type="text" class="form-control" name="nama" id="nameLabel" placeholder="Masukkan nama penyelenggara" aria-label="Masukkan nama penyelenggara" required>
-                  <small class="text-muted">ex: NESTIVENT, KEMENDIKBUD, Lo Kreatif, etc</small>
-                </div>
-                <!-- End Form Group -->
-                <!-- Form Group -->
-                <div class="form-group">
-                  <label for="fotoLabel" class="input-label">Logo <small class="text-muted">(Optional)</small></label>
-                  <label for="GETL_FOTO" class="upload-card">
-                    <img id="L_FOTO" class="mb-2 upload-img w-100 L_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
-                  </label>
-                  <input type="file" id="GETL_FOTO" class="form-control-file hidden" name="logo"  onchange="previewL_FOTO(this);" accept="image/*">
-                  <small class="text-muted">Max 2Mb size, and use 1:1 ratio.</small>
-                </div>
-                <!-- End Form Group -->
-                <!-- Form Group -->
-                <div class="form-group">
-                  <label for="instansiLabel" class="input-label">Asal instansi <small class="text-danger">*</small></label>
+                <!-- Container For Input Field -->
+                <div id="addEmailFieldContainer"></div>
 
-                  <input type="text" class="form-control" name="instansi" id="instansiLabel" placeholder="Masukkan asal instansi anda" aria-label="Masukkan asal instansi anda" required>
-                  <small class="text-muted">Dari STIKI Malang, atau lembaga lain dengan persetujuan STIKI Malang.</small>
-                </div>
-                <!-- End Form Group -->
-                <!-- Form Group -->
-                <div class="form-group">
-                  <label for="instansiLabel" class="input-label">Deskripsi <small class="text-muted">(Optional)</small></label>
-
-                  <!-- Quill -->
-                  <div class="quill-custom">
-                    <input name="deskripsi" type="hidden">
-                    <div class="js-quill" style="min-height: 15rem;"
-                    data-hs-quill-options='{
-                      "placeholder": "Ceritakan secara singkat.",
-                      "modules": {
-                        "toolbar": [
-                        ["bold", "italic", "underline", "strike", "link", "blockquote", "code", {"list": "bullet"}]
-                        ]
-                      }
-                    }'>
-                  </div>
-                </div>
-                <!-- End Quill -->
+                <a href="javascript:;" class="js-create-field form-link btn btn-xs btn-no-focus btn-ghost-primary">
+                  <i class="fas fa-plus mr-1"></i> Tambahkan <mark>PANITIA KOLABOLATOR</mark>
+                </a>
               </div>
               <!-- End Form Group -->
-              <!-- END CONTENT -->
-            </div>
-          </div>
-          <hr class="mb-0 mt-0">
-          <div class="row">
-            <div class="col-md-2 pr-0">
-              <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
-            </div>
-            <div class="col-md-10">
-              <button type="button" class="btn btn-block no-hover next-step">Lanjutkan <i class="fa fa-pencil-alt ml-2"></i></button>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane" role="tabpanel" id="selesai">
-          <div class="row mb-4">
-            <div class="col-md-12 text-center">
-              <div class="text-gray-700 text-lg font-weight-700">Pengajuan Siap Diajukan</div>
-              <div class="text-gray-500 small">Harap cek kembali data dengan teliti sebelum melanjutkan.</div>
-            </div>
-          </div>
-          <div class="row">
 
-            <div class="col-md-12">
-              <div class="text-center mx-md-auto">
-                <i class="fas fa-file-archive text-primary fa-5x mb-3"></i>
-                <div class="mb-5">
-                  <h1 class="h2">SIAP DIAJUKAN</h1>
-                  <p>Pengajuan <mark>AKSES PENYELENGGARA</mark> anda atas akun UTAMA <span class="text-primary">mahendra</span> siap diajukan, anda akan menerima notifikasi pada email dan akun <b class="text-primary">NESTIVENT</b> anda kurang dari <span class="text-warning">2x24JAM</span>.</p>
-                  <small class="text-muted">Harap hubungi kami, jika belum ada balasan dalam batas waktu</small>
-                </div>
+              <!-- Add Phone Input Field -->
+              <div id="addEmailFieldTemplate" style="display: none;">
+                <div class="input-group input-group-add-field">
+                  <input type="email" class="js-masked-input form-control" data-name="kolabolator[]" name="kolabolator[]" id="emailLabel" placeholder="Masukkan email panitia kolabolator" aria-label="Masukkan email panitia kolabolator">
+
+                  <div class="input-group-append">
+                    <!-- Select -->
+                    <select class="js-custom-select-dynamic btn btn-white dropdown-toggle"
+                    data-name="bagian[]" name="bagian[]"
+                    data-hs-select2-options='{
+                    "minimumResultsForSearch": "Infinity",
+                    "customClass": "custom-select",
+                    "dropdownAutoWidth": true,
+                    "width": true
+                  }'>
+                  <option value="1" selected>ADMIN</option>
+                  <option value="2">PANITIA</option>
+                </select>
+                <!-- End Select -->
               </div>
-            </div>
 
-          </div>
-          <hr class="mb-0 mt-0">
-          <div class="row">
-            <div class="col-md-2 pr-0">
-              <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
+              <a class="js-delete-field input-group-add-field-delete" href="javascript:;">
+                <i class="fas fa-times"></i>
+              </a>
             </div>
-            <div class="col-md-10">
-              <button type="submit" class="btn btn-block no-hover next-step" onclick="validateForm()">Kirim PENGAJUAN SEKARANG! <i class="fa fa-paper-plane ml-2"></i></button>
+          </div>
+          <!-- End Add Phone Input Field -->
+          <!-- END CONTENT -->
+        </div>
+      </div>
+      <hr class="mb-0 mt-0">
+      <div class="row">
+        <div class="col-md-2 pr-0">
+          <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
+        </div>
+        <div class="col-md-10">
+          <button type="button" class="btn btn-block no-hover next-step">Lanjutkan <i class="fa fa-pen-fancy ml-2"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" role="tabpanel" id="informasi">
+      <div class="row mb-4">
+        <div class="col-md-12 text-center">
+          <div class="text-gray-700 text-xl font-weight-700">Informasi Penyelenggara</div>
+          <div class="text-gray-500 small">Isi data penyelenggara berikut dengan benar.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-0">
+          <!-- CONTENT -->
+          <!-- Form Group -->
+          <div class="form-group">
+            <label for="nameLabel" class="input-label">Nama penyelenggara <small class="text-danger">*</small></label>
+
+            <input type="text" class="form-control" name="nama" id="nameLabel" placeholder="Masukkan nama penyelenggara" aria-label="Masukkan nama penyelenggara" required>
+            <small class="text-muted">ex: NESTIVENT, KEMENDIKBUD, Lo Kreatif, etc</small>
+          </div>
+          <!-- End Form Group -->
+          <!-- Form Group -->
+          <div class="form-group">
+            <label for="fotoLabel" class="input-label">Logo <small class="text-muted">(Optional)</small></label>
+            <label for="GETL_FOTO" class="upload-card">
+              <img id="L_FOTO" class="mb-2 upload-img w-100 L_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
+            </label>
+            <input type="file" id="GETL_FOTO" class="form-control-file hidden" name="logo"  onchange="previewL_FOTO(this);" accept="image/*">
+            <small class="text-muted">Max 2Mb size, and use 1:1 ratio.</small>
+          </div>
+          <!-- End Form Group -->
+          <!-- Form Group -->
+          <div class="form-group">
+            <label for="instansiLabel" class="input-label">Asal instansi <small class="text-danger">*</small></label>
+
+            <input type="text" class="form-control" name="instansi" id="instansiLabel" placeholder="Masukkan asal instansi anda" aria-label="Masukkan asal instansi anda" required>
+            <small class="text-muted">Dari STIKI Malang, atau lembaga lain dengan persetujuan STIKI Malang.</small>
+          </div>
+          <!-- End Form Group -->
+          <!-- Form Group -->
+          <div class="form-group">
+            <label for="instansiLabel" class="input-label">Deskripsi <small class="text-muted">(Optional)</small></label>
+
+            <textarea id="deskripsi" class="form-control" rows="3" placeholder="Masukkan deskripsi singkat"></textarea>
+          </div>
+          <!-- End Form Group -->
+          <!-- END CONTENT -->
+        </div>
+      </div>
+      <hr class="mb-0 mt-0">
+      <div class="row">
+        <div class="col-md-2 pr-0">
+          <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
+        </div>
+        <div class="col-md-10">
+          <button type="button" class="btn btn-block no-hover next-step">Lanjutkan <i class="fa fa-pencil-alt ml-2"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" role="tabpanel" id="selesai">
+      <div class="row mb-4">
+        <div class="col-md-12 text-center">
+          <div class="text-gray-700 text-lg font-weight-700">Pengajuan Siap Diajukan</div>
+          <div class="text-gray-500 small">Harap cek kembali data dengan teliti sebelum melanjutkan.</div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="text-center mx-md-auto">
+            <i class="fas fa-file-archive text-primary fa-5x mb-3"></i>
+            <div class="mb-5">
+              <h1 class="h2">SIAP DIAJUKAN</h1>
+              <p>Pengajuan <mark>AKSES PENYELENGGARA</mark> anda atas akun UTAMA <span class="text-primary">mahendra</span> siap diajukan, anda akan menerima notifikasi pada email dan akun <b class="text-primary">NESTIVENT</b> anda kurang dari <span class="text-warning">2x24JAM</span>.</p>
+              <small class="text-muted">Harap hubungi kami, jika belum ada balasan dalam batas waktu</small>
             </div>
           </div>
         </div>
-        <div class="clearfix"></div>
-      </div>
 
-    </form>
+      </div>
+      <hr class="mb-0 mt-0">
+      <div class="row">
+        <div class="col-md-2 pr-0">
+          <button type="button" class="btn btn-light btn-block prev-step"><i class="fa fa-chevron-left fa-lg"></i></button>
+        </div>
+        <div class="col-md-10">
+          <button type="submit" class="btn btn-block no-hover next-step" onclick="validateForm()">Kirim PENGAJUAN SEKARANG! <i class="fa fa-paper-plane ml-2"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
   </div>
+
+</form>
+</div>
 </div>
 </div>
 </div>
@@ -390,6 +323,24 @@
 </div>
 
 <script type="text/javascript">
+// TINYMCE
+tinymce.init({
+  selector: 'textarea#deskripsi',
+  height: 300,
+  menubar: false,
+  branding: false,
+  plugins: [
+  'advlist autolink lists link image charmap print preview anchor',
+  'searchreplace visualblocks code fullscreen',
+  'insertdatetime media table paste code help wordcount'
+  ],
+  toolbar: 'undo redo | formatselect | ' +
+  'bold italic backcolor | alignleft aligncenter ' +
+  'alignright alignjustify | bullist numlist outdent indent | ' +
+  'removeformat | help',
+  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+});
+
 // VALIDATION
 function validateForm() {
   var a = document.forms["form"]["nama"].value;

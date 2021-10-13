@@ -12,8 +12,10 @@ class Home extends MX_Controller{
 	// Home page
 
 	public function index(){
+		$data['event']		= $this->M_home->get_eventAll();
+		$data['CI']			= $this;
 
-		$data['module'] 		= "home";
+		$data['module'] 	= "home";
 		$data['fileview'] 	= "home";
 		echo Modules::run('template/frontend_main', $data);
 	}

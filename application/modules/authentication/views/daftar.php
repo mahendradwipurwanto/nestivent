@@ -9,7 +9,7 @@
   <div class="row w-60 text-center mx-auto">
     <div class="col-md-6 mb-3 mb-md-0 mb-md-n11">
       <!-- Card -->
-      <a class="card text-center h-100 transition-3d-hover" href="<?= site_url('pendaftaran/pengguna') ?>">
+      <a class="card text-center h-100 transition-3d-hover" href="<?= site_url('pendaftaran?as=pengguna') ?>">
         <div class="card-body p-lg-5">
           <figure class="max-w-8rem w-100 mx-auto mb-4">
             <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-18.svg" alt="SVG">
@@ -23,7 +23,7 @@
 
     <div class="col-md-6 mb-3 mb-md-0 mb-md-n11">
       <!-- Card -->
-      <a class="card text-center h-100 transition-3d-hover" href="<?= site_url('pendaftaran/penyelenggara') ?>">
+      <a class="card text-center h-100 transition-3d-hover" href="<?= site_url('pengajuan-penyelenggara') ?>">
         <div class="card-body p-lg-5">
           <figure class="max-w-8rem w-100 mx-auto mb-4">
             <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-40.svg" alt="SVG">

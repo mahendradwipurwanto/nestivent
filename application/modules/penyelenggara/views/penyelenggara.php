@@ -1,5 +1,5 @@
 <!-- Hero Section -->
-<div class="container space-top-3 space-bottom-2 space-top-lg-3">
+<div class="container space-top-3 space-bottom-1 space-top-lg-3">
   <div class="bg-primary rounded-lg" style="background: url(<?= base_url();?>assets/frontend/svg/illustrations/book.svg) right bottom no-repeat;">
     <div class="w-lg-50">
       <div class="py-8 px-6">
@@ -14,112 +14,31 @@
 <!-- Penyelenggara Section -->
 <div class="container space-bottom-2 space-bottom-lg-3">
   <div class="row">
-    <div class="col-12 mb-5 mb-lg-0">
+
+    <div class="col-12 mb-5 mb-lg-0 ml-3">
       <div class="row mx-n2 mb-7">
-        <div class="col-sm-6 col-md-3 px-2">
-          <!-- Card -->
-          <a class="card card-frame h-100" href="app-description.html">
-            <div class="card-header bg-primary text-center rounded-lg-top py-4">
-              <div class="avatar avatar-lg d-block bg-white rounded p-2 mx-auto">
-                <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img14.png" alt="Image Description">
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <span class="d-block text-dark font-weight-bold">Slack</span>
-                <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
-              </div>
-              <span class="d-block text-body font-size-1">Email collaboration and email service desk made easy</span>
-            </div>
-          </a>
-          <!-- End Card -->
-        </div>
-
-        <div class="col-sm-6 col-md-3 px-2 mb-3 mb-md-0">
-          <!-- Card -->
-          <a class="card card-frame h-100" href="app-description.html">
-            <div class="card-header bg-success text-center rounded-lg-top py-4">
-              <div class="avatar avatar-lg d-block bg-white rounded p-2 mx-auto">
-                <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img34.png" alt="Image Description">
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <span class="d-block text-dark font-weight-bold">Aircall</span>
-                <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
-              </div>
-              <span class="d-block text-body font-size-1">Deliver call activity and voicemails straight to your inbox</span>
-            </div>
-          </a>
-          <!-- End Card -->
-        </div>
-
-        <div class="col-sm-6 col-md-3 px-2 mb-3 mb-md-0">
-          <!-- Card -->
-          <a class="card card-frame h-100" href="app-description.html">
-            <div class="card-header bg-danger text-center rounded-lg-top py-4">
-              <div class="avatar avatar-lg d-block bg-white rounded p-2 mx-auto">
-                <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img17.png" alt="Image Description">
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <span class="d-block text-dark font-weight-bold">Google</span>
-                <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
-              </div>
-              <span class="d-block text-body font-size-1">Multinational technology company that specializes in Internet-related services</span>
-            </div>
-          </a>
-          <!-- End Card -->
-        </div>
-
-        <div class="col-sm-6 col-md-3 px-2">
-          <!-- Card -->
-          <a class="card card-frame h-100" href="app-description.html">
-            <div class="card-header bg-warning text-center rounded-lg-top py-4">
-              <div class="avatar avatar-lg d-block bg-white rounded p-2 mx-auto">
-                <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img14.png" alt="Image Description">
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <span class="d-block text-dark font-weight-bold">Slack</span>
-                <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
-              </div>
-              <span class="d-block text-body font-size-1">Email collaboration and email service desk made easy</span>
-            </div>
-          </a>
-          <!-- End Card -->
-        </div>
-      </div>
-
-      <!-- Title -->
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="mb-0">Featured</h3>
-      </div>
-      <!-- End Title -->
-
-      <div class="row mx-n2 mb-7">
-        <!-- Card -->
-        <div class="col-sm-6 col-md-4 px-2 mb-3">
-          <div class="card card-frame h-100">
-            <a class="card-body" href="app-description.html">
-              <div class="media">
-                <div class="avatar avatar-xs mt-1 mr-3">
-                  <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img5.jpg" alt="Image Description">
+        <?php if ($featuredPenyelenggara != false) :?>
+          <?php foreach ($featuredPenyelenggara as $key):?>
+            <div class="col-sm-6 col-md-3 px-2">
+              <!-- Card -->
+              <a class="card card-frame h-100" href="<?= site_url('penyelenggara/'.$key->KODE_PENYELENGGARA);?>">
+                <div class="card-header bg-<?php $a = rand(1, 3); if($a == 1){ echo 'primary';}elseif($a == 2){echo 'danger'; }elseif($a == 3){echo 'warning';}else{ echo 'success '; }?> text-center rounded-lg-top py-4">
+                  <div class="avatar avatar-lg d-block bg-white rounded p-2 mx-auto">
+                    <img class="avatar-img" src="<?= ($key->LOGO == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/penyelenggara/'.$key->KODE_PENYELENGGARA.'/'.$key->LOGO);?>" alt="<?= $key->NAMA;?>">
+                  </div>
                 </div>
-                <div class="media-body">
-                  <div class="d-flex align-items-center">
-                    <span class="d-block text-dark font-weight-bold">Spotify</span>
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="d-block text-dark font-weight-bold"><?= $key->NAMA;?></span>
                     <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
                   </div>
-                  <small class="d-block text-body">Entertainment</small>
+                  <span class="d-block text-body font-size-1"><?= substr(strip_tags($key->INSTANSI), 0, 50);?><?= (strlen($key->INSTANSI) >= 50 ? "..." : "");?></span>
                 </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <!-- End Card -->
+              </a>
+              <!-- End Card -->
+            </div>
+          <?php endforeach;?>
+        <?php endif;?>
       </div>
 
       <!-- Title -->
@@ -127,30 +46,41 @@
         <h3 class="mb-0">Semua penyelenggara</h3>
       </div>
       <!-- End Title -->
-
       <div class="row mx-n2 mb-7">
-        <!-- Card -->
-        <div class="col-sm-6 col-md-4 px-2 mb-3">
-          <div class="card card-frame h-100">
-            <a class="card-body" href="app-description.html">
-              <div class="media">
-                <div class="avatar avatar-xs mt-1 mr-3">
-                  <img class="avatar-img" src="<?= base_url();?>assets/frontend/img/160x160/img24.png" alt="Image Description">
-                </div>
-                <div class="media-body">
-                  <div class="d-flex align-items-center">
-                    <span class="d-block text-dark font-weight-bold">Google Calendar</span>
-                    <img class="ml-2" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Image Description" title="Top Vendor" width="16">
-                  </div>
-                  <small class="d-block text-body">Office management</small>
+        <?php if ($penyelenggara == false) :?>
+          <div class="col-md-12 text-center">
+            <h4>belum ada penyelenggara</h4>
+          </div>
+          <?php else:?>
+            <?php foreach ($penyelenggara as $key):?>
+              <!-- Card -->
+              <div class="col-sm-6 col-md-4 px-2 mb-3">
+                <div class="card card-frame h-100">
+                  <a class="card-body" href="<?= site_url('penyelenggara/'.$key->KODE_PENYELENGGARA);?>">
+                    <div class="media">
+                      <div class="avatar avatar-xs mt-1 mr-3">
+                        <img class="avatar-img" src="<?= ($key->LOGO == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/penyelenggara/'.$key->KODE_PENYELENGGARA.'/'.$key->LOGO);?>" alt="<?= $key->NAMA;?>">
+                      </div>
+                      <div class="media-body text-ellipsis">
+                        <div class="d-flex align-items-center">
+                          <span class="d-block text-dark font-weight-bold"><?= $key->NAMA;?></span>
+                        </div>
+                        <small class="d-block text-body"><?= $key->INSTANSI;?></small>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
-            </a>
+              <!-- End Card -->
+            <?php endforeach;?>
+          <?php endif;?>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <?= $this->pagination->create_links(); ?>
           </div>
         </div>
-        <!-- End Card -->
       </div>
     </div>
   </div>
-</div>
-<!-- End Penyelenggara Section -->
+  <!-- End Penyelenggara Section -->

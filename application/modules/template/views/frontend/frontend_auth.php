@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <!-- Title -->
-  <title><?= ($this->uri->segment(1) ? ucwords(str_replace('-', ' ', $this->uri->segment(1)).' - Nestivent') : 'Authentication - Nestivent');?></title>
+  <title><?= ($this->uri->segment(1) ? ucwords(str_replace('-', ' ', $this->uri->segment(1)).' - '.$WEB_JUDUL) : $WEB_JUDUL);?></title>
 
   <!-- Required Meta Tags Always Come First -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:title" content="<?= ($this->uri->segment(1) ? ucwords(str_replace('-', ' ', $this->uri->segment(1)).' - '.$WEB_JUDUL) : $WEB_JUDUL);?>">
+  <meta property="og:description" content="<?= ($this->uri->segment(1) ? ucwords(str_replace('-', ' ', $this->uri->segment(1)).' - '.$WEB_JUDUL) : $WEB_JUDUL);?>. <?= $WEB_DESKRIPSI;?>">
+  <meta property="og:image" content="<?= base_url();?>assets/<?= $LOGO_FAV;?>">
+  <meta property="og:url" content="<?= base_url(uri_string()) ?>">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="<?= base_url() ?>assets/icon-ts.png">
+  <link rel="shortcut icon" href="<?= base_url() ?>assets/<?= $LOGO_FAV;?>">
 
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
@@ -21,12 +25,18 @@
   <!-- CSS Front Template -->
   <link rel="stylesheet" href="<?= base_url();?>assets/frontend/css/theme.minc619.css?v=1.0">
 
+  <link rel="stylesheet" href="<?= base_url();?>assets/frontend/plugin/toast/toast.style.css?<?= time() ?>">
+
 
   <!-- JS Implementing Plugins -->
   <script src="<?= base_url();?>assets/frontend/js/vendor.min.js"></script>
 
   <!-- JS Front -->
   <script src="<?= base_url();?>assets/frontend/js/theme.min.js"></script>
+
+  <script type="text/javascript" src="<?=base_url();?>assets/frontend/plugin/tinymce/jquery.tinymce.min.js"></script>
+  <script type="text/javascript" src="<?=base_url();?>assets/frontend/plugin/tinymce/tinymce.min.js"></script>
+
   <script src="<?php echo base_url();?>assets/frontend/plugin/jquery.inputmask.bundle.min.js" crossorigin="anonymous"></script>
 </head>
 <div id="progressMessage" style="display: none; padding:5px">
@@ -40,13 +50,13 @@
         <!-- Nav -->
         <nav class="navbar navbar-expand header-navbar">
           <!-- White Logo -->
-          <a class="d-none d-lg-flex navbar-brand header-navbar-brand" href="<?= base_url() ?>" aria-label="Nestivent">
+          <a class="d-none d-lg-flex navbar-brand header-navbar-brand" href="<?= base_url() ?>" aria-label="<?= $WEB_JUDUL;?>">
             <img src="<?= base_url();?>assets/icon-ts.png" class="img-2" alt="Logo">
           </a>
           <!-- End White Logo -->
 
           <!-- Default Logo -->
-          <a class="d-flex d-lg-none navbar-brand header-navbar-brand header-navbar-brand-collapsed" href="<?= base_url() ?>" aria-label="Nestivent">
+          <a class="d-flex d-lg-none navbar-brand header-navbar-brand header-navbar-brand-collapsed" href="<?= base_url() ?>" aria-label="<?= $WEB_JUDUL;?>">
             <img src="<?= base_url();?>assets/logo-ts.png" class="img-2" alt="Logo">
           </a>
           <!-- End Default Logo -->
@@ -71,76 +81,54 @@
   </main>
   <!-- ========== END MAIN ========== -->
 
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/som-components/css">
-  <script src="<?php echo base_url();?>assets/frontend/js/som-components.js"></script>
+  <script type="text/javascript" src="<?=base_url();?>assets/frontend/plugin/toast/toast.script.js"></script>
 
   <?php if ($this->session->flashdata('success')) { ?>
-    <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-body" style="padding-bottom: 0px !important;">
-            <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <som-alert type="success" headline="Notifikasi!"><?php echo $this->session->flashdata('success'); ?>
-            </som-alert>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-    $(window).on('load',function(){
-      $('#notifikasi').modal('show');
-    });
+    <script>
+      $.Toast("Berhasil", "<?php echo $this->session->flashdata('success'); ?>", "success", {
+        has_icon:true,
+        has_close_btn:true,
+        stack: true,
+        fullscreen:false,
+        timeout:8000,
+        sticky:false,
+        has_progress:true,
+        rtl:false,
+      });
     </script>
   <?php }?>
 
   <?php if ($this->session->flashdata('warning')) { ?>
-    <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-body" style="padding-bottom: 0px !important;">
-            <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('warning'); ?>
-            </som-alert>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-    $(window).on('load',function(){
-      $('#notifikasi').modal('show');
-    });
-  </script>
-<?php }?>
+    <script>
+      $.Toast("Info", "<?php echo $this->session->flashdata('warning'); ?>", "notice", {
+        has_icon:true,
+        has_close_btn:true,
+        stack: true,
+        fullscreen:false,
+        timeout:8000,
+        sticky:false,
+        has_progress:true,
+        rtl:false,
+      });
+    </script>
+  <?php }?>
 
-<?php if ($this->session->flashdata('error')) { ?>
-  <div class="modal fade" id="notifikasi" role="dialog" tabindex="-1" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-body" style="padding-bottom: 0px !important;">
-          <button type="button" class="close alcs" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <som-alert type="warning" headline="Notifikasi!"><?php echo $this->session->flashdata('error'); ?>
-          </som-alert>
-        </div>
-      </div>
-    </div>
-  </div>
+  <?php if ($this->session->flashdata('error')) { ?>
+    <script>
+      $.Toast("Terjadi Kesalahan", "<?php echo $this->session->flashdata('error'); ?>", "error", {
+        has_icon:true,
+        has_close_btn:true,
+        stack: true,
+        fullscreen:false,
+        timeout:8000,
+        sticky:false,
+        has_progress:true,
+        rtl:false,
+      });
+    </script>
+  <?php }?>
+
   <script type="text/javascript">
-  $(window).on('load',function(){
-    $('#notifikasi').modal('show');
-  });
-</script>
-<?php }?>
-
-<script type="text/javascript">
 
 // INITIALIZATION OF ADD INPUT FILED
 // =======================================================
@@ -173,7 +161,7 @@ $(document).on('ready', function () {
 
 <!-- IE Support -->
 <script>
-if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="<?= base_url();?>assets/frontend/vendor/babel-polyfill/dist/polyfill.js"><\/script>');
+  if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="<?= base_url();?>assets/frontend/vendor/babel-polyfill/dist/polyfill.js"><\/script>');
 </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
       <div class="navbar-brand-wrapper justify-content-between">
         <!-- Logo -->
         <a class="navbar-brand" href="<?= base_url() ?>" aria-label="Front">
-          <img class="navbar-brand-logo" src="<?= base_url();?>assets/logo-ts.png" alt="Logo">
-          <img class="navbar-brand-logo-mini" src="<?= base_url();?>assets/icon-ts.png" alt="Logo">
+          <img class="navbar-brand-logo" src="<?= base_url();?>assets/<?= $LOGO_BLACK;?>" alt="Logo">
+          <img class="navbar-brand-logo-mini" src="<?= base_url();?>assets/<?= $LOGO_FAV;?>" alt="Logo">
         </a>
         <!-- End Logo -->
 
@@ -40,7 +40,7 @@
               <li class="nav-item ">
                 <a class="nav-link <?= ($this->uri->segment(1) == 'notifikasi-sistem' ? 'active' : '') ?>" href="<?= site_url('notifikasi-sistem') ?>" title="Notifikasi">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Notifikasi</span>
+                  <span class="text-truncate">Notifikasi</span>
                 </a>
               </li>
 
@@ -86,16 +86,16 @@
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
 
               <li class="nav-item">
-                <a class="nav-link <?= ($this->uri->segment(1) == 'pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('pengajuan-kpanel') ?>" title="Data pengajuan">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('pengajuan-kpanel') ?>" title="Data penyelenggara">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Data pengajuan</span>
+                  <span class="text-truncate">pengajuan</span>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link <?= ($this->uri->segment(1) == 'riwayat-pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('riwayat-pengajuan-kpanel') ?>" title="Riwayat pengajuan">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'riwayat-pengajuan-kpanel' ? 'active' : '') ?>" href="<?= site_url('riwayat-pengajuan-kpanel') ?>" title="Riwayat">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Riwayat pengajuan</span>
+                  <span class="text-truncate">Riwayat</span>
                 </a>
               </li>
             </ul>
@@ -131,32 +131,6 @@
             </a>
           </li>
           <!-- End Kompetisi -->
-
-          <li class="nav-item">
-            <small class="nav-subtitle" title="Layouts">APi</small>
-            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-          </li>
-
-          <li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'rest-api' ? 'active' : '') ?>" href="<?= site_url('admin/rest-api') ?>" title="REST APi" data-placement="left">
-              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/rest-api.png" alt="REST APi">
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">REST APi</span>
-            </a>
-          </li>
-
-          <li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'zoom' ? 'active' : '') ?>" href="<?= site_url('admin/zoom') ?>" title="Zoom" data-placement="left">
-              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/zoom.png" alt="Zoom">
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Zoom</span>
-            </a>
-          </li>
-
-          <li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'midtrans' ? 'active' : '') ?>" href="<?= site_url('admin/midtrans') ?>" title="Midtrans" data-placement="left">
-              <img class="nav-icon w-1-5rem" src="<?= base_url();?>assets/backend/img/logo/midtrans.png" alt="Midtrans">
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Midtrans</span>
-            </a>
-          </li>
 
           <li class="nav-item">
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>

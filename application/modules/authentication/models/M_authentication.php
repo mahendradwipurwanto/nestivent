@@ -8,7 +8,7 @@ class M_authentication extends CI_Model {
 
 	public function log_aktivitas($KODE_USER, $SENDER, $TYPE){
 		$data = array(
-			'RECEIVER'  => $KODE_USER,
+			'RECEIVER' 	 	=> $KODE_USER,
 			'SENDER' 		=> $SENDER,
 			'TYPE'	 		=> $TYPE,
 		);
@@ -39,13 +39,13 @@ class M_authentication extends CI_Model {
 
 	public function cek_kodeUser($kode_user){
 		$kode_user 	= $this->db->escape($kode_user);
-		$query 			= $this->db->query("SELECT * FROM TB_AUTH WHERE KODE_USER = $kode_user");
+		$query 		= $this->db->query("SELECT * FROM TB_AUTH WHERE KODE_USER = $kode_user");
 		return $query->num_rows();
 	}
 
 	public function get_aktivasi($kode_user){
 		$kode_user 	= $this->db->escape($kode_user);
-		$query 			= $this->db->query("SELECT * FROM TB_TOKEN WHERE KODE = $kode_user AND TYPE = 1");
+		$query 		= $this->db->query("SELECT * FROM TB_TOKEN WHERE KODE = $kode_user AND TYPE = 1");
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else {
@@ -55,13 +55,13 @@ class M_authentication extends CI_Model {
 
 	public function cek_aktivasi($kode_user){
 		$kode_user 	= $this->db->escape($kode_user);
-		$query 			= $this->db->query("SELECT * FROM TB_TOKEN WHERE KODE = $kode_user AND TYPE = 1");
+		$query 		= $this->db->query("SELECT * FROM TB_TOKEN WHERE KODE = $kode_user AND TYPE = 1");
 		return $query->num_rows();
 	}
 
 	public function aktivasi_kode($kode_aktivasi, $kode_user){
 
-		$db_code 				= $this->encryption->decrypt($this->get_aktivasi($kode_user)->KEY);
+		$db_code 	= $this->encryption->decrypt($this->get_aktivasi($kode_user)->KEY);
 
 		if ($kode_aktivasi == $db_code) {
 			return TRUE;
@@ -97,21 +97,22 @@ class M_authentication extends CI_Model {
 	}
 
 	public function register_pengguna(){
+		$kolabolator    = $this->input->post('KOLABOLATOR');
 
 		$nama        	= htmlspecialchars($this->input->post('nama'), true);
-		$jk   				= htmlspecialchars($this->input->post('jk'), true);
-		$hp   				= htmlspecialchars($this->input->post('hp'), true);
+		$jk   			= htmlspecialchars($this->input->post('jk'), true);
+		$hp   			= htmlspecialchars($this->input->post('hp'), true);
 		$alamat     	= htmlspecialchars($this->input->post('alamat'), true);
 		$instagram   	= htmlspecialchars($this->input->post('instagram'), true);
-		$instansi     = htmlspecialchars($this->input->post('instansi'), true);
+		$instansi     	= htmlspecialchars($this->input->post('instansi'), true);
 		$jabatan   		= htmlspecialchars($this->input->post('jabatan'), true);
 
-		if ($jabatan == 3) {
-			$jabatan = htmlspecialchars($this->input->post('lainnya'), true);
-			$jabatan = "3|".$jabatan;
-		}
+		if ($jabatan == 3):
+			$jabatan 	= htmlspecialchars($this->input->post('lainnya'), true);
+			$jabatan 	= "3|".$jabatan;
+		endif;
 
-		$email        = htmlspecialchars($this->input->post('email'), true);
+		$email        	= htmlspecialchars($this->input->post('email'), true);
 		$password   	= htmlspecialchars($this->input->post('password'), true);
 
 		// CREATE UNIQ NAME KODE USER
@@ -131,27 +132,32 @@ class M_authentication extends CI_Model {
 		// TB AUTH
 		$auth = array(
 			'KODE_USER' 			=> $KODE_USER,
-			'EMAIL' 					=> $email,
+			'EMAIL' 				=> $email,
 			'PASSWORD' 				=> password_hash($password, PASSWORD_DEFAULT),
-			'ROLE' 						=> 1,
+			'ROLE' 					=> 1,
 		);
 
 		$this->db->insert('TB_AUTH', $auth);
 
 		if ($this->db->affected_rows() == true) {
 
-			$aktivasi = array(
-				'KODE_USER' 	=> $KODE_USER,
+			if ($kolabolator == true) {
+				$this->db->where('email', $email);
+				$this->db->update('TB_KOLABOLATOR', array('STATUS' => 1));
+			}
+
+			$pengguna = array(
+				'KODE_USER' 		=> $KODE_USER,
 				'NAMA'  			=> $nama,
 				'JK'  				=> $jk,
-				'HP' 					=> $hp,
+				'HP' 				=> $hp,
 				'ALAMAT'			=> $alamat,
-				'INSTAGRAM'		=> $instagram,
-				'INSTANSI'		=> $instansi,
+				'INSTAGRAM'			=> $instagram,
+				'INSTANSI'			=> $instansi,
 				'JABATAN'			=> $jabatan
 			);
 
-			$this->db->insert('TB_PENGGUNA', $aktivasi);
+			$this->db->insert('TB_PENGGUNA', $pengguna);
 
 			if ($this->db->affected_rows() == true) {
 
@@ -162,7 +168,7 @@ class M_authentication extends CI_Model {
 					'KEY'  			=> $chiper,
 					'TYPE' 			=> 1,
 					'STATUS'		=> 0,
-					'DATE_CREATED'		=> time()
+					'DATE_CREATED'	=> time()
 				);
 
 				$this->db->insert('TB_TOKEN', $aktivasi);
@@ -236,24 +242,38 @@ class M_authentication extends CI_Model {
 
 	public function cek_penyelenggara($kode){
 		$kode 	= $this->db->escape($kode);
-		$query 	= $this->db->query("SELECT * FROM TB_PENYELENGGARA WHERE KODE_PENYELENGGARA = $kode");
+		$query 	= $this->db->get_where("TB_PENYELENGGARA", array('KODE_PENYELENGGARA' => $kode));
+		// $query 	= $this->db->query("SELECT * FROM TB_PENYELENGGARA WHERE KODE_PENYELENGGARA = $kode");
+		return $query->num_rows();
+	}
+
+	public function cek_owner(){
+		$email 	= $this->session->usedata('email');
+		$query 	= $this->db->get_where("TB_KOLABOLATOR", array('EMAIL' => $email, 'STATUS' => 1));
 		return $query->num_rows();
 	}
 
 	public function ajukan_penyelenggara($file, $KODE){
 
 		// INFO PENYELENGGARA
-		$KODE_PENYELENGGARA		= $KODE;
-		$NAMA									= htmlspecialchars($this->input->post("nama"), TRUE);
-		$INSTANSI							= htmlspecialchars($this->input->post("instansi"), TRUE);
-		$LOGO									= $file;
+		$KODE_PENYELENGGARA				= $KODE;
+		$NAMA							= htmlspecialchars($this->input->post("nama"), TRUE);
+		$INSTANSI						= htmlspecialchars($this->input->post("instansi"), TRUE);
+		$LOGO							= $file;
 		$DESKRIPSI						= htmlspecialchars($this->input->post("deskripsi"), TRUE);
 
+		// STATUS PENYELENGGARA
+		// 0 Menunggu VERIFIKASI
+		// 1 DITERIMA
+		// 2 DITOLAK
+		// 3 SUSPEND
+		// 4 NONAKTIF
+
 		$penyelenggara = array(
-			'KODE_PENYELENGGARA' 	=> $KODE,
-			'NAMA' 								=> $NAMA,
+			'KODE_PENYELENGGARA' 			=> $KODE,
+			'NAMA' 							=> $NAMA,
 			'INSTANSI' 						=> $INSTANSI,
-			'LOGO' 								=> $LOGO,
+			'LOGO' 							=> $LOGO,
 			'DESKRIPSI' 					=> $DESKRIPSI
 		);
 		$this->db->insert('TB_PENYELENGGARA', $penyelenggara);
@@ -261,40 +281,36 @@ class M_authentication extends CI_Model {
 
 		if ($cek == true) {
 			// KOLABOLATOR
+
+			// BAGIAN
+			// 0 : OWNER
+			// 1 : ADMIN
+			// 2 : PANITIA
 			$EMAIL								= $this->input->post("kolabolator", true);
 			$BAGIAN								= $this->input->post("bagian", true);
 
 			$kolabolator = array(
-				'KODE_PENYELENGGARA' 	=> $KODE,
-				'EMAIL' 							=> $this->session->userdata('email'),
-				'BAGIAN'							=> 0,
-				'STATUS'							=> 1,
+				'KODE_PENYELENGGARA' 			=> $KODE,
+				'EMAIL' 						=> $this->session->userdata('email'),
+				'BAGIAN'						=> 0,
+				'STATUS'						=> 1,
 			);
 			$this->db->insert('TB_KOLABOLATOR', $kolabolator);
 
 			foreach ($EMAIL as $i => $a) {
 				if ($EMAIL[$i] != "") {
 					$sts = 0;
-					if ($EMAIL[$i] == $this->session->userdata("email")) {
+					if ($EMAIL[$i] == $this->session->userdata("email")):
 						$sts	= 1;
-					}
+					endif;
 					$kolabolator = array(
 						'KODE_PENYELENGGARA' 	=> $KODE,
-						'EMAIL' 							=> isset($EMAIL[$i]) ? $EMAIL[$i] : '',
-						'BAGIAN'							=> isset($BAGIAN[$i]) ? $BAGIAN[$i] : '',
-						'STATUS'							=> $sts,
+						'EMAIL' 				=> isset($EMAIL[$i]) ? $EMAIL[$i] : '',
+						'BAGIAN'				=> isset($BAGIAN[$i]) ? $BAGIAN[$i] : '',
+						'STATUS'				=> $sts,
 					);
 					$this->db->insert('TB_KOLABOLATOR', $kolabolator);
 				}
-				// $cek = ($this->db->affected_rows() != 1) ? false : true;
-				//
-				// if ($cek == false) {
-				// 	$this->db->delete('TB_PENYELENGGARA', array('KODE_PENYELENGGARA' => $KODE));
-				// 	$this->db->delete('TB_KOLABOLATOR', array('KODE_PENYELENGGARA' => $KODE));
-				// 	return false;
-				// }else {
-				// 	return true;
-				// }
 			}
 			return true;
 		}else {

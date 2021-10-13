@@ -31,7 +31,7 @@
         <div class="row align-items-center mb-5">
           <div class="col-sm-6 mb-3 mb-sm-0">
             <span class="font-size-1 text-muted">Belum terdaftar?</span>
-            <a class="font-size-1 font-weight-bold" href="<?= site_url('daftar') ?>">Daftar sekarang</a>
+            <a class="font-size-1 font-weight-bold" href="<?= site_url('pendaftaran?as=pengguna') ?>">Daftar sekarang</a>
           </div>
 
           <div class="col-sm-6 text-sm-right">

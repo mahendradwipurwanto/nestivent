@@ -9,8 +9,11 @@
 
         <!-- Breadcrumb -->
         <ol class="breadcrumb breadcrumb-light breadcrumb-no-gutter mb-0">
-          <li class="breadcrumb-item">Dashboard</li>
-          <li class="breadcrumb-item active" aria-current="page"><?= ($this->uri->segment(2) ? ucwords(str_replace('-', ' ', $this->uri->segment(2))) : '');?></li>
+          <li class="breadcrumb-item">Pengguna</li>
+          <li class="breadcrumb-item <?= (empty($this->uri->segment(2)) ? "active" : "") ?>">Dashboard</li>
+          <?php if(empty($this->uri->segment(2))): ?>
+            <li class="breadcrumb-item active" aria-current="page"><?= ($this->uri->segment(2) ? ucwords(str_replace('-', ' ', $this->uri->segment(2))) : '');?></li>
+          <?php endif; ?>
         </ol>
         <!-- End Breadcrumb -->
       </div>
@@ -58,10 +61,10 @@
               <!-- Avatar -->
               <div class="d-none d-lg-block text-center mb-5">
                 <div class="avatar avatar-xxl avatar-circle avatar-circle-uploader avatar-border-lg cursor shadow-soft mb-3" data-toggle="modal" data-target="#ubah_profil">
-                    <img class="avatar-img" src="<?= ($pFoto->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$this->session->userdata('kode_user').'/foto/'.$pFoto->PROFIL);?>" alt="<?= $this->session->userdata('nama') ?>">
-                    <span class="avatar-status avatar-lg-status shadow-soft cursor">
-                      <i class="fa fa-pencil-alt"></i>
-                    </span>
+                  <img class="avatar-img" src="<?= ($pFoto->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$this->session->userdata('kode_user').'/foto/'.$pFoto->PROFIL);?>" alt="<?= $this->session->userdata('nama') ?>">
+                  <span class="avatar-status avatar-lg-status shadow-soft cursor">
+                    <i class="fa fa-pencil-alt"></i>
+                  </span>
                 </div>
 
                 <h4 class="card-title"><?php $nama = explode(" ", $this->session->userdata('nama')); echo $nama[0]; ?></h4>
@@ -82,7 +85,7 @@
                         <div class="form-group mx-auto mb-2">
                           <label for="fotoLabel" class="input-label">Foto Profl</label>
                           <label for="GETP_FOTO" class="upload-card mx-auto">
-                            <img id="P_FOTO" class="upload-img w-100 P_FOTO cursor" src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
+                            <img id="P_FOTO" class="upload-img w-100 P_FOTO cursor" src="<?= ($pFoto->PROFIL == null ? base_url().'assets/frontend/img/others/Pickanimage.png' : base_url().'berkas/pengguna/'.$this->session->userdata('kode_user').'/foto/'.$pFoto->PROFIL);?>" alt="Placeholder">
                           </label>
                           <input type="file" id="GETP_FOTO" class="form-control-file hidden" name="profil"  onchange="previewP_FOTO(this);" accept="image/*">
                           <small class="text-muted">Max 2Mb size, and use 1:1 ratio.</small>
@@ -101,20 +104,20 @@
 
               <script type="text/javascript">
 
-              function previewP_FOTO(input){
-                $(".P_FOTO").removeClass('hidden');
-                var file = $("#GETP_FOTO").get(0).files[0];
+                function previewP_FOTO(input){
+                  $(".P_FOTO").removeClass('hidden');
+                  var file = $("#GETP_FOTO").get(0).files[0];
 
-                if(file){
-                  var reader = new FileReader();
+                  if(file){
+                    var reader = new FileReader();
 
-                  reader.onload = function(){
-                    $("#P_FOTO").attr("src", reader.result);
+                    reader.onload = function(){
+                      $("#P_FOTO").attr("src", reader.result);
+                    }
+
+                    reader.readAsDataURL(file);
                   }
-
-                  reader.readAsDataURL(file);
                 }
-              }
               </script>
               <!-- END CHANGE FOTO PROFIL -->
 
@@ -134,11 +137,13 @@
                     <?= ($c_notifikasi > 0 ? '<span class="badge badge-soft-dark badge-pill nav-link-badge">'.$c_notifikasi.'</span>' : '') ?>
                   </a>
                 </li>
-                <?php if ($kPanel == TRUE) { ?>
+                <?php if ($kPanel == TRUE || $pending_kpanel == TRUE) { ?>
                   <li class="nav-item">
-                    <a class="nav-link <?= ($this->uri->segment(1) == "k-panel" ? "active" : "") ?>" href="<?= site_url('k-panel') ?>">
-                      <i class="fas fa-bell nav-icon"></i> K-Panel
-                      <span class="badge badge-soft-dark badge-pill nav-link-badge">1</span>
+                    <a class="nav-link <?= ($this->uri->segment(2) == "k-panel" ? "active" : "") ?>" href="<?= site_url('pengguna/k-panel') ?>">
+                      <i class="fas fa-desktop nav-icon"></i> K-Panel
+                      <?php if($count_kpanel > 0):?>
+                        <span class="badge badge-soft-dark badge-pill nav-link-badge"><?= $count_kpanel;?></span>
+                      <?php endif;?>
                     </a>
                   </li>
                 <?php } ?>
@@ -162,11 +167,6 @@
                 <li class="nav-item">
                   <a class="nav-link <?= ($this->uri->segment(2) == "event" ? "active" : "") ?>" href="<?= site_url('pengguna/event') ?>">
                     <i class="fas fa-users nav-icon"></i> Event
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(2) == "sertifikat" ? "active" : "") ?>" href="<?= site_url('pengguna/sertifikat') ?>">
-                    <i class="fas fa-users nav-icon"></i> Sertifikat
                   </a>
                 </li>
               </ul>

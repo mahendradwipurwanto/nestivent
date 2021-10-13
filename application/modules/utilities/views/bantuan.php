@@ -359,44 +359,6 @@
         </div>
         <!-- End Privacy Accordion -->
       </div>
-
-      <div class="row mx-n2 space-top-lg-2">
-        <div class="col-md-6 px-2 mb-3 mb-lg-0">
-          <!-- Icon Block -->
-          <a class="card card-frame h-100" href="#">
-            <div class="card-body">
-              <div class="media">
-                <figure class="w-100 max-w-6rem mr-3">
-                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-4.svg" alt="SVG">
-                </figure>
-                <div class="media-body">
-                  <h3>Ask a question</h3>
-                  <p class="text-body">Chat live with community members to get your questions answered.</p>
-                </div>
-              </div>
-            </div>
-          </a>
-          <!-- End Icon Block -->
-        </div>
-
-        <div class="col-md-6 px-2 mb-3 mb-lg-0">
-          <!-- Icon Block -->
-          <a class="card card-frame h-100" href="#">
-            <div class="card-body">
-              <div class="media">
-                <figure class="w-100 max-w-6rem mr-3">
-                  <img class="img-fluid" src="<?= base_url();?>assets/frontend/svg/icons/icon-2.svg" alt="SVG">
-                </figure>
-                <div class="media-body">
-                  <h3>Read documentation</h3>
-                  <p class="text-body">Dig into the technical details of our products and consensus algorithm.</p>
-                </div>
-              </div>
-            </div>
-          </a>
-          <!-- End Icon Block -->
-        </div>
-      </div>
     </div>
   </div>
 </div>

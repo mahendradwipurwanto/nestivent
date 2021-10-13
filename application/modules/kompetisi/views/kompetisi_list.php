@@ -18,28 +18,11 @@
       <!-- Title and Sort -->
       <div class="row align-items-sm-center">
         <div class="col-sm mb-3 mb-sm-0">
-          <h3 class="mb-0">90 kompetisi</h3>
+          <h3 class="mb-0"><?= $c_kompetisi;?> kompetisi</h3>
         </div>
 
         <div class="col-sm-auto">
           <div class="d-flex align-items-center">
-            <span class="font-size-1 mr-2">Sort by:</span>
-
-              <!-- Select -->
-              <div id="sortBySelect" class="select2-custom select2-custom-sm-right mr-3">
-                <select class="js-custom-select custom-select-sm" style="opacity: 0;"
-                        data-hs-select2-options='{
-                          "dropdownParent": "#sortBySelect",
-                          "minimumResultsForSearch": "Infinity",
-                          "customClass": "custom-select custom-select-sm",
-                          "dropdownAutoWidth": true,
-                          "dropdownWidth": "12rem"
-                        }'>
-                  <option value="Tanggal" selected>Tanggal</option>
-                  <option value="Peserta">Peserta</option>
-                </select>
-              </div>
-              <!-- End Select -->
 
             <!-- Nav -->
             <ul class="nav nav-segment">
@@ -62,99 +45,65 @@
 
       <hr class="my-4">
 
-      <!-- Card -->
-      <div class="card card-bordered card-hover-shadow mb-5">
-        <div class="card-body">
-          <!-- Media -->
-          <div class="d-sm-flex">
-            <div class="media align-items-center align-items-sm-start mb-3">
-              <img class="avatar avatar-sm mr-3" src="<?= base_url();?>assets/frontend/svg/brands/mailchimp.svg" alt="Image Description">
-              <div class="media-body d-sm-none">
-                <h6 class="mb-0">
-                  <a class="text-dark" href="employer.html">Mailchimp</a>
-                  <img class="avatar avatar-xss ml-1" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Review rating" data-toggle="tooltip" data-placement="top" title="Claimed profile">
-                </h6>
-              </div>
-            </div>
-
-            <div class="media-body">
-              <div class="row">
-                <div class="col col-md-8">
-                  <h3 class="mb-0">
-                    <a class="text-dark" href="job-overview.html">Senior B2B sales consultant</a>
-                  </h3>
-                  <div class="d-none d-sm-inline-block">
+      <?php if ($kompetisi != false) :?>
+        <?php foreach ($kompetisi as $key):?>
+          <!-- Card -->
+          <div class="card card-bordered card-hover-shadow mb-5">
+            <div class="card-body">
+              <!-- Media -->
+              <div class="d-sm-flex">
+                <div class="media align-items-center align-items-sm-start mb-3">
+                  <img class="avatar avatar-sm mr-3" src="<?= ($key->LOGO == null ? base_url().'assets/frontend/svg/brands/capsule.svg' : base_url().'berkas/penyelenggara/'.$key->KODE_PENYELENGGARA.'/'.$key->LOGO);?>" alt="Image Description">
+                  <div class="media-body d-sm-none">
                     <h6 class="mb-0">
-                      <a class="text-dark" href="employer.html">Mailchimp</a>
-                      <img class="avatar avatar-xss ml-1" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Review rating" data-toggle="tooltip" data-placement="top" title="Claimed profile">
+                      <a class="text-dark" href="<?= site_url('penyelenggara/'.$key->KODE_PENYELENGGARA);?>"><?= $key->NAMA;?></a>
+                      <img class="avatar avatar-xss ml-1" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Review rating" data-toggle="tooltip" data-placement="top" title="Verified profile">
                     </h6>
                   </div>
                 </div>
 
-                <div class="col-auto order-md-3">
-                  <!-- Checkbbox Bookmark -->
-                  <div class="custom-control custom-checkbox-bookmark">
-                    <input type="checkbox" id="checkboxBookmark1" class="custom-control-input custom-checkbox-bookmark-input">
-                    <label class="custom-checkbox-bookmark-label" for="checkboxBookmark1">
-                      <span class="custom-checkbox-bookmark-default" data-toggle="tooltip" data-placement="top" title="Save this job">
-                        <i class="far fa-star"></i>
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col col-md-8">
+                      <h3 class="mb-0">
+                        <a class="text-dark" href="<?= site_url('kompetisi/'.$key->KODE_KOMPETISI);?>"><?= $key->JUDUL;?></a>
+                      </h3>
+                      <div class="d-none d-sm-inline-block">
+                        <h6 class="mb-0">
+                          <a class="text-dark" href="<?= site_url('penyelenggara/'.$key->KODE_PENYELENGGARA);?>"><?= $key->NAMA;?></a>
+                          <img class="avatar avatar-xss ml-1" src="<?= base_url();?>assets/frontend/svg/illustrations/top-vendor.svg" alt="Review rating" data-toggle="tooltip" data-placement="top" title="Claimed profile">
+                        </h6>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md mt-3 mt-md-0">
+                      <span class="d-block font-size-1 text-body mb-1"><?= $key->BAYAR == 0 ? 'FREE': 'Rp.'.($CI->M_kompetisi->get_tiketRange($key->KODE_KOMPETISI)->low).' s/d '.'Rp.'.($CI->M_kompetisi->get_tiketRange($key->KODE_KOMPETISI)->high) ;?></span>
+
+                      <span class="badge badge-soft-info mr-2">
+                        <span class="legend-indicator bg-info"></span><?= $key->ONLINE == 1 ? 'ONLINE' : 'OFFLINE';?>
                       </span>
-                      <span class="custom-checkbox-bookmark-active" data-toggle="tooltip" data-placement="top" title="Saved">
-                        <i class="fas fa-star"></i>
-                      </span>
-                    </label>
+                    </div>
                   </div>
-                  <!-- End Checkbbox Bookmark -->
-                </div>
-
-                <div class="col-12 col-md mt-3 mt-md-0">
-                  <span class="d-block font-size-1 text-body mb-1">$125k-$135k yearly</span>
-
-                  <span class="badge badge-soft-info mr-2">
-                    <span class="legend-indicator bg-info"></span>Remote
-                  </span>
+                  <!-- End Row -->
                 </div>
               </div>
-              <!-- End Row -->
+              <!-- End Media -->
+            </div>
+
+            <div class="card-footer">
+              <ul class="list-inline list-separator small text-body">
+                <li class="list-inline-item"><?= date("d F Y", strtotime($key->TANGGAL));?> - <?= $key->WAKTU;?> WIB</li>
+                <li class="list-inline-item"><span class="badge badge-<?= $key->STATUS_KOMPETISI == 0 ? 'secondary' : ($key->STATUS_KOMPETISI == 1 ? 'success' : 'primary');?>"><?= $key->STATUS_KOMPETISI == 0 ? 'belum dibuka' : ($key->STATUS_KOMPETISI == 1 ? 'berlangsung' : 'berakhir');?></span></li>
+              </ul>
             </div>
           </div>
-          <!-- End Media -->
-        </div>
+          <!-- End Card -->
 
-        <div class="card-footer">
-          <ul class="list-inline list-separator small text-body">
-            <li class="list-inline-item">Posted 7 hours ago</li>
-            <li class="list-inline-item">Oxford</li>
-            <li class="list-inline-item">Full time</li>
-          </ul>
-        </div>
-      </div>
-      <!-- End Card -->
-
+        <?php endforeach;?>
+      <?php endif;?>
       <!-- Pagination -->
       <div class="d-flex justify-content-between align-items-center mt-7">
-        <nav aria-label="Page navigation">
-          <ul class="pagination mb-0">
-            <li class="page-item ml-0">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-              </a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">9</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <small class="d-none d-sm-inline-block text-body">Page 1 out of 9</small>
+        <?= $this->pagination->create_links(); ?>
       </div>
       <!-- End Pagination -->
     </div>

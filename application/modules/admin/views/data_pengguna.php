@@ -127,7 +127,7 @@
                 <i class="tio-search"></i>
               </div>
             </div>
-            <input id="datatableSearch" type="search" class="form-control" placeholder="Search users" aria-label="Search users">
+            <input id="datatableSearch" type="search" class="form-control" placeholder="Cari data" aria-label="Search users">
           </div>
           <!-- End Search -->
         </form>
@@ -226,8 +226,8 @@
                 </div>
               </a>
             </td>
-            <td><?= ($key->JK == "L" ? "Laki-laki" : "Perempuan") ?></span></td>
-            <td><a href="tel:+62<?= $key->HP ?>">+62<?= $key->HP ?></a></span></td>
+            <td><?= ($key->JK == "L" ? "Laki-laki" : "Perempuan") ?></td>
+            <td><a href="tel:+62<?= $key->HP ?>">+62<?= $key->HP ?></a></td>
             <td>
               <span class="d-block h5 mb-0"><?= $key->INSTANSI ?></span>
               <span class="d-block font-size-sm"><?php $jabatan = explode("|", $key->JABATAN); echo $jabatan[1] ?></span>
@@ -255,14 +255,14 @@
                   <!-- Profile Cover -->
                   <div class="profile-cover">
                     <div class="profile-cover-img-wrapper">
-                      <img id="detailProfileCoverImgModal" class="profile-cover-img" src="<?= base_url() ?>assets/backend/img/1920x400/img1.jpg" alt="Image Description">
+                      <img id="detailProfileCoverImgModal" class="profile-cover-img" src="<?= base_url() ?>assets/backend/img/1920x400/img1.jpg" alt="<?= $key->NAMA ?>">
                     </div>
                   </div>
                   <!-- End Profile Cover -->
 
                   <!-- Avatar -->
                   <label class="avatar avatar-xxl avatar-circle avatar-border-lg profile-cover-avatar mb-5" for="detailAvatarUploaderModal">
-                    <img id="detailAvatarImgModal" class="avatar-img" src="<?= ($key->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$key->KODE_USER.'/foto/'.$key->PROFIL);?>" alt="Image Description">
+                    <img id="detailAvatarImgModal" class="avatar-img" src="<?= ($key->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$key->KODE_USER.'/foto/'.$key->PROFIL);?>" alt="<?= $key->NAMA ?>">
                   </label>
                   <!-- End Avatar -->
 
@@ -384,7 +384,6 @@
               <!-- End Body -->
             </div>
           </div>
-        </div>
         <!-- End detail user Modal -->
       <?php endforeach; ?>
     <?php endif; ?>
