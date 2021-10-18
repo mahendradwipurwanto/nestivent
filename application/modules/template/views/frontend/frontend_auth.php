@@ -64,7 +64,7 @@
           <!-- Button -->
           <div class="ml-auto">
             <a class="btn btn-sm btn-link text-body" href="<?= base_url() ?>">
-              <i class="fas fa-angle-left fa-sm mr-1"></i> Kembali ke landing page
+              <i class="fas fa-angle-left fa-sm mr-1"></i> Kembali ke beranda
             </a>
           </div>
           <!-- End Button -->

@@ -20,7 +20,7 @@ class Admin extends MX_Controller {
 		}
 		if ($this->session->userdata("role") != 0) {
 			$this->session->set_flashdata('error', "Mohon maaf hak akses anda bukan admin");
-			redirect('pengguna');
+			redirect(base_url());
 		}
 		$this->load->model('M_admin');
 

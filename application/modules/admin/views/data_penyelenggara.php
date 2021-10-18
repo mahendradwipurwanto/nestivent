@@ -157,8 +157,7 @@
     <th class="table-column-pr-0">No</th>
     <th class="table-column-pl-0">Nama Penyelenggara</th>
     <th>Owner</th>
-    <th></th>
-    <th>Waktu Pengajuan</th>
+    <th>Tanggal Bergabung</th>
     <th></th>
   </tr>
 </thead>
@@ -180,11 +179,6 @@
         </a>
       </td>
       <td><?= $CI->M_admin->get_pengajuPenyelenggara($key->KODE_PENYELENGGARA); ?></td>
-      <td>
-        <a class="btn btn-sm btn-white" data-toggle="modal" data-target="#daftarKolabolator<?= $key->KODE_PENYELENGGARA;?>">
-          <i class="tio-eye"></i> Kolabolator
-        </a>
-      </td>
       <td><?= date("H:i, d F Y", strtotime($key->MAKE_DATE)); ?></td>
       <td>
         <a class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#detailPenyelenggara<?= $key->KODE_PENYELENGGARA;?>">
@@ -192,83 +186,6 @@
         </a>
       </td>
     </tr>
-
-    <!-- data kolabolator Modal -->
-    <div class="modal fade" id="daftarKolabolator<?= $key->KODE_PENYELENGGARA;?>" tabindex="-1" role="dialog" aria-labelledby="detailUserModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <!-- Header -->
-          <div class="modal-header">
-            <h4 id="detailUserModalTitle" class="modal-title">Daftar Kolabolator</h4>
-
-            <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Tutup</button>
-          </div>
-          <!-- End Header -->
-
-          <!-- Body -->
-          <div class="modal-body">
-            <!-- Profile Cover -->
-            <div class="profile-cover">
-              <div class="profile-cover-img-wrapper">
-                <img id="detailProfileCoverImgModal" class="profile-cover-img" src="<?= base_url() ?>assets/backend/img/1920x400/img1.jpg" alt="<?= $key->NAMA ?>">
-              </div>
-            </div>
-            <!-- End Profile Cover -->
-
-            <!-- Avatar -->
-            <label class="avatar avatar-xxl avatar-circle avatar-border-lg profile-cover-avatar mb-5" for="detailAvatarUploaderModal">
-              <img id="detailAvatarImgModal" class="avatar-img" src="<?= ($key->LOGO == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/penyelenggara/'.$key->KODE_PENYELENGGARA.'/'.$key->LOGO);?>" alt="<?= $key->NAMA ?>">
-            </label>
-            <!-- End Avatar -->
-
-
-            <?php $kolabolator = $CI->M_admin->get_kolabolatorList($key->KODE_PENYELENGGARA); foreach ($kolabolator as $value):?>
-
-            <?php if($CI->M_admin->cek_kolabolatorAkun($value->EMAIL) == TRUE): ?>
-
-              <!-- Form Group -->
-              <div class="row form-group">
-                <label for="detailFirstNameModalLabel" class="col-sm-3 col-form-label input-label">Nama Lengkap</label>
-
-                <div class="col-sm-9">
-                  <div class="js-form-message input-group input-group-sm-down-break">
-                    <input type="text" class="form-control" name="detailFirstNameModal" id="detailFirstNameModalLabel" value="<?= $value->NAMA;?>" readonly>
-                  </div>
-                </div>
-              </div>
-              <!-- End Form Group -->
-            <?php endif;?>
-            <!-- Form Group -->
-            <div class="row form-group">
-              <label for="detailEmailModalLabel" class="col-sm-3 col-form-label input-label">Email <span class="badge badge-primary"><?= $CI->M_admin->cek_kolabolatorAkun($value->EMAIL) == TRUE ? "Non-Akun" : "Akun";?></span></label>
-
-              <div class="col-sm-6">
-                <div class="js-form-message">
-                  <!-- Input Group -->
-                  <div class="input-group input-group-merge">
-                    <input type="email" class="form-control" name="detailEmailModal" id="detailEmailModalLabel" value="<?= $value->EMAIL;?>" readonly>
-                    <a class="input-group-append" href="mailto:<?= $value->EMAIL;?>" target="_blank">
-                      <span class="input-group-text p-2">
-                        send mail
-                      </span>
-                    </a>
-                  </div>
-                  <!-- End Input Group -->
-                </div>
-              </div>
-              <label for="detailEmailModalLabel" class="col-sm-3 col-form-label input-label"><?= ($value->STATUS == 0 ? "Pending" : "Joined") ;?></label>
-            </div>
-            <!-- End Form Group -->
-            <hr>
-          <?php endforeach;?>
-
-        </div>
-        <!-- End Modal -->
-      </div>
-      <!-- End Body -->
-    </div>
-  </div>
-  <!-- End data kolabolator Modal -->
 
   <!-- data penyelenggara Modal -->
   <div class="modal fade" id="detailPenyelenggara<?= $key->KODE_PENYELENGGARA;?>" tabindex="-1" role="dialog" aria-labelledby="detailUserModalTitle" aria-hidden="true">

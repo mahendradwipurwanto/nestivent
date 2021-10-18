@@ -18,9 +18,9 @@ class M_handlers extends CI_Model {
 
 	public function get_kpanelData($email){
 		$this->db->select('*');
-		$this->db->from('TB_KOLABOLATOR');
-		$this->db->join('TB_PENYELENGGARA', 'TB_KOLABOLATOR.KODE_PENYELENGGARA = TB_PENYELENGGARA.KODE_PENYELENGGARA');
-		$this->db->where('email', $email); 
+		$this->db->from('TB_AUTH a');
+		$this->db->join('TB_PENYELENGGARA b', 'a.KODE_USER = b.KODE_USER');
+		$this->db->where('a.EMAIL', $email); 
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query->row();

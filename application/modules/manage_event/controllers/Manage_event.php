@@ -22,10 +22,12 @@ class Manage_event extends MX_Controller {
     }
     if ($this->session->userdata('mstatus_event') == FALSE || !$this->session->userdata('mstatus_event')) {
       $this->session->set_flashdata('error', "Harap re-akses event anda");
-      redirect('k-panel');
+      redirect(site_url('dashboard-penyelenggara/eventku'));
     }
     
     $this->load->model('M_manageEvent', 'M_manage');
+    
+    $this->load->model('Event/M_event');
   }
 
   function tinymce_upload() {
@@ -45,6 +47,23 @@ class Manage_event extends MX_Controller {
       ->_display();
       exit;
     }
+  }
+
+  function tampil_surat($kode_pendaftaran = "", $id = "")
+  {
+      $form = $this->M_manage->get_formData($kode_pendaftaran, $id);
+      if ($form != false) {
+          $data['form'] = $form;
+          $data['pendaftaran'] = $this->M_manage->get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran);
+          $data['module']       = "Manage_event";
+          $data['fileview']     = "ajax/tampil_surat";
+          echo Modules::run('template/blank_template', $data);
+      } else {
+          $data['form'] = false;
+          $data['module']       = "Manage_event";
+          $data['fileview']     = "ajax/tampil_surat";
+          echo Modules::run('template/blank_template', $data);
+      }
   }
 
 
@@ -168,7 +187,7 @@ class Manage_event extends MX_Controller {
 
     $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran($this->session->userdata('manage_event'));
 
-    $data['CI']         = $this;
+    $data['controller']         = $this;
 
     $data['module']     = "manage_event";
     $data['fileview']   = "pendaftaran/data_peserta";
@@ -178,10 +197,10 @@ class Manage_event extends MX_Controller {
   public function verifikasi_berkas(){
     $data['cek_form']         = $this->M_manage->cek_form($this->session->userdata('manage_event'));
     $data['get_form']         = $this->M_manage->get_formBerkas($this->session->userdata('manage_event'));
-
+    $data['event']            = $this->M_event->get_eventDetail($this->session->userdata('manage_event'));
     $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran($this->session->userdata('manage_event'));
 
-    $data['CI']         = $this;
+    $data['controller']         = $this;
 
     $data['module']     = "manage_event";
     $data['fileview']   = "pendaftaran/verifikasi_berkas";
@@ -201,6 +220,17 @@ class Manage_event extends MX_Controller {
     }
   }
 
+  function hapus_formPendaftaran($ID_FORM){
+    if ($this->M_manage->hapus_formPendaftaran($ID_FORM) == TRUE)  {
+
+      $this->session->set_flashdata('success', "Berhasil menghapus form pendaftaran !!");
+      redirect($this->agent->referrer());
+    }else {
+      $this->session->set_flashdata('error', "Terjadi kesalahan saat menghapus form pendaftaran!");
+      redirect($this->agent->referrer());
+    }
+  }
+
   function proses_updatePendaftaran(){
     if ($this->M_manage->proses_updatePendaftaran($this->session->userdata('manage_event')) == TRUE)  {
 
@@ -210,6 +240,32 @@ class Manage_event extends MX_Controller {
       $this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah form pendaftaran!");
       redirect($this->agent->referrer());
     }
+  }
+
+  function terima_pendaftaranEvent()
+  {
+      $nama = $this->input->post('NAMA');
+      if ($this->M_manage->terima_pendaftaranEvent() == TRUE) {
+
+          $this->session->set_flashdata('success', "Berhasil verifikasi berkas pendaftaran {$nama} !!");
+          redirect($this->agent->referrer());
+      } else {
+          $this->session->set_flashdata('error', "Terjadi kesalahan saat verifikasi berkas pendaftaran {$nama}!");
+          redirect($this->agent->referrer());
+      }
+  }
+
+  function tolak_pendaftaranEvent()
+  {
+      $nama = $this->input->post('NAMA');
+      if ($this->M_manage->tolak_pendaftaranEvent() == TRUE) {
+
+          $this->session->set_flashdata('success', "Berhasil menolak berkas pendaftaran {$nama} !!");
+          redirect($this->agent->referrer());
+      } else {
+          $this->session->set_flashdata('error', "Terjadi kesalahan saat menolak berkas pendaftaran {$nama}!");
+          redirect($this->agent->referrer());
+      }
   }
   // END PROSES
 }

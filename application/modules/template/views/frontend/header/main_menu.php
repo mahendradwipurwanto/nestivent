@@ -3,7 +3,7 @@
     <ul class="navbar-nav">
       <!-- Home -->
       <li class="navbar-nav-item">
-        <a class="nav-link" href="<?= base_url() ?>">Home</a>
+        <a class="nav-link" href="<?= base_url() ?>">Beranda</a>
       </li>
       <!-- End Home -->
 
@@ -137,19 +137,38 @@
       </li>
       <!-- End Kegiatan -->
 
-      <!-- Layanan -->
-      <li class="hs-has-sub-menu navbar-nav-item">
-        <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle " href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Layanan</a>
-
-        <!-- Blog - Submenu -->
-        <div id="blogSubMenu" class="hs-sub-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 230px;">
-          <a class="dropdown-item" href="<?= site_url('blog') ?>">Blog</a>
-          <a class="dropdown-item" href="<?= site_url('hire-us') ?>">Hire Us</a>
-          <a class="dropdown-item" href="<?= site_url('careers') ?>">Careers <?php if($OPEN_CAREER == 1):?><span class="badge badge-primary ml-1">We're hiring</span><?php endif;?></a>
+      <?php if ($this->session->userdata('logged_in') == false || !$this->session->userdata('logged_in')):?>
+      <li class="list-inline-item d-none d-sm-block ml-2">
+        <div class="hs-unfold">
+          <a class="js-hs-unfold-invoker btn btn-xs btn-primary" href="javascript:;"
+          data-hs-unfold-options='{
+            "target": "#sidebarContent",
+            "type": "css-animation",
+            "animationIn": "fadeInRight",
+            "animationOut": "fadeOutRight",
+            "hasOverlay": "rgba(55, 125, 255, 0.1)",
+            "smartPositionOff": true
+          }'>
+            Daftar
+          </a>
         </div>
-        <!-- End Submenu -->
       </li>
-      <!-- End Layanan -->
+      <li class="list-inline-item d-none d-sm-block ml-2">
+        <div class="hs-unfold">
+          <a class="js-hs-unfold-invoker btn btn-xs btn-outline-primary" href="javascript:;"
+          data-hs-unfold-options='{
+            "target": "#sidebarContentLogin",
+            "type": "css-animation",
+            "animationIn": "fadeInRight",
+            "animationOut": "fadeOutRight",
+            "hasOverlay": "rgba(55, 125, 255, 0.1)",
+            "smartPositionOff": true
+          }'>
+            Masuk
+          </a>
+        </div>
+      </li>
+      <?php endif;?>
       <?php if ($this->session->userdata('logged_in') == false || !$this->session->userdata('logged_in')):?>
         <!-- Button -->
         <li class="navbar-nav-last-item d-block d-sm-none">

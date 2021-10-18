@@ -8,9 +8,19 @@ class M_pendaftaran extends CI_Model {
 
 	function get_kegiatan($kode){
 		$kode 	= $this->db->escape($kode);
-		$query 	= $this->db->query("SELECT a.JUDUL, a.TANGGAL, 'event' as 'KEGIATAN' FROM TB_EVENT a WHERE a.KODE_EVENT = $kode UNION ALL SELECT b.JUDUL, b.TANGGAL, 'kompetisi' as 'KEGIATAN' FROM TB_KOMPETISI b WHERE b.KODE_KOMPETISI = $kode ");
+		$query 	= $this->db->query("SELECT a.JUDUL, a.TANGGAL, a.BAYAR, 'event' as 'KEGIATAN' FROM TB_EVENT a WHERE a.KODE_EVENT = $kode UNION ALL SELECT b.JUDUL, b.TANGGAL, b.BAYAR, 'kompetisi' as 'KEGIATAN' FROM TB_KOMPETISI b WHERE b.KODE_KOMPETISI = $kode ");
 		if ($query->num_rows() > 0) {
 			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	function get_kegiatanTiket($kode){
+		$kode 	= $this->db->escape($kode);
+		$query 	= $this->db->query("SELECT * FROM TB_TIKET WHERE KODE = $kode ");
+		if ($query->num_rows() > 0) {
+			return $query->result();
 		}else{
 			return false;
 		}

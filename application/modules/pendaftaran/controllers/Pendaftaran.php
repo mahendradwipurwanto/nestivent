@@ -5,6 +5,7 @@ class Pendaftaran extends MX_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_pendaftaran', 'M_daftar');
+		$this->load->model('Authentication/M_authentication');
 
 	}
 
@@ -17,7 +18,7 @@ class Pendaftaran extends MX_Controller {
 					$data['formulir']		= $this->M_daftar->get_formMeta($kode);
 					$data['KODE_KEGIATAN']	= $kode;
 
-					$data['CI']			= $this;
+					$data['controller']			= $this;
 
 					$data['module'] 	= "pendaftaran";
 					$data['fileview'] 	= "pendaftaran";
@@ -66,24 +67,20 @@ class Pendaftaran extends MX_Controller {
 				'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN, 
 				'KODE_EVENT'		=> $KODE_KEGIATAN, 
 				'KODE_USER' 		=> $this->session->userdata('kode_user'), 
-				'ID_TIKET' 			=> $ID_TIKET
+				'ID_TIKET' 			=> $ID_TIKET,
 			);
 		}else{
 			$daftar = array(
 				'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN, 
-				'KODE_KOMPETISI'	=> $KODE_KEGIATAN, 
+				'KODE_KOMPETISI'		=> $KODE_KEGIATAN, 
 				'KODE_USER' 		=> $this->session->userdata('kode_user'), 
-				'ID_TIKET' 			=> $ID_TIKET
+				'ID_TIKET' 			=> $ID_TIKET,
 			);
 		}
+			
+		$prosesJawaban = false;
 
 		if ($this->M_daftar->insert_pendaftaran($daftar, $tabel) == true) {
-
-			$prosesJawaban = false;
-			
-			// echo var_dump($TYPE);
-			// echo "<br>";
-			// echo var_dump($_FILES['JAWABAN']);
 
 			$cpt = count($_FILES['JAWABAN']['name']);
 			for($j=0; $j<$cpt; $j++) {
@@ -111,7 +108,7 @@ class Pendaftaran extends MX_Controller {
 
 					$config['upload_path']          = $folder;
 					$config['allowed_types']        = '*';
-					$config['max_size']             = 1000000;
+					$config['max_size']             = 10*1024;
 					$config['overwrite']            = true;
 
 					$this->load->library('upload', $config);
@@ -147,6 +144,23 @@ class Pendaftaran extends MX_Controller {
 					redirect($this->agent->referrer());
 				}
 			}
+
+
+			if($this->input->post('BAYAR') == 1){
+	
+				// UPLOAD FILE
+				$con['upload_path']          = $folders;
+				$con['allowed_types']        = 'JPEG|jpeg|JPG|jpg|PNG|png';
+				$con['max_size']             = 1024*10;
+				$con['overwrite']						= TRUE;
+	
+				$this->load->library('upload', $con);
+				if ($this->upload->do_upload('BUKTI_BAYAR')){
+					$upload_data 	= $this->upload->data();
+					$this->db->where('KODE_PENDAFTARAN', $KODE_PENDAFTARAN);
+					$this->db->update('PENDAFTARAN_EVENT', array('BUKTI_BAYAR' => $upload_data['file_name']));
+				}
+			}
 			foreach ($ID_FORM as $i => $a) {
 				if ($TYPE[$i] != "FILE") {
 					$data = array(
@@ -169,7 +183,13 @@ class Pendaftaran extends MX_Controller {
 			}
 			if ($prosesJawaban == true) {
 				$this->session->set_flashdata('success', "Berhasil mengirim data pendaftaran anda !!");
-				redirect($this->agent->referrer());
+				if ($kegiatan == "event") {
+					$this->M_authentication->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 13);
+					redirect(site_url('pengguna/event'));
+				}else{
+					$this->M_authentication->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 14);
+					redirect(site_url('pengguna/kompetisi'));
+				}
 			}else{
 				$this->M_daftar->delete_pendaftaran($KODE_PENDAFTARAN, $tabel);
 				$this->session->set_flashdata('error', "Terjadi kesalahan saat mengirim jawaban anda !!");

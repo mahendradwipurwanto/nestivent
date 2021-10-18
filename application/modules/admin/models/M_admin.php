@@ -173,7 +173,7 @@ class M_admin extends CI_Model {
 	}
 
 	function get_pengajuPenyelenggara($kode){
-		$query 	= $this->db->query("SELECT c.NAMA FROM TB_KOLABOLATOR a LEFT JOIN TB_AUTH b ON a.EMAIL = b.EMAIL LEFT JOIN TB_PENGGUNA c ON b.KODE_USER = c.KODE_USER WHERE a.KODE_PENYELENGGARA = '$kode' AND a.BAGIAN = 0");
+		$query 	= $this->db->query("SELECT* FROM TB_PENYELENGGARA a, TB_PENGGUNA b WHERE a.KODE_USER = b.KODE_USER AND a.KODE_PENYELENGGARA = '$kode'");
 		return $query->row()->NAMA;
 	}
 

@@ -50,8 +50,6 @@
           <ul class="nav nav-sm nav-x-0 nav-white flex-column">
             <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= site_url('about-us') ?>">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?= site_url('careers') ?>">Careers <?php if($OPEN_CAREER == 1):?><span class="badge badge-primary ml-1">We're hiring</span><?php endif;?></a></li>
-            <li class="nav-item"><a class="nav-link" href="<?= site_url('blog') ?>">Blog</a></li>
           </ul>
           <!-- End Nav Link -->
         </div>
@@ -91,29 +89,29 @@
             <?php if ($LN_FACEBOOK != null) :?>
               <!-- Social Networks -->
               <li class="list-inline-item">
-                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= $LN_FACEBOOK;?>">
+                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= prep_url($LN_FACEBOOK);?>">
                   <i class="fab fa-facebook-f"></i>
                 </a>
               </li>
             <?php endif;?>
             <?php if ($LN_INSTAGRAM != null) :?>
               <li class="list-inline-item">
-                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= $LN_INSTAGRAM;?>">
+                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= prep_url($LN_INSTAGRAM);?>">
                   <i class="fab fa-instagram"></i>
                 </a>
               </li>
             <?php endif;?>
             <?php if ($LN_TWITTER != null) :?>
               <li class="list-inline-item">
-                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= $LN_TWITTER;?>">
+                <a class="btn btn-xs btn-icon btn-soft-light" href="<?= prep_url($LN_TWITTER);?>">
                   <i class="fab fa-twitter"></i>
                 </a>
               </li>
             <?php endif;?>
             <?php if ($LN_GITHUB != null) :?>
               <li class="list-inline-item">
-                <a class="btn btn-xs btn-icon btn-soft-light" href="<?php $LN_GITHUB;?>">
-                  <i class="fab fa-github"></i>
+                <a class="btn btn-xs btn-icon btn-soft-light" href="<?php prep_url($LN_GITHUB);?>">
+                  <i class="fab fa-youtube"></i>
                 </a>
               </li>
             <?php endif;?>

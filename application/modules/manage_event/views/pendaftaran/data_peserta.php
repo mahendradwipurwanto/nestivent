@@ -28,7 +28,7 @@
 <?php else:?>
   <div class="card">
     <div class="card-body">
-      <table id="myTable" class="table table-bordered table-hover">
+      <table id="myTable" class="table table-bordered table-hover w-100">
         <thead>
           <tr>
             <th>No</th>
@@ -49,7 +49,7 @@
                 <td></td>
                 <td><?= $data->NAMA;?></td>
                 <?php foreach ($get_form as $key) :?>
-                  <td><?= $CI->get_formData($data->KODE_PENDAFTARAN, $key->ID_FORM);?></td>
+                  <td><?= $controller->M_manage->get_formData($data->KODE_PENDAFTARAN, $key->ID_FORM);?></td>
                 <?php endforeach;?>
               </tr>
             <?php endforeach;?>

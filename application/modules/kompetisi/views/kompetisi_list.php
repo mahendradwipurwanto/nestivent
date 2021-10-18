@@ -1,18 +1,4 @@
-<!-- Hero Section -->
-<div class="container space-top-3 space-bottom-2 space-top-lg-3">
-  <div class="bg-primary rounded-lg" style="background: url(<?= base_url();?>assets/frontend/svg/illustrations/book.svg) right bottom no-repeat;">
-    <div class="w-lg-50">
-      <div class="py-8 px-6">
-        <h1 class="display-4 text-white">Kompetisi</h1>
-        <p class="text-white mb-0">Pilih dari <span class="font-weight-bold"></span> kompetisi yang ingin kamu pilih.</p>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Hero Section -->
-
-<!-- Kompetisi Section -->
-<div class="container space-bottom-2 space-bottom-lg-3">
+<div class="container space-bottom-2 space-top-1">
   <div class="row">
     <div class="col-lg-12">
       <!-- Title and Sort -->

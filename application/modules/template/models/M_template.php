@@ -59,6 +59,11 @@ class M_template extends CI_Model {
 
 	// META
 
+	function get_webTerm(){
+		$query 	= $this->db->query("SELECT VALUE FROM TB_PENGATURAN a WHERE a.KEY = 'WEB_TERM'");
+		return $query->row()->VALUE;
+	}
+
 	function get_webJudul(){
 		$query 	= $this->db->query("SELECT VALUE FROM TB_PENGATURAN a WHERE a.KEY = 'WEB_JUDUL'");
 		return $query->row()->VALUE;
@@ -261,7 +266,7 @@ class M_template extends CI_Model {
 	function get_penyelenggaraPengguna($email){
 		$email 	= $this->db->escape($email);
 
-		$query	= $this->db->query("SELECT * FROM TB_KOLABOLATOR a LEFT JOIN TB_PENYELENGGARA b ON a.KODE_PENYELENGGARA = b.KODE_PENYELENGGARA WHERE a.EMAIL = $email AND a.KODE_PENYELENGGARA IN (SELECT KODE_PENYELENGGARA FROM TB_PENYELENGGARA)");
+		$query	= $this->db->query("SELECT * FROM TB_AUTH a LEFT JOIN TB_PENYELENGGARA b ON a.KODE_USER = b.KODE_USER WHERE a.EMAIL = $email");
 
 		if ($query->num_rows() > 0) {
 			return $query->row();
@@ -283,7 +288,7 @@ class M_template extends CI_Model {
 	function count_kpanel($email){
 		$email 	= $this->db->escape($email);
 
-		$query	= $this->db->query("SELECT * FROM TB_KOLABOLATOR WHERE EMAIL = $email");
+		$query	= $this->db->query("SELECT * FROM TB_AUTH WHERE EMAIL = $email");
 
 		return $query->num_rows();
 
@@ -292,7 +297,7 @@ class M_template extends CI_Model {
 	function pending_kpanel($email){
 		$email 	= $this->db->escape($email);
 
-		$query	= $this->db->query("SELECT * FROM TB_KOLABOLATOR WHERE EMAIL = $email AND KODE_PENYELENGGARA IN (SELECT KODE_PENYELENGGARA FROM TB_PENYELENGGARA WHERE STATUS = 0)");
+		$query	= $this->db->query("SELECT * FROM TB_AUTH WHERE EMAIL = $email AND KODE_USER IN (SELECT KODE_USER FROM TB_PENYELENGGARA WHERE STATUS = 0)");
 
 		if ($query->num_rows() > 0) {
 			return TRUE;
@@ -305,7 +310,7 @@ class M_template extends CI_Model {
 	function have_panel($email){
 		$email 	= $this->db->escape($email);
 
-		$query	= $this->db->query("SELECT * FROM TB_KOLABOLATOR WHERE EMAIL = $email AND KODE_PENYELENGGARA IN (SELECT KODE_PENYELENGGARA FROM TB_PENYELENGGARA WHERE STATUS = 1)");
+		$query	= $this->db->query("SELECT * FROM TB_AUTH WHERE EMAIL = $email AND KODE_USER IN (SELECT KODE_USER FROM TB_PENYELENGGARA WHERE STATUS = 1)");
 
 		if ($query->num_rows() > 0) {
 			return TRUE;

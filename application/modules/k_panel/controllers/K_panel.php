@@ -6,7 +6,7 @@ class K_panel extends MX_Controller {
     parent::__construct();
 
     if ($this->agent->is_mobile()) {
-      $this->session->set_flashdata('error', "K-PANEL HANYA DAPAT DIAKSES MELALUI BROWSER");
+      $this->session->set_flashdata('error', "Dashboard Penyelenggara HANYA DAPAT DIAKSES MELALUI BROWSER");
       redirect(base_url());
     }
 
@@ -20,10 +20,6 @@ class K_panel extends MX_Controller {
       $this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
       redirect('login');
     }
-    if ($this->session->userdata('status_akses') == FALSE || !$this->session->userdata('status_akses')) {
-      $this->session->set_flashdata('error', "Harap re-akses k-panel anda");
-      redirect('pengguna/k-panel');
-    }
     
     $this->load->model('M_kpanel');
   }
@@ -32,7 +28,7 @@ class K_panel extends MX_Controller {
     $data['kegiatan']   = $this->M_kpanel->count_event($this->session->userdata('kode_akses'))+$this->M_kpanel->count_kompetisi($this->session->userdata('kode_akses'));
     $data['event']      = $this->M_kpanel->count_event($this->session->userdata('kode_akses'));
     $data['kompetisi']  = $this->M_kpanel->count_kompetisi($this->session->userdata('kode_akses'));
-    $data['peserta']    = $this->M_kpanel->count_event($this->session->userdata('kode_akses'));
+    $data['peserta']    = $this->M_kpanel->count_peserta($this->session->userdata('kode_akses'));
 
     $data['module']     = "k_panel";
     $data['fileview']   = "dashboard";
@@ -126,7 +122,7 @@ class K_panel extends MX_Controller {
   public function aktivitas(){
     $this->load->library('pagination');
 
-    $config['base_url']         = base_url().'k-panel/aktivitas-k-panel';
+    $config['base_url']         = base_url().'dashboard-penyelenggara/aktivitas-k-panel';
     $config['total_rows']       = $this->M_kpanel->count_aktivitasKpanel($this->session->userdata('kode_akses'));
     $config['per_page']         = 5;
 
@@ -163,7 +159,7 @@ class K_panel extends MX_Controller {
   public function notifikasi(){
     $this->load->library('pagination');
 
-    $config['base_url']         = base_url().'k-panel/notifikasi-k-panel';
+    $config['base_url']         = base_url().'dashboard-penyelenggara/notifikasi-k-panel';
     $config['total_rows']       = $this->M_kpanel->count_notifikasiKpanel($this->session->userdata('kode_akses'));
     $config['per_page']         = 5;
 
@@ -252,7 +248,7 @@ class K_panel extends MX_Controller {
           $this->M_kpanel->log_aktivitasKpanel($KODE_PENYELENGGARA, $this->session->userdata("kode_user"), 11, 3);
 
           $this->session->set_flashdata('success', 'Berhasil membuat event anda!!');
-          redirect('k-panel/eventku');
+          redirect('dashboard-penyelenggara/eventku');
         }else {
           $this->session->set_flashdata('error', "Terjadi kesalahan saat membuat event anda!");
           redirect($this->agent->referrer());
@@ -319,7 +315,7 @@ class K_panel extends MX_Controller {
           $this->M_kpanel->log_aktivitasKpanel($KODE_PENYELENGGARA, $this->session->userdata("kode_user"), 11, 3);
 
           $this->session->set_flashdata('success', 'Berhasil membuat kompetisi anda!!');
-          redirect('k-panel/kompetisiku');
+          redirect('dashboard-penyelenggara/kompetisiku');
         }else {
           $this->session->set_flashdata('error', "Terjadi kesalahan saat membuat kompetisi anda!");
           redirect($this->agent->referrer());

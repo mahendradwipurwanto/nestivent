@@ -27,13 +27,13 @@
 									<div class="row">
 										<div class="col-sm mb-3 mb-sm-0">
 											<span class="d-block text-dark"><?= $key->JUDUL;?>
-											<span class="badge badge-primary ml-1"><?= ($key->STATUS == 0 ? "Pendaftaran diproses" : ($key->STATUS == 1 ? "Pendaftaran diterima" : "Pendaftaran ditolak"));?></span>
+											<span class="badge badge-<?= ($key->STATUS_PESERTA == 0 ? "secondary" : ($key->STATUS_PESERTA == 1 ? "success" : "danger"));?> ml-1"><?= ($key->STATUS_PESERTA == 0 ? "Pendaftaran diproses" : ($key->STATUS_PESERTA == 1 ? "Pendaftaran diterima" : "Pendaftaran ditolak"));?></span>
 										</span>
 										<?= $CI->agent->is_mobile() ? '' : '<small class="d-block text-muted">'.$key->INSTANSI.'</small>';?>
 									</div>
 
 									<div class="col-sm-auto">
-										<a class="btn btn-xs btn-white mr-2" href="<?= site_url('detail-daftar/'.$key->KODE_PENDAFTARAN);?>"><i class="fas fa-pencil-alt mr-1"></i> data pendaftaranmu</a>
+										<a class="btn btn-xs btn-white mr-2" href="<?= site_url('detail-daftar-event/'.$key->KODE_EVENT.'/'.$key->KODE_PENDAFTARAN);?>"><i class="fas fa-pencil-alt mr-1"></i> data pendaftaranmu</a>
 									</div>
 									<!-- End Row -->
 								</div>

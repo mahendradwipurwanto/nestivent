@@ -53,42 +53,32 @@
           </li>
 
           <li class="nav-item">
-            <small class="nav-subtitle" title="Pages">Data Pendaftaran</small>
+            <small class="nav-subtitle" title="Pages">Data Peserta</small>
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li>
 
-          <!-- Pengguna -->
-          <li class="navbar-vertical-aside-has-menu <?= ($this->uri->segment(2) == 'atur-pendaftaran' || $this->uri->segment(2) == 'data-peserta' ? 'show' : '') ?>">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Pendaftaran">
-              <i class="tio-file nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pendaftaran</span>
+          <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'atur-pendaftaran' ? 'active' : '') ?>" href="<?= site_url('manage-event/atur-pendaftaran') ?>" title="Atur Pendaftaran" data-placement="left">
+              <i class="tio-attachment nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Atur Pendaftaran</span>
             </a>
-
-            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-
-              <li class="nav-item ">
-                <a class="nav-link <?= ($this->uri->segment(2) == 'atur-pendaftaran' ? 'active' : '') ?>" href="<?= site_url('manage-event/atur-pendaftaran') ?>" title="EvenAtur Pendaftarantku">
-                  <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Atur Pendaftaran</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link <?= ($this->uri->segment(2) == 'data-peserta' ? 'active' : '') ?>" href="<?= site_url('manage-event/data-peserta') ?>" title="Data peserta">
-                  <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Data peserta</span>
-                </a>
-              </li>
-            </ul>
           </li>
-          <!-- End Pengguna -->
+          <!-- End Dashboards -->
 
           <li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'verifikasi-berkas' ? 'active' : '') ?>" href="<?= site_url('manage-event/verifikasi-berkas') ?>" title="Verifikasi Berkas" data-placement="left">
-              <i class="tio-files nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Verifikasi Berkas</span>
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'verifikasi-peserta' ? 'active' : '') ?>" href="<?= site_url('manage-event/verifikasi-peserta') ?>" title="Verifikasi Peserta" data-placement="left">
+              <i class="tio-user nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Verifikasi Peserta</span>
             </a>
           </li>
+          <!-- End Dashboards -->
+
+          <!-- <li class="nav-item ">
+            <a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'sertifikat-peserta' ? 'active' : '') ?>" href="<?= site_url('manage-event/sertifikat-peserta') ?>" title="VeriSertifikatfikasi Peserta" data-placement="left">
+              <i class="tio-folder-bookmarked nav-icon"></i>
+              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Sertifikat Peserta</span>
+            </a>
+          </li> -->
           <!-- End Dashboards -->
 
           <li class="nav-item ">

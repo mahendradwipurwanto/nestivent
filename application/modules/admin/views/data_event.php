@@ -34,12 +34,6 @@
           </div>
         </div>
         <!-- End Row -->
-
-        <span class="badge badge-soft-<?= ($diffPenyelenggara == $penyelenggara ? 'secondary' : ($diffPenyelenggara < $penyelenggara ? 'success' : 'danger'));?>">
-          <i class="<?= ($diffPenyelenggara == $penyelenggara ? 'tio-voice-line' : ($diffPenyelenggara < $penyelenggara ? 'tio-trending-up' : 'tio-trending-down'));?>"></i>
-          <?= ($penyelenggara == 0 ? '0' : round(((($penyelenggara-$diffPenyelenggara) / $penyelenggara) * 100), 1)) ?>%
-        </span>
-        <span class="text-body font-size-sm ml-1">dari <?= number_format($diffPenyelenggara,0,",",".");?></span>
       </div>
     </a>
     <!-- End Card -->
@@ -56,12 +50,6 @@
           </div>
         </div>
         <!-- End Row -->
-
-        <span class="badge badge-soft-<?= ($diffEvent == $countEvent ? 'secondary' : ($diffEvent < $countEvent ? 'success' : 'danger'));?>">
-          <i class="<?= ($diffEvent == $countEvent ? 'tio-voice-line' : ($diffEvent < $countEvent ? 'tio-trending-up' : 'tio-trending-down'));?>"></i>
-          <?= ($countEvent == 0 ? '0' : round(((($countEvent-$diffEvent) / $countEvent) * 100), 1)) ?>%
-        </span>
-        <span class="text-body font-size-sm ml-1">dari <?= number_format($diffEvent,0,",",".");?></span>
       </div>
     </a>
     <!-- End Card -->

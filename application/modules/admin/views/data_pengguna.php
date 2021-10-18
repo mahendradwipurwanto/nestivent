@@ -49,13 +49,6 @@
           <div class="col">
             <span class="js-counter display-4 text-dark"><?= number_format($NewPengguna,0,",",".");?></span>
           </div>
-
-          <div class="col-auto">
-            <span class="badge badge-soft-<?= ($NewPengguna == 0 ? 'secondary' : ($NewPengguna > $countPengguna ? 'success' : 'danger'));?> p-1">
-              <i class="<?= ($NewPengguna == 0 ? 'tio-voice-line' : ($NewPengguna > $countPengguna ? 'tio-trending-up' : 'tio-trending-down'));?>"></i>
-              <?= ($NewPengguna == 0 ? '0' : round(((($countPengguna-$NewPengguna) / $countPengguna) * 100), 1)) ?>%
-            </span>
-          </div>
         </div>
         <!-- End Row -->
       </div>
@@ -73,13 +66,6 @@
           <div class="col">
             <span class="js-counter display-4 text-dark"><?= number_format($nonPengguna,0,",",".");?></span>
           </div>
-
-          <div class="col-auto">
-            <span class="badge badge-soft-<?= ($diffNonPengguna == $nonPengguna ? 'secondary' : ($diffNonPengguna < $nonPengguna ? 'success' : 'danger'));?> p-1">
-              <i class="<?= ($diffNonPengguna == $nonPengguna ? 'tio-voice-line' : ($diffNonPengguna < $nonPengguna ? 'tio-trending-up' : 'tio-trending-down'));?>"></i>
-              <?= ($nonPengguna == 0 ? '0' : round(((($nonPengguna-$diffNonPengguna) / $nonPengguna) * 100), 1)) ?>%
-            </span>
-          </div>
         </div>
         <!-- End Row -->
       </div>
@@ -96,13 +82,6 @@
         <div class="row align-items-center gx-2">
           <div class="col">
             <span class="js-counter display-4 text-dark"><?= number_format($countKPanel,0,",",".");?></span>
-          </div>
-
-          <div class="col-auto">
-            <span class="badge badge-soft-<?= ($diffKPanel == $countKPanel ? 'secondary' : ($diffKPanel < $countKPanel ? 'success' : 'danger'));?> p-1">
-              <i class="<?= ($diffKPanel == $countKPanel ? 'tio-voice-line' : ($diffKPanel < $countKPanel ? 'tio-trending-up' : 'tio-trending-down'));?>"></i>
-              <?= ($countKPanel == 0 ? '0' : round(((($countKPanel-$diffKPanel) / $countKPanel) * 100), 1)) ?>%
-            </span>
           </div>
         </div>
         <!-- End Row -->

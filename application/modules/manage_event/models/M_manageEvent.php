@@ -79,7 +79,7 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function get_dataPendaftaran($kode){
-		$this->db->select("a.*, b.NAMA");
+		$this->db->select("a.*, b.NAMA, b.HP");
 		$this->db->from("PENDAFTARAN_EVENT a");
 		$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
 		$this->db->where("a.KODE_EVENT", $kode);
@@ -89,6 +89,25 @@ class M_manageEvent extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+
+	function get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran)
+	{
+			$this->db->select("*");
+			$this->db->from("PENDAFTARAN_EVENT a");
+			$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
+			$this->db->join("tb_auth c", "c.KODE_USER = b.KODE_USER");
+			$this->db->where('a.KODE_PENDAFTARAN', $kode_pendaftaran);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			} else {
+					return false;
+			}
+	}
+
+	function cek_hargaTiket($ID_TIKET){
+		return $this->db->get_where('TB_TIKET', array('ID_TIKET' => $ID_TIKET))->row()->HARGA_TIKET;
 	}
 
 	function get_form($kode){
@@ -121,7 +140,7 @@ class M_manageEvent extends CI_Model {
 	function get_formData($kode, $id){
 		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
-			return $query->result();
+			return $query->row()->JAWABAN;
 		}else{
 			return false;
 		}
@@ -130,7 +149,7 @@ class M_manageEvent extends CI_Model {
 	function get_formDataBerkas($kode, $id){
 		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
-			return $query->result();
+			return $query->row()->JAWABAN;
 		}else{
 			return false;
 		}
@@ -193,6 +212,12 @@ class M_manageEvent extends CI_Model {
 		return true;
 	}
 
+	function hapus_formPendaftaran($ID_FORM){
+		$this->db->where('ID_FORM', $ID_FORM);
+		$this->db->delete('FORM_META');
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
 	function proses_updatePendaftaran($kode){
 		$ID_FORM		= $this->input->post('ID_FORM', true);
 		$PERTANYAAN		= $this->input->post('PERTANYAAN', true);
@@ -248,4 +273,24 @@ class M_manageEvent extends CI_Model {
 	}
 
 	// END FORMULIR
+
+
+
+    function terima_pendaftaranEvent()
+    {
+        $KODE_USER = $this->input->post('KODE_USER');
+
+        $this->db->where('KODE_USER', $KODE_USER);
+        $this->db->update('pendaftaran_event', array('STATUS' => 1));
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+    function tolak_pendaftaranEvent()
+    {
+        $KODE_USER = $this->input->post('KODE_USER');
+
+        $this->db->where('KODE_USER', $KODE_USER);
+        $this->db->update('pendaftaran_event', array('STATUS' => 2));
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
 }

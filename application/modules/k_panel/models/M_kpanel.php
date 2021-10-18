@@ -32,7 +32,7 @@ class M_kpanel extends CI_Model {
 
 	function get_penyelenggaraDetail($kode){
 		$kode = $this->db->escape($kode);
-		$query = $this->db->query("SELECT a.*, (SELECT COUNT(*) FROM TB_EVENT b WHERE b.KODE_PENYELENGGARA = $kode) as JML_EVENT, (SELECT COUNT(*) FROM TB_KOMPETISI b WHERE b.KODE_PENYELENGGARA = $kode) as JML_KOMPETISI FROM TB_PENYELENGGARA a WHERE a.KODE_PENYELENGGARA = $kode AND a.STATUS = 1");
+		$query = $this->db->query("SELECT a.*, a.NAMA AS NAMA_P, b.HP, b.ALAMAT, b.NAMA AS NAMA_AKUN, c.*, (SELECT COUNT(*) FROM TB_EVENT b WHERE b.KODE_PENYELENGGARA = $kode) as JML_EVENT, (SELECT COUNT(*) FROM TB_KOMPETISI b WHERE b.KODE_PENYELENGGARA = $kode) as JML_KOMPETISI FROM TB_PENYELENGGARA a, TB_PENGGUNA b, TB_AUTH c WHERE a.KODE_USER = b.KODE_USER AND a.KODE_USER = c.KODE_USER AND a.KODE_PENYELENGGARA = $kode AND a.STATUS = 1");
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else {
@@ -48,8 +48,26 @@ class M_kpanel extends CI_Model {
 	}
 
 	function count_kompetisi($kode){
-		$query = $this->db->get_where('TB_EVENT', array('KODE_PENYELENGGARA' => $kode));
+		$query = $this->db->get_where('TB_KOMPETISI', array('KODE_PENYELENGGARA' => $kode));
 		return $query->num_rows();
+	}
+
+	function count_peserta($kode){
+		$this->db->select('*');
+		$this->db->from('TB_EVENT a');
+		$this->db->join('PENDAFTARAN_EVENT b', 'a.KODE_EVENT = b.KODE_EVENT');
+		$this->db->where('a.KODE_PENYELENGGARA', $kode);
+		$query = $this->db->get();
+		$a = $query->num_rows();
+		
+		$this->db->select('*');
+		$this->db->from('TB_KOMPETISI a');
+		$this->db->join('PENDAFTARAN_KOMPETISI b', 'a.KODE_KOMPETISI = b.KODE_KOMPETISI');
+		$this->db->where('a.KODE_PENYELENGGARA', $kode);
+		$query2 = $this->db->get();
+		$b = $query2->num_rows();
+
+		return $a+$b;
 	}
 
 	// END COUNT
@@ -484,9 +502,22 @@ class M_kpanel extends CI_Model {
 	}
 
 	public function ubah_informasi($KODE_PENYELENGGARA){
-		$NAMA 			= $this->input->post('NAMA');
+		$NAMA_AKUN 		= $this->input->post('NAMA_AKUN');
+		$HP 					= $this->input->post('HP');
+		$ALAMAT 			= $this->input->post('ALAMAT');
+
+		$NAMA 				= $this->input->post('NAMA');
 		$INSTANSI 		= $this->input->post('INSTANSI');
 		$DESKRIPSI 		= $this->input->post('DESKRIPSI');
+
+		$akun = array(
+			'NAMA' 		=> $NAMA_AKUN,
+			'HP' 			=> $HP,
+			'ALAMAT' 	=> $ALAMAT,
+		);
+
+		$this->db->where('KODE_USER', $this->session->userdata('kode_user'));
+		$this->db->update('TB_PENGGUNA', $akun);
 
 		$data = array(
 			'NAMA' 		=> $NAMA,

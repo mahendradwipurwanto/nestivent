@@ -35,18 +35,18 @@
 									<input type="text" class="form-control form-control-sm" name="JUDUL" placeholder="Masukkan Judul Kompetisi" required>
 								</div>
 								<div class="row">
-									<div class="col-4">
+									<div class="col-6">
 										<div class="form-group">
 											<label class="input-label font-weight-bold">Tanggal <small class="text-danger">*</small></label>
 											<input type="date" class="form-control form-control-sm" name="TANGGAL" required>
 										</div>
 									</div>
-									<div class="col-2">
+									<!-- <div class="col-2">
 										<div class="form-group">
 											<label class="input-label font-weight-bold">Waktu <small class="text-danger">*</small></label>
 											<input type="time" class="form-control form-control-sm" name="WAKTU" required>
 										</div>
-									</div>
+									</div> -->
 									<div class="col-6">
 										<div class="form-group">
 											<label class="input-label font-weight-bold">Media / Tempat <small class="text-danger">*</small></label>

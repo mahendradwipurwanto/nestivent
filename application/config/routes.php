@@ -82,14 +82,14 @@ $route['pengajuan-kpanel']            	= 'admin/pengajuan_kpanel';
 $route['riwayat-pengajuan-kpanel']    	= 'admin/riwayat_kpanel';
 
 $route['data-penyelenggara']    	  	= 'admin/data_penyelenggara';
-$route['data-event']    	  			= 'admin/data_event';
-$route['data-kompetisi']    	  		= 'admin/data_kompetisi';
+$route['data-event']    	  			    = 'admin/data_event';
+$route['data-kompetisi']    	  	  	= 'admin/data_kompetisi';
 
 
-$route['pengaturan-admin']				= 'admin/pengaturan';
-$route['pengaturan-admin/akun-admin']	= 'admin/pengaturan_akunAdmin';
-$route['pengaturan-admin/sistem']		= 'admin/pengaturan_sistem';
-$route['pengaturan-admin/website']		= 'admin/pengaturan_website';
+$route['pengaturan-admin']				      = 'admin/pengaturan';
+$route['pengaturan-admin/akun-admin']	  = 'admin/pengaturan_akunAdmin';
+$route['pengaturan-admin/sistem']		    = 'admin/pengaturan_sistem';
+$route['pengaturan-admin/website']		  = 'admin/pengaturan_website';
 
 $route['aktivitas-sistem']            	= 'admin/aktivitas';
 $route['aktivitas-sistem/(:num)']     	= 'admin/aktivitas';
@@ -106,23 +106,23 @@ $route['pengguna/k-panel'] 				= 'pengguna/k_panel';
 
 // K-PANEL
 
-$route['k-panel/init/(:any)']					= 'handlers/init_kpanel/$1';
-$route['akses-event/(:any)']					= 'handlers/akses_event/$1';
-$route['akses-kompetisi/(:any)']				= 'handlers/akses_kompetisi/$1';
+$route['dashboard-penyelenggara/init/(:any)']					    = 'handlers/init_kpanel/$1';
+$route['akses-event/(:any)']					    = 'handlers/akses_event/$1';
+$route['akses-kompetisi/(:any)']				  = 'handlers/akses_kompetisi/$1';
 
-$route['k-panel'] 								= 'k_panel';
-$route['k-panel/notifikasi-k-panel']			= 'k_panel/notifikasi';
-$route['k-panel/aktivitas-k-panel']				= 'k_panel/aktivitas';
+$route['dashboard-penyelenggara'] 								        = 'k_panel';
+$route['dashboard-penyelenggara/notifikasi-k-panel']			= 'k_panel/notifikasi';
+$route['dashboard-penyelenggara/aktivitas-k-panel']				= 'k_panel/aktivitas';
 
-$route['k-panel/pengaturan-k-panel']			= 'k_panel/pengaturan';
-$route['k-panel/pengaturan-umum']				= 'k_panel/pengaturan_umum';
-$route['k-panel/pengaturan-landing-page']		= 'k_panel/pengaturan_landing';
-$route['k-panel/pengaturan-kolabolator']		= 'k_panel/pengaturan_kolabolator';
+$route['dashboard-penyelenggara/pengaturan-k-panel']			= 'k_panel/pengaturan_umum';
+$route['dashboard-penyelenggara/pengaturan-umum']				  = 'k_panel/pengaturan_umum';
+$route['dashboard-penyelenggara/pengaturan-landing-page']		= 'k_panel/pengaturan_landing';
+$route['dashboard-penyelenggara/pengaturan-kolabolator']		= 'k_panel/pengaturan_kolabolator';
 
-$route['k-panel/eventku']						= 'k_panel/eventku';
-$route['k-panel/buat-event']					= 'k_panel/buat_event';
-$route['k-panel/kompetisiku']					= 'k_panel/kompetisiku';
-$route['k-panel/buat-kompetisi']				= 'k_panel/buat_kompetisi';
+$route['dashboard-penyelenggara/eventku']						    = 'k_panel/eventku';
+$route['dashboard-penyelenggara/buat-event']					  = 'k_panel/buat_event';
+$route['dashboard-penyelenggara/kompetisiku']					  = 'k_panel/kompetisiku';
+$route['dashboard-penyelenggara/buat-kompetisi']				= 'k_panel/buat_kompetisi';
 
 // END K-PANEL
 
@@ -134,7 +134,7 @@ $route['manage-event/aktivitas-event']			= 'manage_event/aktivitas';
 $route['manage-event/pengaturan']				= 'manage_event/pengaturan';
 $route['manage-event/atur-pendaftaran']			= 'manage_event/atur_pendaftaran';
 $route['manage-event/data-peserta']				= 'manage_event/data_peserta';
-$route['manage-event/verifikasi-berkas']		= 'manage_event/verifikasi_berkas';
+$route['manage-event/verifikasi-peserta']		= 'manage_event/verifikasi_berkas';
 
 $route['manage-event/pengaturan-umum']			= 'manage_event/pengaturan_umum';
 
@@ -148,7 +148,7 @@ $route['manage-kompetisi/aktivitas-kompetisi']	= 'manage_kompetisi/aktivitas';
 $route['manage-kompetisi/pengaturan']			= 'manage_kompetisi/pengaturan';
 $route['manage-kompetisi/atur-pendaftaran']		= 'manage_kompetisi/atur_pendaftaran';
 $route['manage-kompetisi/data-peserta']			= 'manage_kompetisi/data_peserta';
-$route['manage-kompetisi/verifikasi-berkas']	= 'manage_kompetisi/verifikasi_berkas';
+$route['manage-kompetisi/verifikasi-peserta']	= 'manage_kompetisi/verifikasi_berkas';
 
 $route['manage-kompetisi/pengaturan-umum']		= 'manage_kompetisi/pengaturan_umum';
 
@@ -183,8 +183,10 @@ $route['event/(:any)']         	 		= 'event/event_detail/$1';
 
 // ETC
 
-$route['daftar/(:any)']			= 'pendaftaran/daftar/$1';
-$route['detail-daftar/(:any)']	= 'pengguna/detail_daftar/$1';
+$route['daftar/(:any)']			                = 'pendaftaran/daftar/$1';
+$route['detail-daftar/(:any)']	            = 'pengguna/detail_daftar/$1';
+// NEW
+$route['detail-daftar-event/(:any)/(:any)']	= 'pengguna/detail_daftar/$1/$2';
 
 // END ETC
 

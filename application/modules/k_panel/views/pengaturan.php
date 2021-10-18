@@ -47,44 +47,7 @@
                 </div>
 
                 <div class="col-sm-auto">
-                  <a href="<?= site_url('k-panel/pengaturan-umum') ?>" class="btn btn-sm btn-light">manage</a>
-                </div>
-              </div>
-              <!-- End Row -->
-            </div>
-          </div>
-        </div>
-        <!-- End Card -->
-      </div>
-      <div class="col mb-3">
-        <!-- Card -->
-        <div class="card card-body">
-          <div class="media align-items-md-center">
-            <!-- Avatar -->
-            <div class="avatar avatar-lg avatar-soft-primary avatar-circle avatar-border-lg mr-3">
-              <span class="avatar-initials">K</span>
-            </div>
-            <!-- End Avatar -->
-
-            <div class="media-body">
-              <div class="row align-items-md-center">
-                <div class="col-9 col-md-4 col-lg-3 mb-2 mb-md-0">
-                  <h4 class="mb-1">
-                    <a class="text-dark">Kolabolator</a>
-                  </h4>
-                </div>
-
-                <div class="col-sm mb-2 mb-sm-0">
-                  <!-- Badges -->
-                  <ul class="list-inline list-inline-m-1 mb-0">
-                    <li class="list-inline-item"><a class="badge badge-soft-secondary p-2" href="#">data kolabolator</a></li>
-                    <li class="list-inline-item"><a class="badge badge-soft-secondary p-2" href="#">role</a></li>
-                  </ul>
-                  <!-- End Badges -->
-                </div>
-
-                <div class="col-sm-auto">
-                  <a href="<?= site_url('k-panel/pengaturan-kolabolator') ?>" class="btn btn-sm btn-light">manage</a>
+                  <a href="<?= site_url('dashboard-penyelenggara/pengaturan-umum') ?>" class="btn btn-sm btn-light">manage</a>
                 </div>
               </div>
               <!-- End Row -->

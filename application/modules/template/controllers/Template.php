@@ -299,6 +299,7 @@ class Template extends MX_Controller {
 		$data['LOGO_BLACK']			= $this->M_template->get_logoBlack();
 
 		// META
+		$data['WEB_TERM']			= $this->M_template->get_webTerm();
 		$data['WEB_JUDUL']			= $this->M_template->get_webJudul();
 		$data['WEB_DESKRIPSI']		= $this->M_template->get_webDeskripsi();
 		$data['WEB_WA']				= $this->M_template->get_webWa();
@@ -440,6 +441,18 @@ class Template extends MX_Controller {
 		$data['CI']					= $this;
 
 		$this->load->view('frontend/frontend_user', $data);
+	}
+
+	public function mail_template($data)
+	{
+		$data['CI']					= $this;
+		$this->load->view('mail/mail_template', $data);
+	}
+
+	public function blank_template($data)
+	{
+		$data['CI']					= $this;
+		$this->load->view('backend/blank', $data);
 	}
 
 	function cookie_agrement(){

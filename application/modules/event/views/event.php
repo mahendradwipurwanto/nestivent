@@ -1,7 +1,7 @@
 <!-- Featured event Section -->
-<div class="space-bottom-2 space-top-3 space-bottom-3 space-top-lg-3" style="background: url(<?= base_url();?>assets/frontend/svg/components/abstract-shapes-9.svg) center no-repeat;">
+<div class="space-bottom-2 space-top-1 space-bottom-3" style="background: url(<?= base_url();?>assets/frontend/svg/components/abstract-shapes-9.svg) center no-repeat;">
   <div class="position-relative">
-    <div class="container space-2">
+    <div class="container">
       <!-- Title -->
       <div class="row align-items-md-center mb-3">
         <div class="col-md-6 mb-4 mb-md-0">

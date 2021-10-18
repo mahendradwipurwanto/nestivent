@@ -248,19 +248,42 @@ class M_authentication extends CI_Model {
 	}
 
 	public function cek_owner(){
-		$email 	= $this->session->usedata('email');
-		$query 	= $this->db->get_where("TB_KOLABOLATOR", array('EMAIL' => $email, 'STATUS' => 1));
-		return $query->num_rows();
+		$kode_user 	= $this->session->usedata('kode_user');
+		$query 			= $this->db->get_where("TB_AUTH", array('KODE_USER' => $kode_user, 'STATUS' => 3));
+		if($query->num_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
-	public function ajukan_penyelenggara($file, $KODE){
+	public function daftar_penyelenggara($file, $KODE){
 
 		// INFO PENYELENGGARA
 		$KODE_PENYELENGGARA				= $KODE;
-		$NAMA							= htmlspecialchars($this->input->post("nama"), TRUE);
-		$INSTANSI						= htmlspecialchars($this->input->post("instansi"), TRUE);
-		$LOGO							= $file;
-		$DESKRIPSI						= htmlspecialchars($this->input->post("deskripsi"), TRUE);
+		$email										= htmlspecialchars($this->input->post("email"));
+		$password									= htmlspecialchars($this->input->post("password"));
+		$nama_akun								= htmlspecialchars($this->input->post("nama_akun"), TRUE);
+		$NAMA											= htmlspecialchars($this->input->post("nama"), TRUE);
+		$INSTANSI									= htmlspecialchars($this->input->post("instansi"), TRUE);
+		$ALAMAT										= htmlspecialchars($this->input->post("alamat"), TRUE);
+		$HP												= htmlspecialchars($this->input->post("hp"), TRUE);
+		$LOGO											= $file;
+		$DESKRIPSI								= htmlspecialchars($this->input->post("deskripsi"), TRUE);
+
+		// CREATE UNIQ NAME KODE USER
+
+		$string = preg_replace('/[^a-z]/i', '', $NAMA);
+
+		$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
+		$scrap  = str_replace($vocal, "", $string);
+		$begin  = substr($scrap, 0, 4);
+		$uniqid	= strtoupper($begin);
+
+		// CREATE KODE USER
+		do {
+			$KODE_USER 			= "PYL_".$uniqid.substr(md5(time()), 0, 3);
+		} while ($this->cek_kodeUser($KODE_USER) > 0);
 
 		// STATUS PENYELENGGARA
 		// 0 Menunggu VERIFIKASI
@@ -269,54 +292,35 @@ class M_authentication extends CI_Model {
 		// 3 SUSPEND
 		// 4 NONAKTIF
 
+		$auth_penyelenggara = array(
+			'KODE_USER' 			=> $KODE_USER,
+			'EMAIL' 					=> $email,
+			'PASSWORD' 				=> password_hash($password, PASSWORD_DEFAULT),
+			'ROLE' 						=> 3,
+		);
+		$this->db->insert('TB_AUTH', $auth_penyelenggara);
+
+		$pengguna = array(
+			'KODE_USER' 		=> $KODE_USER,
+			'NAMA'  				=> $nama_akun,
+			'HP' 						=> $HP,
+			'ALAMAT'				=> $ALAMAT,
+			'INSTANSI'			=> $INSTANSI,
+		);
+
+		$this->db->insert('TB_PENGGUNA', $pengguna);
+
 		$penyelenggara = array(
-			'KODE_PENYELENGGARA' 			=> $KODE,
-			'NAMA' 							=> $NAMA,
+			'KODE_PENYELENGGARA' 	=> $KODE,
+			'KODE_USER' 					=> $KODE_USER,
+			'NAMA' 								=> $NAMA,
 			'INSTANSI' 						=> $INSTANSI,
-			'LOGO' 							=> $LOGO,
+			'LOGO' 								=> $LOGO,
 			'DESKRIPSI' 					=> $DESKRIPSI
 		);
 		$this->db->insert('TB_PENYELENGGARA', $penyelenggara);
 		$cek = ($this->db->affected_rows() != 1) ? false : true;
 
-		if ($cek == true) {
-			// KOLABOLATOR
-
-			// BAGIAN
-			// 0 : OWNER
-			// 1 : ADMIN
-			// 2 : PANITIA
-			$EMAIL								= $this->input->post("kolabolator", true);
-			$BAGIAN								= $this->input->post("bagian", true);
-
-			$kolabolator = array(
-				'KODE_PENYELENGGARA' 			=> $KODE,
-				'EMAIL' 						=> $this->session->userdata('email'),
-				'BAGIAN'						=> 0,
-				'STATUS'						=> 1,
-			);
-			$this->db->insert('TB_KOLABOLATOR', $kolabolator);
-
-			foreach ($EMAIL as $i => $a) {
-				if ($EMAIL[$i] != "") {
-					$sts = 0;
-					if ($EMAIL[$i] == $this->session->userdata("email")):
-						$sts	= 1;
-					endif;
-					$kolabolator = array(
-						'KODE_PENYELENGGARA' 	=> $KODE,
-						'EMAIL' 				=> isset($EMAIL[$i]) ? $EMAIL[$i] : '',
-						'BAGIAN'				=> isset($BAGIAN[$i]) ? $BAGIAN[$i] : '',
-						'STATUS'				=> $sts,
-					);
-					$this->db->insert('TB_KOLABOLATOR', $kolabolator);
-				}
-			}
-			return true;
-		}else {
-			$this->db->delete('TB_PENYELENGGARA', array('KODE_PENYELENGGARA' => $KODE));
-			return false;
-		}
 	}
 
 

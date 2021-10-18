@@ -104,7 +104,7 @@ class M_pengguna extends CI_Model {
 
 	public function eventDiikuti($kode_user, $limit, $start){
 
-		$this->db->select("*");
+		$this->db->select("a.*, b.*, c.*, a.STATUS AS STATUS_PESERTA");
 		$this->db->from("PENDAFTARAN_EVENT a");
 		$this->db->join("TB_EVENT b", "a.KODE_EVENT = b.KODE_EVENT");
 		$this->db->join("TB_PENYELENGGARA c", "b.KODE_PENYELENGGARA = c.KODE_PENYELENGGARA");
@@ -260,5 +260,63 @@ class M_pengguna extends CI_Model {
 		$this->db->query("UPDATE LOG_AKTIVITAS a SET a.READ = 1 WHERE a.RECEIVER = '$kode' AND a.TYPE IN (SELECT ID_TYPE FROM LOG_TYPE b WHERE b.TYPE = 1)");
 		return true;
 
+	}
+
+	// DETAIL PENDAFTARAN
+
+	public function cek_daftarEvent($kode_pendaftaran){
+		$query = $this->db->get_where("pendaftaran_event", array('KODE_PENDAFTARAN' => $kode_pendaftaran));
+		return $query->num_rows();
+	}
+
+	// - get data pendaftaran kompetisi by kode_pendaftaran
+	public function get_detailDaftarEvent($kode_pendaftaran){
+			$this->db->select("*");
+			$this->db->from("pendaftaran_event");
+			$this->db->where("KODE_PENDAFTARAN", $kode_pendaftaran);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			}else {
+					return false;
+			}
+	}
+
+	// get form item by kode meta
+	public function get_formItem($kode){
+			$query = $this->db->get_where("form_item", array('ID_FORM' => $kode));
+			if ($query->num_rows() > 0) {
+					return $query->result();
+			}else{
+					return false;
+			}
+	}
+
+	// get data pendaftara by kode_pendaftaran and id_form
+	public function get_formData($kode, $id){
+			$query = $this->db->get_where("pendaftaran_data", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
+			if ($query->num_rows() > 0) {
+					return $query->row()->JAWABAN;
+			}else{
+					return false;
+			}
+	}
+
+	function update_jawaban($KODE_PENDAFTARAN, $ID_FORM, $data){
+
+		$cek = $this->db->get_where('pendaftaran_data', array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN, 'ID_FORM' => $ID_FORM));
+
+		if ($cek->num_rows() > 0) {
+			$this->db->where(array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN, 'ID_FORM' => $ID_FORM));
+			$this->db->update('pendaftaran_data', $data);
+			return ($this->db->affected_rows() != 1) ? false : true;
+		}else{
+
+			$this->db->insert('pendaftaran_data', array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN, 'ID_FORM' => $ID_FORM));
+
+			$this->db->where(array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN, 'ID_FORM' => $ID_FORM));
+			$this->db->update('pendaftaran_data', $data);
+			return ($this->db->affected_rows() != 1) ? false : true;
+		}
 	}
 }
