@@ -32,6 +32,7 @@
 			<!-- Navbar -->
 			<ul class="navbar-nav align-items-center flex-row">
 
+				<?php if ($this->session->userdata('role') == 0) :?>
 				<li class="nav-item d-none d-sm-inline-block">
 					<!-- Notification -->
 					<div class="hs-unfold">
@@ -138,6 +139,7 @@
 					</div>
 					<!-- Activity -->
 				</li>
+				<?php endif;?>
 
 				<li class="nav-item">
 					<!-- Account -->
@@ -151,9 +153,14 @@
 								<img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg"
 									alt="<?= $this->session->userdata('nama') ?>">
 								<?php }else { ?>
-								<img class="avatar-img"
-									src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>"
+								<?php if($this->session->userdata('role') == 2):?>
+								<img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg"
 									alt="<?= $this->session->userdata('nama') ?>">
+								<?php else:?>
+								<img class="avatar-img"
+									src="<?= base_url();?>berkas/peserta/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>"
+									alt="<?= $this->session->userdata('nama') ?>">
+								<?php endif;?>
 								<?php } ?>
 								<span class="avatar-status avatar-sm-status avatar-status-success"></span>
 							</div>
@@ -169,9 +176,14 @@
 										<img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg"
 											alt="<?= $this->session->userdata('nama') ?>">
 										<?php }else { ?>
-										<img class="avatar-img"
-											src="<?= base_url();?>berkas/pengguna/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>"
+										<?php if($this->session->userdata('role') == 2):?>
+										<img class="avatar-img" src="<?= base_url();?>assets/frontend/img/100x100/img12.jpg"
 											alt="<?= $this->session->userdata('nama') ?>">
+										<?php else:?>
+										<img class="avatar-img"
+											src="<?= base_url();?>berkas/peserta/<?= $this->session->userdata('kode_user') ?>/foto/<?= $pFoto->PROFIL ?>"
+											alt="<?= $this->session->userdata('nama') ?>">
+										<?php endif;?>
 										<?php } ?>
 									</div>
 									<div class="media-body">
@@ -184,8 +196,8 @@
 							</div>
 
 							<div class="dropdown-divider"></div>
-              
-              <!-- ADMIN -->
+
+							<!-- ADMIN -->
 							<?php if ($this->session->userdata('role') == 0) :?>
 							<a class="dropdown-item" href="<?= site_url('admin'); ?>">
 								<span class="text-truncate pr-2" title="Dashboard">Dashboard</span>
@@ -194,7 +206,7 @@
 								<span class="text-truncate pr-2" title="Pengaturan">Pengaturan</span>
 							</a>
 
-              <!-- JURI -->
+							<!-- JURI -->
 							<?php elseif ($this->session->userdata('role') == 2) :?>
 							<a class="dropdown-item" href="<?= site_url('juri'); ?>">
 								<span class="text-truncate pr-2" title="Dashboard">Dashboard</span>
@@ -203,7 +215,7 @@
 								<span class="text-truncate pr-2" title="Penilaian">Penilaian</span>
 							</a>
 
-              <!-- PENYELENGGARA -->
+							<!-- PENYELENGGARA -->
 							<?php elseif ($this->session->userdata('role') == 3) :?>
 							<a class="dropdown-item" href="<?= site_url('pengaturan-pts'); ?>">
 								<span class="text-truncate pr-2" title="Pengaturan">Pengaturan</span>

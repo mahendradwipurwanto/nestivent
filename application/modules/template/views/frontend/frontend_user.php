@@ -27,6 +27,8 @@
 
   <link rel="stylesheet" href="<?= base_url();?>assets/frontend/plugin/toast/toast.style.css?<?= time() ?>">
 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
 
   <!-- JS Implementing Plugins -->
   <script src="<?= base_url();?>assets/frontend/js/vendor.min.js"></script>
@@ -36,6 +38,9 @@
 
   <script type="text/javascript" src="<?=base_url();?>assets/frontend/plugin/tinymce/jquery.tinymce.min.js"></script>
   <script type="text/javascript" src="<?=base_url();?>assets/frontend/plugin/tinymce/tinymce.min.js"></script>
+
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 
   <!-- JS Plugins Init. -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous"></script>
@@ -106,6 +111,17 @@
 
 <script>
   $(document).on('ready', function () {
+
+
+$('#myTable').DataTable( {
+  "language": {
+    "emptyTable": '<div class="text-center p-4">' +
+    '<img class="mb-3" src="<?= base_url() ?>assets/backend/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+    '<p class="mb-0">Tidak ada data untuk ditampilkan</p>' +
+    '</div>'
+  },
+  "scrollX": true
+} );
   // INITIALIZATION OF HEADER
   // =======================================================
   var header = new HSHeader($('#header')).init();

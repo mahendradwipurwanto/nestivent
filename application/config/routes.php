@@ -149,10 +149,12 @@ $route['manage-kompetisi/pengaturan']			= 'manage_kompetisi/pengaturan';
 $route['manage-kompetisi/atur-pendaftaran']		= 'manage_kompetisi/atur_pendaftaran';
 $route['manage-kompetisi/data-peserta']			= 'manage_kompetisi/data_peserta';
 $route['manage-kompetisi/verifikasi-peserta']	= 'manage_kompetisi/verifikasi_berkas';
+$route['manage-kompetisi/berkas-lomba']       = 'manage_kompetisi/berkas_lomba';
 
 $route['manage-kompetisi/pengaturan-umum']		= 'manage_kompetisi/pengaturan_umum';
 
 $route['manage-kompetisi/data-juri']						= 'manage_kompetisi/data_juri';
+$route['manage-kompetisi/data-koordinator']     = 'manage_kompetisi/data_koordinator';
 $route['manage-kompetisi/bidang-lomba']						= 'manage_kompetisi/bidang_lomba';
 $route['manage-kompetisi/tahap-penilaian']					= 'manage_kompetisi/tahap_penilaian';
 $route['manage-kompetisi/kriteria-penilaian']				= 'manage_kompetisi/kriteria_penilaian';
@@ -184,10 +186,24 @@ $route['event/(:any)']         	 		= 'event/event_detail/$1';
 // ETC
 
 $route['daftar/(:any)']			                = 'pendaftaran/daftar/$1';
+$route['daftar-kompetisi/(:any)']			      = 'pendaftaran/daftar_kompetisi/$1';
 $route['detail-daftar/(:any)']	            = 'pengguna/detail_daftar/$1';
 // NEW
-$route['detail-daftar-event/(:any)/(:any)']	= 'pengguna/detail_daftar/$1/$2';
+$route['detail-daftar-event/(:any)']	    = 'pengguna/detail_daftar/$1';
+$route['detail-daftar-kompetisi/(:any)']	= 'pengguna/detail_daftarKompetisi/$1';
+$route['pengguna/data-anggota/(:any)']    = 'pengguna/anggota_kompetisi/$1';
+$route['pengguna/berkas-kompetisi/(:any)']= 'pengguna/berkas_daftarKompetisi/$1';
+$route['pengguna/pembayaran-kompetisi/(:any)']= 'pengguna/data_pembayaranKompetisi/$1';
+$route['pengguna/data-karya/(:any)']      = 'pengguna/data_karya/$1';
 
+$route['ajx-data-pts-all']                = 'pendaftaran/ajx_dataPtsAll'; 
+
+// JURI
+$route['juri/riwayat-penilaian']					= 'juri/riwayat_penilaian';
+$route['juri/riwayat-penilaian/(:num)']		= 'juri/riwayat_penilaian/$1';
+
+$route['juri/hasil-penilaian']					  = 'juri/hasil_penilaian';
+$route['juri/hasil-penilaian/(:num)']			= 'juri/hasil_penilaian/$1';
 // END ETC
 
 // UTIL PAGE

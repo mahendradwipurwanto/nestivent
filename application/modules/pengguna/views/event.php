@@ -33,7 +33,7 @@
 									</div>
 
 									<div class="col-sm-auto">
-										<a class="btn btn-xs btn-white mr-2" href="<?= site_url('detail-daftar-event/'.$key->KODE_EVENT.'/'.$key->KODE_PENDAFTARAN);?>"><i class="fas fa-pencil-alt mr-1"></i> data pendaftaranmu</a>
+										<a class="btn btn-xs btn-white mr-2" href="<?= site_url('detail-daftar-event/'.$key->KODE_PENDAFTARAN);?>"><i class="fas fa-pencil-alt mr-1"></i> data pendaftaranmu</a>
 									</div>
 									<!-- End Row -->
 								</div>

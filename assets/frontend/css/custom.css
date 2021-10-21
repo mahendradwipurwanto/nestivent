@@ -17,6 +17,18 @@ body {
 	align-items: center;
 	justify-content: center;
   }
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: calc(1.6em + 1.625rem) !important;
+}
+.select2-container .select2-selection--single {
+    height: calc(1.6em + 1.625rem) !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: calc(1.6em + 1.625rem) !important;
+}
+.form-control.is-valid, .was-validated .form-control:valid{
+  background-image: none !important;
+}
 .custom-select-flush,
 .form-control-flush {
 	background-color: transparent;

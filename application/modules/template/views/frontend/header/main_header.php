@@ -377,3 +377,10 @@
 	</div>
 </aside>
 <!-- End Account Sidebar Navigation -->
+<div class="alert alert-soft-secondary alert-dismissible fade show mb-0 shadow-soft" role="alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<strong><i class="fas fa-info-circle mr-1"></i>Info!</strong> Website sedang dalam masa uji coba. Sebagian fitur masih dalam tahap pengembangan.
+</div>

@@ -18,8 +18,8 @@
       <!-- End Navbar Vertical Toggle -->
 
       <div class="d-none d-md-block">
-        <a href="<?= base_url() ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Landing Page</a>
         <a href="<?= site_url('dashboard-penyelenggara') ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Dashboard Penyelenggara</a>
+        <a href="<?= base_url() ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Landing Page</a>
       </div>
     </div>
 

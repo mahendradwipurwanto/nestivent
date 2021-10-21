@@ -20,13 +20,26 @@ class Manage_kompetisi extends MX_Controller {
       $this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
       redirect('login');
     }
-    if ($this->session->userdata('mstatus_kompetisi') == FALSE || !$this->session->userdata('mstatus_kompetisi')) {
-      $this->session->set_flashdata('error', "Harap re-akses kompetisi anda");
-      redirect('k-panel');
-    }
     
     $this->load->model('M_manageKompetisi', 'M_manage');
   }
+
+
+	// MAILER SENDER
+	function send_email($email, $subject, $message){
+
+		$mail = array(
+			'to' 			=> $email,
+			'subject'		=> $subject,
+			'message'		=> $this->body_html($message)
+		);
+
+		if ($this->mailer->send($mail) == TRUE) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
   function tinymce_upload() {
     $config['upload_path'] = './berkas/tmp/post/';
@@ -200,7 +213,7 @@ class Manage_kompetisi extends MX_Controller {
 
     $data['bidang_lomba'] = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
     $data['data_juri']    = $this->M_manage->get_dataJuri($this->session->userdata('manage_kompetisi'));
-    $data['CI']           = $this;
+    $data['controller']           = $this;
 
     $data['module']     = "manage_kompetisi";
     $data['fileview']   = "data_juri";
@@ -211,13 +224,62 @@ class Manage_kompetisi extends MX_Controller {
   
   function tambah_juri(){
     if ($this->input->post('PASSWORD') == $this->input->post('CONFIRM_PASSWORD')) {
-      if ($this->M_manage->tambah_juri() == TRUE) {
-        $this->session->set_flashdata('success', "Berhasil menambahkan data juri !!");
-        redirect($this->agent->referrer());
-      }else{
-        $this->session->set_flashdata('error', "Terjadi kesalahan saat menambahkan data juri !!");
-        redirect($this->agent->referrer());
-      }
+      // CREATE UNIQ NAME KODE USER
+
+			$string = preg_replace('/[^a-z]/i', '', $this->input->post("NAMA_JURI"));
+
+			$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
+			$scrap  = str_replace($vocal, "", $string);
+			$begin  = substr($scrap, 0, 4);
+			$uniqid = strtoupper($begin);
+
+      // CREATE KODE USER
+			do {
+				$KODE_USER      = "JRI_".$uniqid.substr(md5(time()), 0, 3);
+			} while ($this->M_manage->cek_kodeUser($KODE_USER) > 0);
+
+          // UPLOAD
+			if (!empty($_FILES['PROFIL']['name'])) {
+
+        $kode_kompetisi = $this->session->userdata('manage_kompetisi');
+        $folder   = "berkas/juri/kompetisi/{$kode_kompetisi}/{$KODE_USER}/";
+
+				if (!is_dir($folder)) {
+					mkdir($folder, 0755, true);
+				}
+
+              // UPLOAD FILE
+				$config['upload_path']        = $folder;
+				$config['allowed_types']      = 'png|jpg|jpeg|gif';
+				$config['max_size']           = 10*1024;
+				$config['overwrite']          = TRUE;
+
+				$this->load->library('upload', $config);
+
+				if (!$this->upload->do_upload('PROFIL')){
+					$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengunggah foto!!');
+					redirect($this->agent->referrer());
+				}else {
+					$upload_data = $this->upload->data();
+
+					if ($this->M_manage->tambah_juri($KODE_USER, $upload_data['file_name']) == TRUE) {
+						$this->session->set_flashdata('success', "Berhasil menambahkan data juri !!");
+						redirect($this->agent->referrer());
+					}else{
+						$this->session->set_flashdata('error', "Terjadi kesalahan saat menambahkan data juri !!");
+						redirect($this->agent->referrer());
+					}
+				}
+			}else {
+
+				if ($this->M_manage->tambah_juri($KODE_USER, null) == TRUE) {
+					$this->session->set_flashdata('success', "Berhasil menambahkan data juri !!");
+					redirect($this->agent->referrer());
+				}else{
+					$this->session->set_flashdata('error', "Terjadi kesalahan saat menambahkan data juri !!");
+					redirect($this->agent->referrer());
+				}
+			}
     }else{
       $this->session->set_flashdata('error', "Password yang anda masukkan tidak sama !!");
       redirect($this->agent->referrer());
@@ -225,14 +287,57 @@ class Manage_kompetisi extends MX_Controller {
   }
   
   function edit_juri(){
-    if ($this->M_manage->edit_juri() == TRUE) {
-      $this->session->set_flashdata('success', "Berhasil mengubah data juri !!");
-      redirect($this->agent->referrer());
-    }else{
-      $this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah data juri !!");
-      redirect($this->agent->referrer());
-    }
+    if (!empty($_FILES['NEW_PROFIL']['name'])) {
+			$KODE_USER = $this->input->post('KODE_USER');
+      $kode_kompetisi = $this->session->userdata('manage_kompetisi');
+			$folder   = "berkas/juri/kompetisi/{$kode_kompetisi}/{$KODE_USER}/";
+
+			if (!is_dir($folder)) {
+				mkdir($folder, 0755, true);
+			}
+
+              // UPLOAD FILE
+			$config['upload_path']        = $folder;
+			$config['allowed_types']      = 'png|jpg|jpeg|gif';
+			$config['max_size']           = 10*1024;
+			$config['overwrite']          = TRUE;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('NEW_PROFIL')){
+				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengunggah foto!!');
+				redirect($this->agent->referrer());
+			}else {
+				$upload_data = $this->upload->data();
+
+				if ($this->M_manage->edit_juri($upload_data['file_name']) == TRUE) {
+					$this->session->set_flashdata('success', "Berhasil mengubah data juri !!");
+					redirect($this->agent->referrer());
+				}else{
+					$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah data juri !!");
+					redirect($this->agent->referrer());
+				}
+			}
+		}else {
+			if ($this->M_manage->edit_juri($this->input->post('PROFIL')) == TRUE) {
+				$this->session->set_flashdata('success', "Berhasil mengubah data juri !!");
+				redirect($this->agent->referrer());
+			}else{
+				$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah data juri !!");
+				redirect($this->agent->referrer());
+			}
+		}
   }
+
+	function pass_juri(){
+		if ($this->M_manage->pass_juri() == TRUE) {
+			$this->session->set_flashdata('success', "Berhasil mengubah password juri !!");
+			redirect($this->agent->referrer());
+		}else{
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah password juri !!");
+			redirect($this->agent->referrer());
+		}
+	}
 
   function hapus_juri(){
     if ($this->M_manage->hapus_juri() == TRUE) {
@@ -245,6 +350,211 @@ class Manage_kompetisi extends MX_Controller {
   }
 
   // END DATA JURI
+  
+
+	// DATA KOORDINATOR
+
+	public function data_koordinator()
+	{
+
+		$data['bidang_lomba']       = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+		$data['data_koordinator']    = $this->M_manage->get_dataKoordinator($this->session->userdata('manage_kompetisi'));
+		$data['controller']           = $this;
+
+		$data['module']     = "manage_kompetisi";
+		$data['fileview']   = "data_koordinator";
+		echo Modules::run('template/manage_kompetisi_main', $data);
+	}
+
+	//PROSES
+
+	function tambah_koordinator()
+	{
+		if ($this->input->post('PASSWORD') == $this->input->post('CONFIRM_PASSWORD')) {
+
+
+      		// CREATE UNIQ NAME KODE USER
+			$string = preg_replace('/[^a-z]/i', '', $this->input->post('NAMA_KOORDINATOR'));
+
+			$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
+			$scrap  = str_replace($vocal, "", $string);
+			$begin  = substr($scrap, 0, 4);
+			$uniqid = strtoupper($begin);
+
+			// CREATE KODE USER
+			do {
+				$KODE_USER      = "KOR_" . $uniqid . substr(md5(time()), 0, 3);
+			} while ($this->M_manage->cek_kodeUser($KODE_USER) > 0);
+
+			if ($this->M_manage->tambah_koordinator($KODE_USER) == TRUE) {
+
+				$BIDANG_LOMBA 		= $this->M_manage->get_bidangKoordinator($KODE_USER) != false ? $this->M_manage->get_bidangKoordinator($KODE_USER)->BIDANG_LOMBA : 'BIDANG TIDAK DITEMUKAN';
+				$NAMA_KOORDINATOR	= $this->input->post('NAMA_KOORDINATOR');
+				$EMAIL				= $this->input->post('EMAIL');
+				$PASSWORD			= $this->input->post('PASSWORD');
+        $PENYELENGGARA = $this->session->userdata('penyelenggara_akses');
+
+				$subject	= "Akun koordinator LO Kreatif Bidang Lomba - {$BIDANG_LOMBA}";
+				$message 	= "Hai {$NAMA_KOORDINATOR}, kamu telah ditambahkan sebagai koordinator {$PENYELENGGARA} bidang lomba <i>{$BIDANG_LOMBA}</i>. Berikut hak akses untuk masuk ke akun kamu:</br></br><table cellspacing='0' cellpadding='0' style='table{border:none}'><tr><td><b>Email</b></td><td>: {$EMAIL}</td></tr><tr><td><b>Password</b></td><td>: {$PASSWORD}</td></tr></table></br></br>";
+
+				$this->send_email($EMAIL, $subject, $message);
+				$this->session->set_flashdata('success', "Berhasil menambahkan data koordinator !!");
+				redirect($this->agent->referrer());
+			} else {
+				$this->session->set_flashdata('error', "Terjadi kesalahan saat menambahkan data koordinator !!");
+				redirect($this->agent->referrer());
+			}
+		} else {
+			$this->session->set_flashdata('error', "Password yang anda masukkan tidak sama !!");
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function edit_koordinator()
+	{
+		if ($this->M_manage->edit_koordinator() == TRUE) {
+			$this->session->set_flashdata('success', "Berhasil mengubah data koordinator !!");
+			redirect($this->agent->referrer());
+		} else {
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah data koordinator !!");
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function pass_koordinator(){
+		if ($this->M_manage->pass_koordinator() == TRUE) {
+			$this->session->set_flashdata('success', "Berhasil mengubah password koordinator !!");
+			redirect($this->agent->referrer());
+		}else{
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah password koordinator !!");
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function hapus_koordinator()
+	{
+		if ($this->M_manage->hapus_koordinator() == TRUE) {
+			$this->session->set_flashdata('success', "Berhasil menghapus data koordinator !!");
+			redirect($this->agent->referrer());
+		} else {
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat menghapus data koordinator !!");
+			redirect($this->agent->referrer());
+		}
+	}
+
+  // END DATA KOORDINATOR
+  
+  
+
+	// DATA BERKAS LOMBA
+	public function berkas_lomba()
+	{
+		$data['berkas_lomba']		  	= $this->M_manage->get_berkasLomba($this->session->userdata('manage_kompetisi'));
+
+		$data['module'] 	= "manage_kompetisi";
+		$data['fileview'] 	= "berkas_lomba";
+		echo Modules::run('template/manage_kompetisi_main', $data);
+	}
+
+	function tambahBerkas()
+	{
+
+		// UPLOAD
+		if (!empty($_FILES['LINK']['name'])) {
+
+      $kode_kompetisi = $this->session->userdata('manage_kompetisi');
+			$folder   = "berkas/kebutuhan/kompetisi/{$kode_kompetisi}/";
+
+			if (!is_dir($folder)) {
+				mkdir($folder, 0755, true);
+			}
+
+			// UPLOAD FILE
+			$config['upload_path']    		= $folder;
+			$config['allowed_types']        = '*';
+			$config['max_size']             = 10 * 1024;
+			$config['overwrite']			= TRUE;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('LINK')) {
+				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengunggah berkas!!');
+				redirect($this->agent->referrer());
+			} else {
+				$upload_data = $this->upload->data();
+
+				if ($this->M_manage->tambahBerkas($upload_data['file_name']) == TRUE) {
+
+					$this->session->set_flashdata('success', "Berhasil menambahkan berkas kebutuhan !!");
+					redirect($this->agent->referrer());
+				} else {
+					$this->session->set_flashdata('error', "Terjadi kesalahan saat menambahkan berkas kebutuhan !!");
+					redirect($this->agent->referrer());
+				}
+			}
+		} else {
+			$this->session->set_flashdata('warning', 'Anda tidak memilih file untuk diunggah!!');
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function editBerkas()
+	{
+
+		// UPLOAD
+		if (!empty($_FILES['NEW_LINK']['name'])) {
+      $kode_kompetisi = $this->session->userdata('manage_kompetisi');
+			$folder   = "berkas/kebutuhan/kompetisi/{$kode_kompetisi}/";
+
+			if (!is_dir($folder)) {
+				mkdir($folder, 0755, true);
+			}
+
+			// UPLOAD FILE
+			$config['upload_path']    		= $folder;
+			$config['allowed_types']        = '*';
+			$config['max_size']             = 10 * 1024;
+			$config['overwrite']			= TRUE;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('NEW_LINK')) {
+				$this->session->set_flashdata('error', 'Terjadi kesalahan saat mengunggah berkas!!');
+				redirect($this->agent->referrer());
+			} else {
+				$upload_data = $this->upload->data();
+				if ($this->M_manage->editBerkas($upload_data['file_name']) == TRUE) {
+
+					$this->session->set_flashdata('success', "Berhasil mengubah berkas kebutuhan !!");
+					redirect($this->agent->referrer());
+				} else {
+					$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah berkas kebutuhan !!");
+					redirect($this->agent->referrer());
+				}
+			}
+		} else {
+			if ($this->M_manage->editBerkas($this->input->post('LINK')) == TRUE) {
+
+				$this->session->set_flashdata('success', "Berhasil mengubah berkas kebutuhan !!");
+				redirect($this->agent->referrer());
+			} else {
+				$this->session->set_flashdata('error', "Terjadi kesalahan saat mengubah berkas kebutuhan !!");
+				redirect($this->agent->referrer());
+			}
+		}
+	}
+
+	function hapusBerkas()
+	{
+		if ($this->M_manage->hapusBerkas() == TRUE) {
+
+			$this->session->set_flashdata('success', "Berhasil menghapus berkas kebutuhan !!");
+			redirect($this->agent->referrer());
+		} else {
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat menghapus berkas kebutuhan !!");
+			redirect($this->agent->referrer());
+		}
+	}
 
   // TAHAP PENILAIAN
 
@@ -295,7 +605,7 @@ class Manage_kompetisi extends MX_Controller {
   public function kriteria_penilaian(){
     $data['tahap_penilaian']  = $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
     $data['bidang_lomba']     = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
-    $data['CI']               = $this;
+    $data['controller']        = $this;
 
     $data['module']     = "manage_kompetisi";
     $data['fileview']   = "kompetisi/kriteria_penilaian";
@@ -402,6 +712,17 @@ class Manage_kompetisi extends MX_Controller {
     }
   }
 
+  function hapus_formPendaftaran($ID_FORM){
+    if ($this->M_manage->hapus_formPendaftaran($ID_FORM) == TRUE)  {
+
+      $this->session->set_flashdata('success', "Berhasil menghapus form pendaftaran !!");
+      redirect($this->agent->referrer());
+    }else {
+      $this->session->set_flashdata('error', "Terjadi kesalahan saat menghapus form pendaftaran!");
+      redirect($this->agent->referrer());
+    }
+  }
+
   function proses_updatePendaftaran(){
     if ($this->M_manage->proses_updatePendaftaran($this->session->userdata('manage_kompetisi')) == TRUE)  {
 
@@ -413,4 +734,61 @@ class Manage_kompetisi extends MX_Controller {
     }
   }
   // END PROSES
+
+	function body_html($message){
+    $PENYELENGGARA = $this->session->userdata('penyelenggara_akses');
+		return '
+		<html>
+
+		<head>
+		<title>'.$PENYELENGGARA.'</title>
+		</head>
+
+		<body style="
+		font-family: -webkit-pictograph;
+		color: #333333;
+		font-size: 16px;
+		background:#EEEEEE;">
+		<div style="margin: 0 auto 0 auto; width: 560px;">
+		<div style="padding-top: 55px; text-align : center;">
+		<div style="font-weight: 700;font-size: 32px;">
+		<span style="font-size: 32px; ">LO-KREATIF</span>
+		</div>
+		</div>
+		<div style="background: white">
+		<main><div style="margin-top: 32px;">
+		<div style="height: 12px; background: #0B4C8A;"></div>
+		<div style="margin: 32px 56px 0 56px">
+		<div>
+		<span style="font-size: 16px;">
+		'.$message.'
+		<br><br><br>
+		<span class="text-muted">Regards,<br>'.$PENYELENGGARA.'</span>
+		</span>
+		</div>
+		</div>
+		</div>
+
+		</main>
+		<hr style="
+		width: 513px; 
+		margin-top: 34px;
+		border-top: 1px solid #cecece; 
+		border-bottom: none;" />
+		<div>
+		<div style="margin: 32px 56px 0 56px">
+		<div style="margin-top: 32px">
+		<img style="margin: auto;display: block;" src="https://i.ibb.co/XtvzJBX/icon-ts.png" width="75px" height="auto" alt="LO Kreatif logo">
+		<div style="text-align: center; font-size: 10px; margin-top:10px">'.$PENYELENGGARA.' 2021</div>
+		</div>
+		</div>
+		</div>
+		<hr style="border-top: 1px dashed #CECECE; margin-top: 24px; border-bottom: none;">
+		<div style="margin-top: 13px; text-align : center; font-size:10px;">This email has been generated
+		automatically, please do not reply.</div>
+		<div style="height: 12px; background: #0B4C8A; margin-top:10px;"></div>
+		</div>
+		</body>
+		';
+	}
 }

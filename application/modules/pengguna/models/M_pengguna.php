@@ -95,6 +95,30 @@ class M_pengguna extends CI_Model {
 		}
 	}
 
+	//KOMPETISI DIIKUTI
+
+	public function count_kompetisiDiikuti($kode_user){
+		$query = $this->db->get_where("PENDAFTARAN_KOMPETISI", array('KODE_USER' => $kode_user));
+		return $query->num_rows();
+	}
+
+	public function kompetisiDiikuti($kode_user, $limit, $start){
+
+		$this->db->select("a.*, b.*, c.*, a.STATUS AS STATUS_PESERTA");
+		$this->db->from("PENDAFTARAN_KOMPETISI a");
+		$this->db->join("TB_KOMPETISI b", "a.KODE_KOMPETISI = b.KODE_KOMPETISI");
+		$this->db->join("TB_PENYELENGGARA c", "b.KODE_PENYELENGGARA = c.KODE_PENYELENGGARA");
+		$this->db->where("a.KODE_USER", $kode_user);
+		$this->db->limit($limit, $start);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}else {
+			return false;
+		}
+	}
+
 	//EVENT DIIKUTI
 
 	public function count_eventDiikuti($kode_user){
@@ -269,11 +293,31 @@ class M_pengguna extends CI_Model {
 		return $query->num_rows();
 	}
 
+	public function cek_daftarKompetisi($kode_pendaftaran){
+		$query = $this->db->get_where("pendaftaran_kompetisi", array('KODE_PENDAFTARAN' => $kode_pendaftaran));
+		return $query->num_rows();
+	}
+
 	// - get data pendaftaran kompetisi by kode_pendaftaran
 	public function get_detailDaftarEvent($kode_pendaftaran){
 			$this->db->select("*");
 			$this->db->from("pendaftaran_event");
 			$this->db->where("KODE_PENDAFTARAN", $kode_pendaftaran);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			}else {
+					return false;
+			}
+	}
+
+	// - get data pendaftaran kompetisi by kode_pendaftaran
+	public function get_detailDaftarKompetisi($kode_pendaftaran){
+			$this->db->select("a.*, pt.*, b.*, b.BIDANG_LOMBA as BIDANG");
+			$this->db->from("pendaftaran_kompetisi a");
+			$this->db->join("pt", "a.ASAL_PTS = pt.kodept", "left");
+			$this->db->join("bidang_lomba b", "a.BIDANG_LOMBA = b.ID_BIDANG");
+			$this->db->where("a.KODE_PENDAFTARAN", $kode_pendaftaran);
 			$query = $this->db->get();
 			if ($query->num_rows() > 0) {
 					return $query->row();
@@ -319,4 +363,246 @@ class M_pengguna extends CI_Model {
 			return ($this->db->affected_rows() != 1) ? false : true;
 		}
 	}
+
+	// PENDAFTARAN KOMPETISI
+
+    // - get data anggota by kode_pendaftaran
+
+    public function get_anggotaTim($kode){
+			$query = $this->db->get_where('tb_anggota', array('KODE_PENDAFTARAN' => $kode));
+			if ($query->num_rows() > 0) {
+					return $query->result();
+			}else{
+					return false;
+			}
+	}
+
+    // - get data ketua by kode_pendaftaran jabatan 1
+
+    public function get_dataKetua($kode){
+			$query = $this->db->get_where('tb_anggota', array('KODE_PENDAFTARAN' => $kode, 'PERAN' => 1));
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			}else{
+					return false;
+			}
+	}
+
+	// - get data dospem by kode_pendaftaran jabatan 2
+
+	public function get_dataDospem($kode){
+			$query = $this->db->get_where('tb_anggota', array('KODE_PENDAFTARAN' => $kode, 'PERAN' => 2));
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			}else{
+					return false;
+			}
+	}
+
+    // - get data anggota by kode_pendaftaran jabatan 3
+
+    public function get_dataAnggota($kode){
+			$query = $this->db->get_where('tb_anggota', array('KODE_PENDAFTARAN' => $kode, 'PERAN' => 3));
+			if ($query->num_rows() > 0) {
+					return $query->result();
+			}else{
+					return false;
+			}
+	}
+
+	// - cek kelengkapan data berkas peserta by kode_pendaftaran
+
+	public function cek_kelengkapanBerkas($kegiatan, $kode){
+			$query = $this->db->query("SELECT ID_FORM FROM form_meta WHERE KODE = '$kegiatan' AND REQUIRED = 1 AND ID_FORM NOT IN (SELECT ID_FORM FROM pendaftaran_data WHERE KODE_PENDAFTARAN = '$kode' AND JAWABAN != '')");
+			if ($query->num_rows() > 0) {
+					return false;
+			}else{
+					return true;
+			}
+	}
+	
+	// PEMBAYARAN
+	function cekPembayaran($KODE_PENDAFTARAN){
+		$query = $this->db->get_where('tb_transaksi', array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	function get_dataPembayaran($KODE_PENDAFTARAN){
+		$query = $this->db->query("SELECT * FROM tb_transaksi a LEFT JOIN pendaftaran_kompetisi b ON a.KODE_PENDAFTARAN = b.KODE_PENDAFTARAN WHERE a.KODE_PENDAFTARAN = '$KODE_PENDAFTARAN'");
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	function get_biayaDaftar($ID_TIKET){
+		$query = $this->db->get_where('tb_tiket', array('ID_TIKET' => $ID_TIKET));
+		if ($query->num_rows() > 0) {
+			return $query->row()->HARGA_TIKET;
+		}else{
+			return "Harap hubungi admin anda";
+		}
+	}
+
+	// GENERATE KODE TRANSAKSI
+
+	function cek_kodeTransaksi($KODE_TRANS)
+	{
+			$query  = $this->db->get_where("tb_transaksi", array('KODE_TRANS' => $KODE_TRANS));
+			return $query->num_rows();
+	}
+
+	public function gen_kodeTrans()
+	{
+			do {
+					$time           = substr(md5(time()), 0, 6);
+					$KODE_TRANS     = "TRAN_{$time}";
+			} while ($this->cek_kodeTransaksi($KODE_TRANS) > 0);
+
+			return $KODE_TRANS;
+	}
+
+	// KARYA
+
+	function cek_Karya($KODE_PENDAFTARAN){
+		$query = $this->db->get_where('tb_karya', array('KODE_PENDAFTARAN' => $KODE_PENDAFTARAN));
+		if ($query->num_rows() > 0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function get_dataKarya($KODE_PENDAFTARAN){
+		$query = $this->db->query("SELECT * FROM tb_karya a LEFT JOIN pendaftaran_kompetisi b ON a.KODE_PENDAFTARAN = b.KODE_PENDAFTARAN WHERE a.KODE_PENDAFTARAN = '$KODE_PENDAFTARAN'");
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	function kelola_karya($FILE){
+
+		$KODE_PENDAFTARAN	= $this->input->post('KODE_PENDAFTARAN');
+		$TIPE_KARYA				= $this->input->post('TIPE_KARYA');
+
+		$JUDUL						= htmlspecialchars($this->input->post('JUDUL'), true);
+
+		// FILE PDF / GAMBAR
+		if ($TIPE_KARYA == 1 || $TIPE_KARYA == 2) {
+			if ($FILE == null) {
+				$data = array(
+					'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN,
+					'JUDUL' 						=> $JUDUL,
+				);
+			}else{
+				$data = array(
+					'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN,
+					'JUDUL' 						=> $JUDUL,
+					'FILE' 							=> $FILE,
+				);
+			}
+		// LINK
+		}elseif ($TIPE_KARYA == 3) {
+		$LINK				= $this->input->post('LINK');
+			$data = array(
+				'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN,
+				'JUDUL' 			=> $JUDUL,
+				'LINK' 				=> $LINK,
+			);
+		}
+
+		if ($this->cek_Karya($KODE_PENDAFTARAN) == true) {
+			$this->db->where('KODE_PENDAFTARAN', $KODE_PENDAFTARAN);
+			$this->db->update('tb_karya', $data);
+			return ($this->db->affected_rows() != 1) ? false : true;
+		}else{
+			$this->db->insert('tb_karya', $data);
+			return ($this->db->affected_rows() != 1) ? false : true;
+		}
+	}
+
+	function update_pts(){
+
+		$KODE_PENDAFTARAN	= $this->input->post('KODE_PENDAFTARAN');
+		$NAMA_TIM			= $this->input->post('NAMA_TIM');
+		$PT					= $this->input->post('ASAL_PTS');
+		$PT 	    		= explode("-", $PT);
+		$ASAL_PTS			= $PT[0];
+		$ALAMAT_PTS			= $this->input->post('ALAMAT_PTS');
+
+		if (empty($ASAL_PTS)) {
+			$data = array(
+				'NAMA_TIM'  		=> $NAMA_TIM,
+				'ALAMAT_PTS'  		=> $ALAMAT_PTS
+			);
+		}else{
+			$data = array(
+				'NAMA_TIM'  		=> $NAMA_TIM,
+				'ASAL_PTS'  		=> $ASAL_PTS,
+				'ALAMAT_PTS'  		=> $ALAMAT_PTS
+			);
+		}
+
+		$this->db->where('KODE_PENDAFTARAN', $KODE_PENDAFTARAN);
+		$this->db->update('pendaftaran_kompetisi', $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
+	function tambah_anggota(){
+		$KODE_PENDAFTARAN = $this->input->post('KODE_PENDAFTARAN');
+		$NAMA = $this->input->post('NAMA');
+		$NIM = $this->input->post('NIM');
+		$EMAIL = $this->input->post('EMAIL');
+		$HP = $this->input->post('HP');
+		$PERAN = $this->input->post('PERAN');
+
+		$data = array(
+			'KODE_PENDAFTARAN'=> $KODE_PENDAFTARAN,
+			'NAMA' 						=> $NAMA,
+			'NIM' 						=> $NIM,
+			'EMAIL' 					=> $EMAIL,
+			'HP' 							=> $HP,
+			'PERAN' 					=> $PERAN,
+		);
+
+		$this->db->insert('tb_anggota', $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
+	function edit_anggota(){
+		$KODE_PENDAFTARAN = $this->input->post('KODE_PENDAFTARAN');
+		$NAMA = $this->input->post('NAMA');
+		$NIM = $this->input->post('NIM');
+		$EMAIL = $this->input->post('EMAIL');
+		$HP = $this->input->post('HP');
+		$PERAN = $this->input->post('PERAN');
+
+		$data = array(
+			'NAMA' 						=> $NAMA,
+			'NIM' 						=> $NIM,
+			'EMAIL' 					=> $EMAIL,
+			'HP' 							=> $HP,
+			'PERAN' 					=> $PERAN,
+		);
+
+		$this->db->where('KODE_PENDAFTARAN', $KODE_PENDAFTARAN);
+		$this->db->update('tb_anggota', $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
+	function hapus_anggota(){
+		$ID_ANGGOTA = $this->input->post('ID_ANGGOTA');
+
+		$this->db->where('ID_ANGGOTA', $ID_ANGGOTA);
+		$this->db->delete('tb_anggota');
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+	
 }

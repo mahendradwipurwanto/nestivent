@@ -18,7 +18,7 @@
       <!-- End Navbar Vertical Toggle -->
 
       <div class="d-none d-md-block">
-        <a href="<?= site_url('pengguna') ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Dashboard Pengguna</a>
+        <a href="<?= site_url('dashboard-penyelenggara') ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Dashboard Penyelenggara</a>
         <a href="<?= base_url() ?>" target="_blank" class="btn btn-ghost-secondary btn-sm btn-pill ml-2">Landing Page</a>
       </div>
     </div>
@@ -191,12 +191,6 @@
       </div>
     </div>
   </div>
-
-  <div class="dropdown-divider"></div>
-
-  <a class="dropdown-item" href="<?= site_url('pengguna'); ?>">
-    <span class="text-truncate pr-2" title="Profil">Profil</span>
-  </a>
 
   <div class="dropdown-divider"></div>
 

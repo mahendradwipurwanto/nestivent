@@ -91,6 +91,7 @@ class Kompetisi extends MX_Controller {
 			$data['daftar']		= $this->M_kompetisi->cek_dataPeserta($this->session->userdata('kode_user'), $id);
 			$data['kompetisi']	= $this->M_kompetisi->get_kompetisiDetail($id);
 			$data['bidang']		= $this->M_kompetisi->get_kompetisiBidang($id);
+			$data['unduhan']	= $this->M_kompetisi->get_berkasUnduhan($id);
 
 			$data['tiket']		= $this->M_kompetisi->get_tiketKompetisi($id);
 			$data['sosmed']		= $this->M_kompetisi->get_sosmedKompetisi($id);

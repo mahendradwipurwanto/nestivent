@@ -113,18 +113,34 @@
 				</div>
 
 				<div class="tab-pane fade mt-6" id="panduan" role="tabpanel" aria-labelledby="panduan-tab">
-					<?php if ($kompetisi->PANDUAN == null) :?>
-					<small class="form-text">Panduan belum ditambahkan</small>
+				<div class="row center-flext justify-content-lg-center">
+					<?php if ($unduhan == false) :?>
+						<!-- Card -->
+						<div class="card shadow-none mb-3">
+							<div class="card-header card-collapse">
+								<a class="btn btn-link btn-block d-flex justify-content-between card-btn bg-white px-0">
+									belum ada berkas yang ditambahkan
+								</a>
+							</div>
+						</div>
+						<!-- End Card -->
 					<?php else:?>
-					<iframe
-						src="<?= base_url(); ?>berkas/penyelenggara/<?= $kompetisi->KODE_PENYELENGGARA;?>/kompetisi/<?= $kompetisi->KODE_KOMPETISI;?>/panduan/<?= $kompetisi->PANDUAN;?>"
-						frameborder="0" allowfullscreen class="w-100"></iframe>
-					<!-- End Gallery -->
+						<?php $no=1; foreach ($unduhan as $key) :?>
 
-					<small class="form-text">Download panduan <a
-							href="<?= base_url(); ?>berkas/penyelenggara/<?= $kompetisi->KODE_PENYELENGGARA;?>/kompetisi/<?= $kompetisi->KODE_KOMPETISI;?>/panduan/<?= $kompetisi->PANDUAN;?>"
-							target="_blank"><?= $kompetisi->JUDUL;?></a></small>
+						<div class="col-lg-4 mb-4 pt-lg-0">
+							<!-- Card -->
+							<div class="card shadow-secondary-lg p-4">
+								<div class="text-center mb-4">
+									<h4 class="text-primary"><?= $key->JUDUL;?></h4>
+									<span class="d-block small text-secondary font-weight-bold text-cap"><?= $key->KETERANGAN;?></span>
+								</div>
+								<a class="btn btn-block btn-xs btn-primary transition-3d-hover" target="_blank" href="<?= base_url();?>berkas/kebutuhan/kompetisi/<?= $key->KODE_KOMPETISI;?>/<?= $key->LINK;?>"><i class="fas fa-download mr-2"></i> unduh</a>
+							</div>
+							<!-- End Card -->
+						</div>
+						<?php $no++; endforeach;?>
 					<?php endif;?>
+				</div>
 				</div>
 
 				<div class="tab-pane fade mt-6" id="bidang-lomba" role="tabpanel" aria-labelledby="bidang-lomba-tab">
@@ -189,7 +205,7 @@
 					</div>
 					<?php else:?>
 					<?php if($kompetisi->STATUS_KOMPETISI == 1):?>
-					<a href="<?= site_url('daftar/'.$kompetisi->KODE_KOMPETISI);?>"
+					<a href="<?= site_url('daftar-kompetisi/'.$kompetisi->KODE_KOMPETISI);?>"
 						class="btn btn-block btn-sm btn-primary btn-wide transition-3d-hover"><?php if($daftar == true):?>Telah
 						mendaftar <?php else:?>Daftarkan diri<?php endif;?></a>
 					<?php elseif ($kompetisi->STATUS_KOMPETISI != 1) :?>

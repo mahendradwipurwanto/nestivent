@@ -37,7 +37,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="<?= site_url('manage_kompetisi/tambah_juri');?>" method="post">
+            <form action="<?= site_url('manage_kompetisi/tambah_juri');?>" method="post" enctype="multipart/form-data">
 
               <div class="row mb-2">
                 <div class="col-6">
@@ -45,6 +45,22 @@
                   <div class="form-group">
                     <label class="input-label font-weight-bold">Nama juri <small class="text-danger">*</small></label>
                     <input type="text" class="form-control form-control-sm" name="NAMA_JURI" placeholder="Masukkan nama juri" reqired>
+                  </div>
+                  <div class="form-group">
+                    <label class="input-label font-weight-bold">Foto juri <small class="text-danger">*</small></label>
+                    <!-- File Attachment Button -->
+                    <label class="btn btn-sm btn-primary transition-3d-hover custom-file-btn" for="unggahTombol">
+                      <span id="unggahJudul">Tambahkan file</span>
+                      <input id="unggahTombol" name="PROFIL" type="file" class="js-file-attach  custom-file-btn-input"
+                        data-hs-file-attach-options='{
+                        "textTarget": "#unggahJudul"
+                      }'>
+                    </label>
+                    <!-- End File Attachment Button -->
+                  </div>
+                  <div class="form-group">
+                    <label class="input-label font-weight-bold">Jabatan <small class="text-muted">(optional)</small></label>
+                    <input type="text" class="form-control form-control-sm" name="PEKERJAAN" placeholder="Masukkan jabatan" reqired>
                   </div>
                   <div class="form-group">
                     <label class="input-label font-weight-bold">Email juri <small class="text-danger">*</small></label>
@@ -110,7 +126,7 @@
     </div>
   </div>
   <div class="card-body">
-    <table id="myTable" class="table table-bordered table-nowrap table-align-middle table-hover" width="100%">
+    <table id="myTable" class="table table-stripped table-nowrap table-align-middle table-hover" width="100%">
       <thead class="thead-light">
         <tr>
           <th>No</th>
@@ -127,11 +143,12 @@
             <td><?= $no++;?></td>
             <td>
               <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit<?= $no;?>"><i class="tio-edit"></i></button>
+              <button type="button" class="btn btn-xs text-white btn-warning" data-toggle="modal" data-target="#password<?= $no;?>"><i class="tio-key"></i></button>
               <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#hapus<?= $no;?>"><i class="tio-delete"></i></button>
             </td>
             <td><?= $key->NAMA;?></td>
             <td><?= $key->EMAIL;?></td>
-            <td><?= ($CI->M_manage->get_bidangJuri($key->KODE_USER) != false ? $CI->M_manage->get_bidangJuri($key->KODE_USER)->BIDANG_LOMBA : 'BIDANG TIDAK DITEMUKAN');?></td>
+            <td><?= ($controller->M_manage->get_bidangJuri($key->KODE_USER) != false ? $controller->M_manage->get_bidangJuri($key->KODE_USER)->BIDANG_LOMBA : 'BIDANG TIDAK DITEMUKAN');?></td>
           </tr>
 
           <div class="modal fade" id="hapus<?= $no;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,11 +165,44 @@
                 <div class="modal-body">
                   <form action="<?= site_url('manage_kompetisi/hapus_juri');?>" method="post">
                     <input type="hidden" name="KODE_USER" value="<?= $key->KODE_USER;?>">
-                    <input type="hidden" name="ID" value="<?= $CI->M_manage->get_bidangJuri($key->KODE_USER)->ID;?>">
+                    <input type="hidden" name="ID" value="<?= $controller->M_manage->get_bidangJuri($key->KODE_USER)->ID;?>">
                     <p>Apakah anda yakin ingin menghapus data juri <i><?= $key->NAMA;?></i>?</p>
                     <div class="modal-footer px-0 pb-0">
                       <button type="button" class="btn btn-light btn-xs" data-dismiss="modal">Batal</button>
                       <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="password<?= $no;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Ganti password juri</h5>
+                  <button type="button" class="btn btn-xs btn-icon btn-soft-secondary" data-dismiss="modal" aria-label="Close">
+                    <svg aria-hidden="true" width="10" height="10" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="currentColor" d="M11.5,9.5l5-5c0.2-0.2,0.2-0.6-0.1-0.9l-1-1c-0.3-0.3-0.7-0.3-0.9-0.1l-5,5l-5-5C4.3,2.3,3.9,2.4,3.6,2.6l-1,1 C2.4,3.9,2.3,4.3,2.5,4.5l5,5l-5,5c-0.2,0.2-0.2,0.6,0.1,0.9l1,1c0.3,0.3,0.7,0.3,0.9,0.1l5-5l5,5c0.2,0.2,0.6,0.2,0.9-0.1l1-1 c0.3-0.3,0.3-0.7,0.1-0.9L11.5,9.5z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="<?= site_url('manage_kompetisi/pass_juri');?>" method="post">
+                    <input type="hidden" name="KODE_USER" value="<?= $key->KODE_USER;?>">
+                    <input type="hidden" name="ID" value="<?= $controller->M_manage->get_bidangJuri($key->KODE_USER)->ID;?>">
+                    <div class="form-group">
+                      <label class="input-label font-weight-bold">Password juri <small class="text-danger">*</small></label>
+                      <input type="password" class="form-control form-control-sm" minlength="6" name="PASSWORD" reqired>
+                    </div>
+                    <div class="form-group">
+                      <label class="input-label font-weight-bold">Confirm Password juri <small class="text-danger">*</small></label>
+                      <input type="password" class="form-control form-control-sm" minlength="6" name="CONFIRM_PASSWORD" reqired>
+                    </div>
+                    <div class="modal-footer px-0 pb-0">
+                      <button type="button" class="btn btn-light btn-xs" data-dismiss="modal">Batal</button>
+                      <button type="submit" class="btn btn-warning btn-xs">Ubah password</button>
                     </div>
                   </form>
                 </div>
@@ -172,9 +222,9 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form action="<?= site_url('manage_kompetisi/edit_juri');?>" method="post">
+                  <form action="<?= site_url('manage_kompetisi/edit_juri');?>" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="KODE_USER" value="<?= $key->KODE_USER;?>">
-                    <input type="hidden" name="ID" value="<?= $CI->M_manage->get_bidangJuri($key->KODE_USER)->ID;?>">
+                    <input type="hidden" name="ID" value="<?= $controller->M_manage->get_bidangJuri($key->KODE_USER)->ID;?>">
                     <div class="row mb-2">
                       <div class="col-6">
 
@@ -183,20 +233,29 @@
                           <input type="text" class="form-control form-control-sm" name="NAMA_JURI" value="<?= $key->NAMA;?>" reqired>
                         </div>
                         <div class="form-group">
+                          <label class="input-label font-weight-bold">Foto juri <small class="text-danger">*</small></label>
+                          <!-- File Attachment Button -->
+                          <label class="btn btn-sm btn-primary transition-3d-hover custom-file-btn" for="unggahTombol<?= $no;?>">
+                            <span id="unggahJudul<?= $no;?>"><?= (empty($key->PROFIL)) ? 'Tambahkan file' : $key->PROFIL;?></span>
+                            <input id="unggahTombol<?= $no;?>" name="NEW_PROFIL" type="file" class="js-file-attach  custom-file-btn-input"
+                              data-hs-file-attach-options='{
+                              "textTarget": "#unggahJudul<?= $no;?>"
+                            }'>
+                          </label>
+                          <!-- End File Attachment Button -->
+                          <input type="hidden" name="PROFIL" value="<?= $key->PROFIL;?>">
+                        </div>
+                        <div class="form-group">
+                          <label class="input-label font-weight-bold">Jabatan <small class="text-muted">(optional)</small></label>
+                          <input type="text" class="form-control form-control-sm" name="PEKERJAAN" value="<?= $key->PEKERJAAN;?>" reqired>
+                        </div>
+                        <div class="form-group">
                           <label class="input-label font-weight-bold">Email juri <small class="text-danger">*</small></label>
                           <input type="email" class="form-control form-control-sm" name="EMAIL" value="<?= $key->EMAIL;?>" reqired>
                         </div>
                         <div class="form-group">
                           <label class="input-label font-weight-bold">No telp <small class="text-danger">*</small></label>
                           <input type="number" class="form-control form-control-sm" name="HP" value="<?= $key->HP;?>">
-                        </div>
-                        <div class="form-group">
-                          <label class="input-label font-weight-bold">Password juri <small class="text-danger">*</small></label>
-                          <input type="password" class="form-control form-control-sm" minlength="6" name="PASSWORD" reqired>
-                        </div>
-                        <div class="form-group">
-                          <label class="input-label font-weight-bold">Confirm Password juri <small class="text-danger">*</small></label>
-                          <input type="password" class="form-control form-control-sm" minlength="6" name="CONFIRM_PASSWORD" reqired>
                         </div>
 
                       </div>
@@ -220,7 +279,7 @@
                               <!-- Custom Radio -->
                               <div class="form-control">
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="BIDANG_JURI" id="<?= $key->KODE_USER;?><?= $value->ID_BIDANG;?>" <?= ($CI->M_manage->get_bidangJuri($key->KODE_USER)->ID_BIDANG) == $value->ID_BIDANG ? 'checked' : '';?> value="<?= $value->ID_BIDANG;?>">
+                                  <input type="radio" class="custom-control-input" name="BIDANG_JURI" id="<?= $key->KODE_USER;?><?= $value->ID_BIDANG;?>" <?= ($controller->M_manage->get_bidangJuri($key->KODE_USER)->ID_BIDANG) == $value->ID_BIDANG ? 'checked' : '';?> value="<?= $value->ID_BIDANG;?>">
                                   <label class="custom-control-label" for="<?= $key->KODE_USER;?><?= $value->ID_BIDANG;?>"><?= $value->BIDANG_LOMBA;?></label>
                                 </div>
                               </div>

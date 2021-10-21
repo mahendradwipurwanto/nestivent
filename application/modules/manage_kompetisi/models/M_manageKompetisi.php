@@ -77,20 +77,32 @@ class M_manageKompetisi extends CI_Model {
 		}
 	}
 
+	function get_bidangLomba_by_id($id_bidang)
+	{
+			$query    = $this->db->query("SELECT * FROM bidang_lomba WHERE id_bidang = $id_bidang");
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			} else {
+					return false;
+			}
+	}
+
 	function tambah_bidangLomba($kode_kompetisi){
 		$BIDANG_LOMBA 	= htmlspecialchars($this->input->post('BIDANG_LOMBA'), true);
-		$TEAM 			= $this->input->post('TEAM');
+		$TIPE_KARYA 		= $this->input->post('TIPE_KARYA');
+		$TEAM 				= $this->input->post('TEAM');
 		$MIN_ANGGOTA 	= htmlspecialchars($this->input->post('MIN_ANGGOTA'), true);
 		$MAX_ANGGOTA 	= htmlspecialchars($this->input->post('MAX_ANGGOTA'), true);
-		$KETERANGAN 	= htmlspecialchars($this->input->post('KETERANGAN'), true);
+		$KETERANGAN 	= $this->input->post('KETERANGAN');
 
 		$data = array(
 			'KODE_KOMPETISI'=> $kode_kompetisi,
-			'TEAM'			=> ($TEAM == true ? 1 : 0),
-			'MIN_ANGGOTA'	=> ($TEAM == true ? $MIN_ANGGOTA : null),
-			'MAX_ANGGOTA'	=> ($TEAM == true ? $MAX_ANGGOTA : null),
+			'TIPE_KARYA'		=> $TIPE_KARYA,
+			'TEAM'					=> ($TEAM == true ? 1 : 0),
+			'MIN_ANGGOTA'		=> ($TEAM == true ? $MIN_ANGGOTA : null),
+			'MAX_ANGGOTA'		=> ($TEAM == true ? $MAX_ANGGOTA : null),
 			'BIDANG_LOMBA' 	=> $BIDANG_LOMBA,
-			'KETERANGAN' 	=> $KETERANGAN,
+			'KETERANGAN' 		=> $KETERANGAN,
 		);
 		$this->db->insert('BIDANG_LOMBA', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
@@ -100,14 +112,16 @@ class M_manageKompetisi extends CI_Model {
 		$ID_BIDANG 		= $this->input->post('ID_BIDANG');
 
 		$BIDANG_LOMBA 	= htmlspecialchars($this->input->post('BIDANG_LOMBA'), true);
-		$TEAM 			= $this->input->post('TEAM');
+		$TIPE_KARYA 		= $this->input->post('TIPE_KARYA');
+		$TEAM 				= $this->input->post('TEAM');
 		$MIN_ANGGOTA 	= htmlspecialchars($this->input->post('MIN_ANGGOTA'), true);
 		$MAX_ANGGOTA 	= htmlspecialchars($this->input->post('MAX_ANGGOTA'), true);
-		$KETERANGAN 	= htmlspecialchars($this->input->post('KETERANGAN'), true);
+		$KETERANGAN 	= $this->input->post('KETERANGAN');
 
 		$data = array(
 			'BIDANG_LOMBA' 	=> $BIDANG_LOMBA,
-			'TEAM'			=> ($TEAM == true ? 1 : 0),
+			'TIPE_KARYA'		=> $TIPE_KARYA,
+			'TEAM'				=> ($TEAM == true ? 1 : 0),
 			'MIN_ANGGOTA'	=> ($TEAM == true ? $MIN_ANGGOTA : null),
 			'MAX_ANGGOTA'	=> ($TEAM == true ? $MAX_ANGGOTA : null),
 			'KETERANGAN' 	=> $KETERANGAN,
@@ -129,7 +143,7 @@ class M_manageKompetisi extends CI_Model {
 
 	//DATA JURI
 	function get_dataJuri($kode_kompetisi){
-		$query = $this->db->query("SELECT a.*, b.NAMA, b.HP FROM TB_AUTH a JOIN TB_PENGGUNA b ON a.KODE_USER = b.KODE_USER WHERE a.ROLE = 2 AND a.KODE_USER IN (SELECT KODE_USER FROM BIDANG_JURI WHERE ID_BIDANG IN (SELECT ID_BIDANG FROM BIDANG_LOMBA WHERE KODE_KOMPETISI = '$kode_kompetisi'))");
+		$query = $this->db->query("SELECT * FROM TB_AUTH a JOIN TB_PENGGUNA b ON a.KODE_USER = b.KODE_USER LEFT JOIN bidang_juri c ON a.KODE_USER = c.KODE_USER WHERE a.ROLE = 2 AND a.KODE_USER IN (SELECT KODE_USER FROM BIDANG_JURI WHERE ID_BIDANG IN (SELECT ID_BIDANG FROM BIDANG_LOMBA WHERE KODE_KOMPETISI = '$kode_kompetisi'))");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -160,32 +174,19 @@ class M_manageKompetisi extends CI_Model {
 		$this->db->delete('TB_AUTH');
 	}
 
-	function tambah_juri(){
+	function tambah_juri($KODE_USER, $file){
 		$NAMA_JURI 		= htmlspecialchars($this->input->post('NAMA_JURI'), true);
+		$PEKERJAAN 		= htmlspecialchars($this->input->post('PEKERJAAN'), true);
 		$EMAIL 			= htmlspecialchars($this->input->post('EMAIL'), true);
 		$HP 			= htmlspecialchars($this->input->post('HP'), true);
 		$PASSWORD 		= htmlspecialchars($this->input->post('PASSWORD'), true);
 		$BIDANG_JURI 	= htmlspecialchars($this->input->post('BIDANG_JURI'), true);
 
-		// CREATE UNIQ NAME KODE USER
-
-		$string = preg_replace('/[^a-z]/i', '', $NAMA_JURI);
-
-		$vocal  = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
-		$scrap  = str_replace($vocal, "", $string);
-		$begin  = substr($scrap, 0, 4);
-		$uniqid	= strtoupper($begin);
-
-		// CREATE KODE USER
-		do {
-			$KODE_USER 			= "JRI_".$uniqid.substr(md5(time()), 0, 3);
-		} while ($this->cek_kodeUser($KODE_USER) > 0);
-
 		$data = array(
 			'KODE_USER'		=> $KODE_USER,
-			'EMAIL'			=> $EMAIL,
+			'EMAIL'				=> $EMAIL,
 			'PASSWORD'		=> password_hash($PASSWORD, PASSWORD_DEFAULT),
-			'ROLE'			=> 2,
+			'ROLE'				=> 2,
 		);
 		$this->db->insert('TB_AUTH', $data);
 
@@ -193,8 +194,9 @@ class M_manageKompetisi extends CI_Model {
 
 			$pengguna = array(
 				'KODE_USER' 		=> $KODE_USER,
-				'NAMA'  			=> $NAMA_JURI,
-				'HP' 				=> $HP,
+				'PROFIL'  			=> $file,
+				'NAMA'  				=> $NAMA_JURI,
+				'HP' 						=> $HP,
 			);
 
 			$this->db->insert('TB_PENGGUNA', $pengguna);
@@ -220,27 +222,20 @@ class M_manageKompetisi extends CI_Model {
 		}
 	}
 
-	function edit_juri(){
+	function edit_juri($file){
 		$ID 			= htmlspecialchars($this->input->post('ID'), true);
 		$KODE_USER 		= htmlspecialchars($this->input->post('KODE_USER'), true);
 
 		$NAMA_JURI 		= htmlspecialchars($this->input->post('NAMA_JURI'), true);
+		$PEKERJAAN 		= $this->input->post('PEKERJAAN');
 		$EMAIL 			= htmlspecialchars($this->input->post('EMAIL'), true);
 		$HP 			= htmlspecialchars($this->input->post('HP'), true);
 		$PASSWORD 		= htmlspecialchars($this->input->post('PASSWORD'), true);
 		$BIDANG_JURI 	= htmlspecialchars($this->input->post('BIDANG_JURI'), true);
 
-
-		$data = array(
-			'EMAIL'			=> $EMAIL,
-			'PASSWORD'		=> password_hash($PASSWORD, PASSWORD_DEFAULT),
-		);
-
-		$this->db->where('KODE_USER', $KODE_USER);
-		$this->db->update('TB_AUTH', $data);
-
 		$pengguna = array(
 			'NAMA'  			=> $NAMA_JURI,
+			'PROFIL'  			=> $file,
 			'HP' 				=> $HP,
 		);
 
@@ -249,11 +244,35 @@ class M_manageKompetisi extends CI_Model {
 
 		$bidang = array(
 			'ID_BIDANG'  		=> $BIDANG_JURI,
+			'PEKERJAAN'  		=> $PEKERJAAN,
 		);
 
 		$this->db->where('ID', $ID);
 		$this->db->update('BIDANG_JURI', $bidang);
+
+		$data = array(
+			'EMAIL'	=> $EMAIL,
+		);
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->update('tb_auth', $data);
 		return true;
+	}
+
+	function pass_juri(){
+		$KODE_USER 		= $this->input->post('KODE_USER');
+		$PASSWORD 		= $this->input->post('PASSWORD');
+		$BIDANG_JURI 	= $this->input->post('BIDANG_JURI');
+
+		$data = array(
+			'PASSWORD'	=> password_hash($PASSWORD, PASSWORD_DEFAULT),
+		);
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->update('tb_auth', $data);
+		
+		return ($this->db->affected_rows() != 1) ? false : true;
+
 	}
 
 	function hapus_juri(){
@@ -374,7 +393,7 @@ class M_manageKompetisi extends CI_Model {
 					'BOBOT'			=> isset($BOBOT[$i]) ? $BOBOT[$i] : '',
 					'KETERANGAN'	=> isset($KETERANGAN[$i]) ? $KETERANGAN[$i] : '',
 				);
-				$this->db->insert('KRITERIA_PENILAIAN', $data);
+				$this->db->insert('kriteria_penilaian', $data);
 			}
 			return ($this->db->affected_rows() != 1) ? false : true;
 		}else{
@@ -481,57 +500,64 @@ class M_manageKompetisi extends CI_Model {
 	// PROSES
 
 	function proses_aturPendaftaran($kode){
-	    $PERTANYAAN   = $this->input->post('PERTANYAAN', true);
-	    $TYPE         = $this->input->post('TIPE', true);
-	    $REQUIRED     = $this->input->post('REQUIRED');
-	    $KETERANGAN   = $this->input->post('KETERANGAN', true);
-	    $FILE_SIZE    = $this->input->post('FILE_SIZE', true);
-	    $FILE_TYPE    = $this->input->post('FILE_TYPE', true);
-	    $ITEM         = $this->input->post('ITEM', true);
-	    $ITEM_SPLIT   = $this->input->post('ITEM_SPLIT', true);
 
-	    $ct = 0;
+		$PERTANYAAN   = $this->input->post('PERTANYAAN', true);
+		$TYPE         = $this->input->post('TIPE', true);
+		$REQUIRED     = $this->input->post('REQUIRED');
+		$KETERANGAN   = $this->input->post('KETERANGAN', true);
+		$FILE_SIZE    = $this->input->post('FILE_SIZE', true);
+		$FILE_TYPE    = $this->input->post('FILE_TYPE', true);
+		$ITEM         = $this->input->post('ITEM', true);
+		$ITEM_SPLIT   = $this->input->post('ITEM_SPLIT', true);
 
-	    foreach ($PERTANYAAN as $i => $a) {
-	      $data = array(
-	        'KEGIATAN'      => 2, //1. EVENT, 2. KOMPETISI
-	        'KODE'          => $kode,
-	        'PERTANYAAN'    => isset($PERTANYAAN[$i]) ? $PERTANYAAN[$i] : null,
-	        'TYPE'          => isset($TYPE[$i]) ? $TYPE[$i] : null,
-	        'REQUIRED'      => isset($REQUIRED[$i]) ? ($REQUIRED[$i] == TRUE ? 1 : 0) : 0,
-	        'KETERANGAN'    => isset($KETERANGAN[$i]) ? $KETERANGAN[$i] : null,
-	        'FILE_SIZE'     => isset($FILE_SIZE[$i]) ? $FILE_SIZE[$i] : null,
-	        'FILE_TYPE'     => isset($FILE_TYPE[$i]) ? $FILE_TYPE[$i] : null,
-	      );
-	      $this->db->insert('FORM_META', $data);
-	      $cek    = ($this->db->affected_rows() != 1) ? false : true;
+		$ct = 0;
 
-	      if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT" && $cek == true) {
-	        $ID_FORM  = $this->db->insert_id();
+		foreach ($PERTANYAAN as $i => $a) {
+			$data = array(
+				'KEGIATAN'      => 2, //1. EVENT, 2. KOMPETISI
+				'KODE'          => $kode,
+				'PERTANYAAN'    => isset($PERTANYAAN[$i]) ? $PERTANYAAN[$i] : null,
+				'TYPE'          => isset($TYPE[$i]) ? $TYPE[$i] : null,
+				'REQUIRED'      => isset($REQUIRED[$i]) ? ($REQUIRED[$i] == TRUE ? 1 : 0) : 0,
+				'KETERANGAN'    => isset($KETERANGAN[$i]) ? $KETERANGAN[$i] : null,
+				'FILE_SIZE'     => isset($FILE_SIZE[$i]) ? $FILE_SIZE[$i] : null,
+				'FILE_TYPE'     => isset($FILE_TYPE[$i]) ? $FILE_TYPE[$i] : null,
+			);
+			$this->db->insert('FORM_META', $data);
+			$cek    = ($this->db->affected_rows() != 1) ? false : true;
 
-	        if ($this->input->post('ITEM')) {
-	          echo var_dump($ITEM_SPLIT);
+			if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT" && $cek == true) {
+				$ID_FORM  = $this->db->insert_id();
 
-	          for($c=1; $c <= $ITEM_SPLIT[$i]; $c++) {
+				if ($this->input->post('ITEM')) {
+					echo var_dump($ITEM_SPLIT);
 
-	            $data = array(
-	              'ID_FORM'     => $ID_FORM,
-	              'ITEM'        => isset($ITEM[$ct]) ? $ITEM[$ct] : null,
-	            );
-	            $this->db->insert('FORM_ITEM', $data);
-	            $ct++;
-	          }
-	        }
-	      }
+					for($c=1; $c <= $ITEM_SPLIT[$i]; $c++) {
 
-	      if ($cek == false) {        
-	        $this->db->where('KODE', $kode);
-	        $this->db->delete('FORM_META');
-	        break;
-	        return false;
-	      }
-	    }
-	    return true;
+						$data = array(
+							'ID_FORM'     => $ID_FORM,
+							'ITEM'        => isset($ITEM[$ct]) ? $ITEM[$ct] : null,
+						);
+						$this->db->insert('FORM_ITEM', $data);
+						$ct++;
+					}
+				}
+			}
+
+			if ($cek == false) {        
+				$this->db->where('KODE', $kode);
+				$this->db->delete('FORM_META');
+				break;
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function hapus_formPendaftaran($ID_FORM){
+		$this->db->where('ID_FORM', $ID_FORM);
+		$this->db->delete('FORM_META');
+		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
 	function proses_updatePendaftaran($kode){
@@ -590,6 +616,198 @@ class M_manageKompetisi extends CI_Model {
 
 	// END FORMULIR
 
+	function get_dataKoordinator($kode_kompetisi){
+		$query = $this->db->query("SELECT * FROM tb_auth a JOIN tb_pengguna b ON a.KODE_USER = b.KODE_USER LEFT JOIN bidang_koordinator c ON a.KODE_USER = c.KODE_USER WHERE a.ROLE = 4 AND a.KODE_USER IN (SELECT KODE_USER FROM bidang_koordinator WHERE ID_BIDANG IN (SELECT ID_BIDANG FROM bidang_lomba WHERE KODE_KOMPETISI = '$kode_kompetisi'))");
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}else{
+			return false;
+		}
+	}
+
+	function get_bidangKoordinator($kode_user){
+		$this->db->select('a.ID, a.ID_BIDANG, b.BIDANG_LOMBA');
+		$this->db->from('bidang_koordinator a');
+		$this->db->join('bidang_lomba b', 'a.ID_BIDANG = b.ID_BIDANG');
+		$query = $this->db->get_where('bidang_koordinator', array('a.KODE_USER' => $kode_user));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	function tambah_koordinator($KODE_USER){
+		$NAMA_KOORDINATOR 		= htmlspecialchars($this->input->post('NAMA_KOORDINATOR'), true);
+		$EMAIL 					= htmlspecialchars($this->input->post('EMAIL'), true);
+		$PASSWORD 				= htmlspecialchars($this->input->post('PASSWORD'), true);
+		$BIDANG_KOORDINATOR 	= htmlspecialchars($this->input->post('BIDANG_KOORDINATOR'), true);
+
+		$data = array(
+			'KODE_USER'		=> $KODE_USER,
+			'EMAIL'			=> $EMAIL,
+			'PASSWORD'		=> password_hash($PASSWORD, PASSWORD_DEFAULT),
+			'ROLE'			=> 4,
+		);
+		$this->db->insert('tb_auth', $data);
+
+		if ($this->db->affected_rows() == true) {
+
+			$koordinator = array(
+				'KODE_USER' 		=> $KODE_USER,
+				'NAMA'  			=> $NAMA_KOORDINATOR,
+			);
+
+			$this->db->insert('tb_pengguna', $koordinator);
+
+			if ($this->db->affected_rows() == true) {
+
+				$bidang = array(
+					'KODE_USER' 		=> $KODE_USER,
+					'ID_BIDANG'  		=> $BIDANG_KOORDINATOR,
+				);
+
+				$this->db->insert('bidang_koordinator', $bidang);
+				return ($this->db->affected_rows() != 1) ? false : true;
+
+			}else{
+				$this->del_user($KODE_USER);
+				return false;
+			}
+			
+		}else{
+			$this->del_user($KODE_USER);
+			return false;
+		}
+	}
+
+	function edit_koordinator(){
+		$ID 			= htmlspecialchars($this->input->post('ID'), true);
+		$KODE_USER 		= htmlspecialchars($this->input->post('KODE_USER'), true);
+
+		$NAMA_KOORDINATOR 		= htmlspecialchars($this->input->post('NAMA_KOORDINATOR'), true);
+		$EMAIL 					= htmlspecialchars($this->input->post('EMAIL'), true);
+		$PASSWORD 				= htmlspecialchars($this->input->post('PASSWORD'), true);
+		$BIDANG_KOORDINATOR 	= htmlspecialchars($this->input->post('BIDANG_KOORDINATOR'), true);
+
+		if (isset($PASSWORD) || !empty($PASSWORD) || $PASSWORD != null || $PASSWORD != "") {
+			$data = array(
+				'EMAIL'			=> $EMAIL,
+				'PASSWORD'		=> password_hash($PASSWORD, PASSWORD_DEFAULT),
+			);
+		}else{
+			$data = array(
+				'EMAIL'			=> $EMAIL,
+			);
+		}
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->update('tb_auth', $data);
+
+		$peserta = array(
+			'NAMA'  			=> $NAMA_KOORDINATOR,
+		);
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->update('tb_pengguna', $peserta);
+
+		$bidang = array(
+			'ID_BIDANG'  		=> $BIDANG_KOORDINATOR,
+		);
+
+		$this->db->where('ID', $ID);
+		$this->db->update('bidang_koordinator', $bidang);
+		return true;
+	}
+
+	function pass_koordinator(){
+		$KODE_USER 		= $this->input->post('KODE_USER');
+		$PASSWORD 		= $this->input->post('PASSWORD');
+		$BIDANG_JURI 	= $this->input->post('BIDANG_JURI');
+
+		$data = array(
+			'PASSWORD'	=> password_hash($PASSWORD, PASSWORD_DEFAULT),
+		);
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->update('tb_auth', $data);
+		
+		return ($this->db->affected_rows() != 1) ? false : true;
+
+	}
+
+	function hapus_koordinator(){
+		$ID 			= $this->input->post('ID');
+		$KODE_USER 		= $this->input->post('KODE_USER');
+
+		$this->db->where('ID', $ID);
+		$this->db->delete('bidang_koordinator');
+
+		$this->db->where('KODE_USER', $KODE_USER);
+		$this->db->delete('tb_auth');
+		return ($this->db->affected_rows() != 1) ? false : true;
+
+	}
+
+	// BERKAS
+
+	public function get_berkasLomba($kode){
+		$this->db->select('*');
+		$this->db->from('berkas_kebutuhan');
+		$this->db->where('KODE_KOMPETISI', $kode);
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}else{
+			return false;
+		}
+
+	}
+
+
+	public function tambahBerkas($file){
+		$JUDUL 		= $this->input->post('JUDUL');
+		$KETERANGAN = $this->input->post('KETERANGAN');
+		$KODE_KOMPETISI = $this->session->userdata('manage_kompetisi');
+		$data = array(
+			'KODE_KOMPETISI' 		=> $KODE_KOMPETISI,
+			'JUDUL' 		=> $JUDUL,
+			'LINK' 			=> $file,
+			'KETERANGAN' 	=> $KETERANGAN,
+		);
+
+		$this->db->insert('berkas_kebutuhan', $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
+
+	}
+
+
+	public function editBerkas($file){
+		$ID_BERKAS 	= $this->input->post('ID_BERKAS');
+		$JUDUL 		= $this->input->post('JUDUL');
+		$KETERANGAN = $this->input->post('KETERANGAN');
+
+		$data = array(
+			'JUDUL' 		=> $JUDUL,
+			'LINK' 			=> $file,
+			'KETERANGAN' 	=> $KETERANGAN,
+		);
+
+		$this->db->where('ID_BERKAS', $ID_BERKAS);
+		$this->db->update('berkas_kebutuhan', $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
+
+	}
+
+
+	public function hapusBerkas(){
+		$ID_BERKAS 	= $this->input->post('ID_BERKAS');
+
+		$this->db->where('ID_BERKAS', $ID_BERKAS);
+		$this->db->delete('berkas_kebutuhan');
+		return ($this->db->affected_rows() != 1) ? false : true;
+
+	}
 
 
 }

@@ -161,13 +161,13 @@
 							<!-- List -->
 							<ul class="nav nav-sub nav-sm nav-tabs nav-list-y-2 mb-4">
 								<li class="nav-item">
-									<a class="nav-link <?= ($this->uri->segment(2) == "kompetisi" ? "active" : "") ?>"
+									<a class="nav-link <?= ($this->uri->segment(2) == "kompetisi" || $this->uri->segment(1) == "detail-daftar-kompetisi" || $this->uri->segment(2) == "berkas-kompetisi" || $this->uri->segment(2) == "data-anggota" || $this->uri->segment(2) == "data-karya" ? "active" : "") ?>"
 										href="<?= site_url('pengguna/kompetisi') ?>">
 										<i class="fas fa-shopping-basket nav-icon"></i> Kompetisi
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= ($this->uri->segment(2) == "event" ? "active" : "") ?>"
+									<a class="nav-link <?= ($this->uri->segment(2) == "event" || $this->uri->segment(1) == "detail-daftar-event"  ? "active" : "") ?>"
 										href="<?= site_url('pengguna/event') ?>">
 										<i class="fas fa-users nav-icon"></i> Event
 									</a>

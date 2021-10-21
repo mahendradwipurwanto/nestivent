@@ -185,7 +185,7 @@ class Pendaftaran extends MX_Controller {
 				$this->session->set_flashdata('success', "Berhasil mengirim data pendaftaran anda !!");
 				if ($kegiatan == "event") {
 					$this->M_authentication->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 13);
-					redirect(site_url('pengguna/event'));
+					redirect(site_url('detail-daftar-event/'.$KODE_PENDAFTARAN));
 				}else{
 					$this->M_authentication->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 14);
 					redirect(site_url('pengguna/kompetisi'));
@@ -195,6 +195,106 @@ class Pendaftaran extends MX_Controller {
 				$this->session->set_flashdata('error', "Terjadi kesalahan saat mengirim jawaban anda !!");
 				redirect($this->agent->referrer());
 			}
+		}else{
+			$this->M_daftar->delete_pendaftaran($KODE_PENDAFTARAN, $tabel);
+			$this->session->set_flashdata('error', "Terjadi kesalahan saat mengirim pendaftaran anda !!");
+			redirect($this->agent->referrer());
+		}
+
+	}
+
+	public function ajx_dataPtsAll(){
+		$param = $_POST;
+
+		$search = !empty($param['search']) ? $param['search'] : '';
+		$datas = $this->M_daftar->get_ptsAll($search);
+		echo json_encode($datas);
+	}
+
+	// KOMPETISI
+
+	public function daftar_kompetisi($kode){
+		$tabel	= 'pendaftaran_kompetisi';
+		if ($this->M_daftar->cek_pendaftaranStatus($kode) != false) {
+			if ($this->M_daftar->get_bidangLomba($kode) != false) {
+				if ($this->M_daftar->get_formMeta($kode) != false) {
+					if ($this->M_daftar->cek_dataPesertaKompetisi($this->session->userdata('kode_user'), $tabel) == false) {
+						$data['kegiatan']		= $this->M_daftar->get_kegiatan($kode);
+						$data['formulir']		= $this->M_daftar->get_formMeta($kode);
+						$data['bidang_lomba']	= $this->M_daftar->get_bidangLomba($kode);
+
+						$data['KODE_KEGIATAN']	= $kode;
+
+						$data['CI']			= $this;
+
+						$data['module'] 	= "pendaftaran";
+						$data['fileview'] 	= "pendaftaran_kompetisi";
+						echo Modules::run('template/frontend_main', $data);
+					}else{
+						$this->session->set_flashdata('warning', "Anda telah mendaftarkan diri pada kompetisi ini !!");
+						redirect(base_url());
+					}
+				}else{
+					$this->session->set_flashdata('error', "Mohon maaf formulir pendaftaran sedang diatur, harap tunggu beberapa saat !!");
+					redirect($this->agent->referrer());
+				}
+			}else{
+				$this->session->set_flashdata('error', "Mohon maaf bekum ada bidang lomba yang dibuka, harap tunggu beberapa saat !!");
+				redirect($this->agent->referrer());
+			}
+		}else{
+			$this->session->set_flashdata('error', "Pendaftaran belum dibuka !!");
+			redirect($this->agent->referrer());
+		}
+	}
+
+	function prosesPendaftaranKompetisi(){
+		$tabel = "pendaftaran_kompetisi";
+
+		$uniqid		= substr(md5(strtolower($this->session->userdata('kode_user'))), 0, 4);
+		$time 		= substr(md5(time()), 0, 6);
+
+		do {
+			$KODE_PENDAFTARAN      = "{$uniqid}-{$time}";
+		} while ($this->M_daftar->cek_kodeDaftar($KODE_PENDAFTARAN) > 0);
+
+		$KODE_KEGIATAN		= $this->input->post('KODE_KEGIATAN');
+
+		// STATIC FORM DEFAULT
+		$BIDANG_LOMBA		= $this->input->post('BIDANG_LOMBA');
+		$NAMA_TIM				= $this->input->post('NAMA_TIM');
+		$ID_TIKET				= $this->input->post('ID_TIKET');
+
+		// PTS
+		$PT							= $this->input->post('ASAL_PTS');
+		$PT 	    			= explode("-", $PT);
+		$ASAL_PTS				= $PT[0];
+		$ALAMAT_PTS			= $this->input->post('ALAMAT_PTS');
+
+		$daftar = array(
+			'KODE_PENDAFTARAN' 	=> $KODE_PENDAFTARAN, 
+			'KODE_KOMPETISI' 		=> $KODE_KEGIATAN, 
+			'KODE_USER' 				=> $this->session->userdata('kode_user'), 
+			'BIDANG_LOMBA' 			=> $BIDANG_LOMBA,
+			'NAMA_TIM' 			=> $NAMA_TIM,
+			'ASAL_PTS' 			=> $ASAL_PTS,
+			'ALAMAT_PTS' 		=> $ALAMAT_PTS,
+			'ID_TIKET' 			=> $ID_TIKET
+		);
+
+		if ($this->M_daftar->insert_pendaftaran($daftar, $tabel) == true) {
+
+			// INPUT DATA KETUA
+			$anggota = array(
+				'NAMA' 	=> $this->session->userdata('nama'),
+				'EMAIL' => $this->session->userdata('email'),
+				'PERAN' => 1
+			);
+			$this->M_daftar->insert_pendaftaran($anggota, "tb_anggota");
+
+			$this->session->set_flashdata('success', "Berhasil mengirim data pendaftaran anda !!");
+			$this->M_authentication->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 14);
+			redirect(site_url('detail-daftar-kompetisi/'.$KODE_PENDAFTARAN));
 		}else{
 			$this->M_daftar->delete_pendaftaran($KODE_PENDAFTARAN, $tabel);
 			$this->session->set_flashdata('error', "Terjadi kesalahan saat mengirim pendaftaran anda !!");

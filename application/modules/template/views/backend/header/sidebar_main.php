@@ -120,7 +120,7 @@
 					<!-- End Kompetisi -->
 
 					<!-- JURI -->
-					<?php elseif ($this->sesion->userdata('role') == 2):?>
+					<?php elseif($this->session->userdata('role') == 2):?>
 					<!-- Dashboards -->
 
 					<li class="nav-item ">
@@ -140,14 +140,6 @@
 					</li>
 
 					<li class="nav-item ">
-						<a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'riwayat-penilaian' ? 'active' : '') ?>"
-							href="<?= site_url('juri/riwayat-penilaian') ?>" title="Riwayat Penilaian" data-placement="left">
-							<i class="tio-receipt-outlined nav-icon"></i>
-							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Riwayat Penilaian</span>
-						</a>
-					</li>
-
-					<li class="nav-item ">
 						<a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'hasil-penilaian' ? 'active' : '') ?>"
 							href="<?= site_url('juri/hasil-penilaian') ?>" title="Hasil Penilaian" data-placement="left">
 							<i class="tio-medal nav-icon"></i>
@@ -156,7 +148,7 @@
 					</li>
 					<!-- End Dashboards -->
 					<!-- PENYELENGGARA -->
-					<?php elseif ($this->sesion->userdata('role') == 3):?>
+					<?php elseif($this->session->userdata('role') == 3):?>
 
 					<?php endif;?>
 

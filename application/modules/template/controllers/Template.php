@@ -57,7 +57,7 @@ class Template extends MX_Controller {
 		$data['OPEN_CAREER']		= $this->M_template->get_openCareer();
 
 		// ETC
-		$data['pFoto']				= $this->M_template->get_foto($this->session->userdata('kode_user'));
+		$data['pFoto']					= $this->M_template->get_foto($this->session->userdata('kode_user'));
 		$data['notifikasi']			= $this->M_template->get_notifikasiAdmin();
 		$data['aktivitas']			= $this->M_template->get_aktivitasAdmin();
 		$data['c_notifikasi']		= $this->M_template->count_notifikasiAdmin();

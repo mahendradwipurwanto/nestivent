@@ -76,7 +76,7 @@
 
                     <div class="form-group">
                       <label class="input-label font-weight-bold">Keterangan Kriteria <small class="text-muted">(optional)</small></label>
-                      <textarea type="text" class="form-control form-control-sm" name="KETERANGAN[]" placeholder="Tambahkan keterangan kriteria"></textarea>
+                      <textarea type="text" class="form-control form-control-sm editor" name="KETERANGAN[]" placeholder="Tambahkan keterangan kriteria"></textarea>
                       <small class="text-muted">ex: Penyisihan</small>
                     </div>
 
@@ -133,7 +133,7 @@
 
                   <div class="form-group">
                     <label class="input-label font-weight-bold">Keterangan Kriteria <small class="text-muted">(optional)</small></label>
-                    <textarea type="text" class="form-control form-control-sm" name="KETERANGAN" placeholder="Tambahkan keterangan kriteria"></textarea>
+                    <textarea type="text" class="form-control form-control-sm editor" name="KETERANGAN" placeholder="Tambahkan keterangan kriteria"></textarea>
                     <small class="text-muted">ex: Penyisihan</small>
                   </div>
                 </div>
@@ -218,7 +218,7 @@
 
                     <div class="form-group">
                       <label class="input-label font-weight-bold">Keterangan Kriteria <small class="text-muted">(optional)</small></label>
-                      <textarea type="text" class="form-control form-control-sm" name="KETERANGAN"><?= $key->KETERANGAN;?></textarea>
+                      <textarea type="text" class="form-control form-control-sm editor" name="KETERANGAN"><?= $key->KETERANGAN;?></textarea>
                       <small class="text-muted">ex: Penyisihan</small>
                     </div>
 

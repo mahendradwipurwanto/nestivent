@@ -4,7 +4,7 @@
     <div class="col-sm mb-2 mb-sm-0">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb breadcrumb-no-gutter">
-          <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?= site_url('manage-kompetisi') ?>">Dashboard</a></li>
+          <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?= site_url('manage-event') ?>">Dashboard</a></li>
           <li class="breadcrumb-item">Pendaftaran</li>
           <li class="breadcrumb-item active" aria-current="page">Atur pendaftaran</li>
         </ol>

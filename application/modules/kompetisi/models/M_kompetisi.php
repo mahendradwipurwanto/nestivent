@@ -50,6 +50,16 @@ class M_kompetisi extends CI_Model {
 
 	}
 
+	public function get_berkasUnduhan($KODE_KOMPETISI){
+		$query = $this->db->get_where('berkas_kebutuhan', array('KODE_KOMPETISI' => $KODE_KOMPETISI));
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}else{
+			return false;
+		}
+
+	}
+
 	public function get_kompetisiBidang($KODE_KOMPETISI){
 		$query	= $this->db->get_where('BIDANG_LOMBA', array('KODE_KOMPETISI' => $KODE_KOMPETISI));
 		if ($query->num_rows() > 0) {

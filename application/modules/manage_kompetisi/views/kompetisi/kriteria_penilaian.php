@@ -82,7 +82,7 @@
                               <div class="card-block p-2">
                                 <h5 class="card-title"><?php echo $value->BIDANG_LOMBA;?></h5>
                                 <h3><i class="tio-book-opened display-1 font-weight-light"></i></h3>
-                                <h6><?php if($CI->M_manage->cek_kriteriaAtur($key->ID_TAHAP, $value->ID_BIDANG) > 0):?><span class="badge badge-secondary">belum diatur</span><?php else:?><span class="badge badge-secondary">sudah diatur</span><?php endif;?></h6>
+                                <h6><?php if($CI->M_manage->cek_kriteriaAtur($key->ID_TAHAP, $value->ID_BIDANG) > 0):?><span class="badge badge-success">sudah diatur</span><?php else:?><span class="badge badge-secondary">belum diatur</span><?php endif;?></h6>
                               </div>
                             </a>
                           </div>
