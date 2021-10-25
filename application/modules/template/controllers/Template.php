@@ -187,7 +187,9 @@ class Template extends MX_Controller {
 		$data['kpanel_BadgeSTATUS']	= $kpanel_badgeColor;
 		$data['kpanel_STATUS']		= $kpanel_status;
 
-	    $data['cek_form']   		= $this->M_template->cek_form($this->session->userdata('manage_kompetisi'));
+	  $data['cek_form']   		= $this->M_template->cek_form($this->session->userdata('manage_kompetisi'));
+
+		$data['kegiatan']		= $this->M_template->get_kompetisi($this->session->userdata('manage_kompetisi'));
 
 		$data['CI']					= $this;
 

@@ -22,6 +22,126 @@ class Manage_kompetisi extends MX_Controller {
     }
     
     $this->load->model('M_manageKompetisi', 'M_manage');
+    $this->load->model('Template/M_template');
+  }
+
+  // AJAX GOES HERE
+
+	function seleksi_tim(){
+		$kodePendaftaran	= explode(',', $_POST['KODE_PENDAFTARAN']);
+		$tahap				= $_POST['KE_TAHAP'];
+		$dataStoreOrd		= array();
+		
+		foreach ($kodePendaftaran as $item) {		
+			$this->M_manage->seleksi_tim($item, $tahap);
+		}
+
+		$this->session->set_flashdata('success', "Berhasil menyeleksi tim kedalam tahap yang ditentukan!");
+		redirect(site_url('manage-kompetisi/seleksi'));
+	}
+
+	function get_tahapData(){
+    if($this->input->post('TAHAP') == 0){
+      echo json_encode(['tim' => 0, 'status' => "berlangsung"]);
+    }else{
+      $tahap = $this->M_manage->get_tahapData($this->input->post('TAHAP'));
+          switch ($tahap->STATUS) {
+            case 0:
+              $status = '<span class"badge badge-secondary">belum dimulai</span>';
+              break;
+  
+            case 1:
+              $status = '<span class"badge badge-success">berlangsung</span>';
+              break;
+  
+            case 2:
+              $status = '<span class"badge badge-warning">berakhir</span>';
+              break;
+            
+            default:
+              $status = '<span class"badge badge-secondary">belum dimulai</span>';
+              break;
+          }
+      echo json_encode(['tim' => ($tahap->TEAM == 0 ? 'tidak ada batasan' : $tahap->TEAM), 'status' => $status]);
+    }
+	}
+
+	function get_tahapDataTujuan(){
+		$tahap = $this->M_manage->get_tahapData($this->input->post('KE_TAHAP'));
+        switch ($tahap->STATUS) {
+          case 0:
+            $status = '<span class"badge badge-secondary">belum dimulai</span>';
+            break;
+
+          case 1:
+            $status = '<span class"badge badge-success">berlangsung</span>';
+            break;
+
+          case 2:
+            $status = '<span class"badge badge-warning">berakhir</span>';
+            break;
+          
+          default:
+            $status = '<span class"badge badge-secondary">belum dimulai</span>';
+            break;
+        }
+		echo json_encode(['tim' => ($tahap->TEAM == 0 ? 'tidak ada batasan' : $tahap->TEAM), 'status' => $status]);
+	}
+
+  function tampil_anggota_tim($kode_pendaftaran = "")
+  {   
+      $anggota = $this->M_manage->get_anggota_tim($kode_pendaftaran);
+      if($anggota != false){
+          $data['anggota'] = $anggota;
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_anggota_tim";
+          echo Modules::run('template/blank_template', $data);
+      }else{
+          $data['tim'] = $this->M_manage->get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran);
+          $data['anggota'] = false;
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_anggota_tim";
+          echo Modules::run('template/blank_template', $data);
+      }
+  }
+
+  function tampil_berkas_tim($kode_pendaftaran = "")
+  {
+      $berkas = $this->M_manage->get_karya_by_kode_pendaftaran($kode_pendaftaran);
+      if ($berkas != false) {
+          $data['berkas'] = $berkas;
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_berkas_tim";
+          echo Modules::run('template/blank_template', $data);
+      } else {
+          $data['berkas'] = false;
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_berkas_tim";
+          echo Modules::run('template/blank_template', $data);
+      }
+  }
+
+  function tampil_surat($kode_pendaftaran = "", $id = "")
+  {
+      $form = $this->M_manage->get_formData($kode_pendaftaran, $id);
+      if ($form != false) {
+          $data['form'] = $form;
+          $data['pendaftaran'] = $this->M_manage->get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran);
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_surat";
+          echo Modules::run('template/blank_template', $data);
+      } else {
+          $data['form'] = false;
+          $data['controller'] = $this;
+          $data['module']     = "manage_kompetisi";
+          $data['fileview']     = "ajax/tampil_surat";
+          echo Modules::run('template/blank_template', $data);
+      }
   }
 
 
@@ -59,6 +179,16 @@ class Manage_kompetisi extends MX_Controller {
       exit;
     }
   }
+
+	function get_detailPeserta($kode){
+		$peserta 		= $this->M_manage->get_dataPeserta($kode);
+    $anggota 		= $this->M_manage->get_anggota_tim($peserta->KODE_PENDAFTARAN);
+		$data['kegiatan']		= $this->M_template->get_kompetisi($this->session->userdata('manage_kompetisi'));
+		$data['CI']		  = $this;
+		$data['key']	  = $peserta;
+		$data['anggota']= $anggota;
+		$this->load->view('ajax/ajax_modalPeserta', $data);
+	}
 
 
   // KOMPETISI
@@ -670,29 +800,105 @@ class Manage_kompetisi extends MX_Controller {
     echo Modules::run('template/manage_kompetisi_main', $data);
   }
 
-  public function data_peserta(){
-    $data['cek_form']         = $this->M_manage->cek_form($this->session->userdata('manage_kompetisi'));
-    $data['get_form']         = $this->M_manage->get_formBerkas($this->session->userdata('manage_kompetisi'));
-
-    $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran($this->session->userdata('manage_kompetisi'));
+  public function data_peserta($bidang = 0){
+    $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($bidang);
+    if($bidang_lomba == false){
+        $data['all_bidang_lomba'] = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+        $data['bidang_lomba'] = "Semua";
+    }else{
+        $data['all_bidang_lomba'] = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+        $data['bidang_lomba'] = $bidang_lomba->BIDANG_LOMBA;
+    }
+$data['peserta']		= $this->M_manage->get_peserta($bidang);
+$data['jmlMhs'] 		= $this->M_manage->get_countMhs($bidang);
+$data['jmlTim'] 		= $this->M_manage->get_countTim($bidang);
+$data['jmlPTS'] 		= count($this->M_manage->get_countPTS($bidang));
 
     $data['module']     = "manage_kompetisi";
     $data['fileview']   = "pendaftaran/data_peserta";
     echo Modules::run('template/manage_kompetisi_main', $data);
   }
 
-  public function verifikasi_berkas(){
-    $data['cek_form']         = $this->M_manage->cek_form($this->session->userdata('manage_kompetisi'));
-    $data['get_form']         = $this->M_manage->get_formBerkas($this->session->userdata('manage_kompetisi'));
+  public function verifikasi_berkas($param = 0){ // 
+    $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($param);
+    if($bidang_lomba == false){
+        $data['all_bidang_lomba'] = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+        $data['bidang_lomba'] = "Semua";
+        $data["jumlah_tim"] =  $this->M_manage->get_jumlah_tim()->jumlah_tim;
+        $data['jumlah_berkas_belum_terverifikasi'] = $this->M_manage->get_jumlah_berkas_belum_terverifikasi()->jumlah_berkas_belum_terverifikasi;;
+        $data['jumlah_berkas_terverifikasi'] = $this->M_manage->get_jumlah_berkas_terverifikasi()->jumlah_berkas_terverifikasi;;
+        $data['jumlah_berkas_ditolak'] = $this->M_manage->get_jumlah_berkas_ditolak()->jumlah_berkas_ditolak;;
+        $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran($this->session->userdata('manage_kompetisi'));
+    }else{
+        $data['all_bidang_lomba'] = $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+        $data['bidang_lomba'] = $bidang_lomba->BIDANG_LOMBA;
+        $data["jumlah_tim"] =  $this->M_manage->get_jumlah_tim($bidang_lomba->ID_BIDANG)->jumlah_tim;
+        $data['jumlah_berkas_belum_terverifikasi'] = $this->M_manage->get_jumlah_berkas_belum_terverifikasi($bidang_lomba->ID_BIDANG)->jumlah_berkas_belum_terverifikasi;
+        $data['jumlah_berkas_terverifikasi'] = $this->M_manage->get_jumlah_berkas_terverifikasi($bidang_lomba->ID_BIDANG)->jumlah_berkas_terverifikasi;
+        $data['jumlah_berkas_ditolak'] = $this->M_manage->get_jumlah_berkas_ditolak($bidang_lomba->ID_BIDANG)->jumlah_berkas_ditolak;
+        $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran_by_bidang_lomba($bidang_lomba->ID_BIDANG);
+    }
+$data['cek_form']         = $this->M_manage->cek_form($this->session->userdata('manage_kompetisi'));
+$data['get_form']         = $this->M_manage->get_form($this->session->userdata('manage_kompetisi'));
+$data['get_formBerkas']   = $this->M_manage->get_formBerkas($this->session->userdata('manage_kompetisi'));
+$data['controller']       = $this;
 
-    $data['get_pendaftaran']  = $this->M_manage->get_dataPendaftaran($this->session->userdata('manage_kompetisi'));
-
-    $data['module']     = "manage_kompetisi";
-    $data['fileview']   = "pendaftaran/verifikasi_berkas";
-    echo Modules::run('template/manage_kompetisi_main', $data);
+$data['module']     = "manage_kompetisi";
+$data['fileview']   = "pendaftaran/verifikasi_berkas";
+echo Modules::run('template/manage_kompetisi_main', $data);
   }
 
-  public function hasil_penilaian(){
+  function terima_pendaftaran()
+  {
+      $nama_tim = $this->input->post('NAMA_TIM');
+      if ($this->M_manage->terima_pendaftaran() == TRUE) {
+
+          $this->session->set_flashdata('success', "Berhasil verifikasi data pendaftaran TIM {$nama_tim} !!");
+          redirect($this->agent->referrer());
+      } else {
+          $this->session->set_flashdata('error', "Terjadi kesalahan saat verifikasi data pendaftaran TIM {$nama_tim}!");
+          redirect($this->agent->referrer());
+      }
+  }
+
+  function tolak_pendaftaran()
+  {
+      $nama_tim = $this->input->post('NAMA_TIM');
+      if ($this->M_manage->tolak_pendaftaran() == TRUE) {
+
+          $this->session->set_flashdata('success', "Berhasil menolak data pendaftaran TIM {$nama_tim} !!");
+          redirect($this->agent->referrer());
+      } else {
+          $this->session->set_flashdata('error', "Terjadi kesalahan saat menolak data pendaftaran TIM {$nama_tim}!");
+          redirect($this->agent->referrer());
+      }
+  }
+
+  public function hasil_penilaian($tahap = 0, $bidang = 0){
+
+		$data['tahap']				= $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
+        $data['all_bidang_lomba'] 	= $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+        $bidang_lomba 				= $this->M_manage->get_bidangLomba_by_id($bidang);
+        $tahap_penilaian 			= $this->M_manage->get_tahapLomba_by_id($tahap);
+
+        if($tahap == false){
+            $data['tahap_penilaian'] 	= "Pilih Tahap";
+        }else{
+            $data['tahap_penilaian'] 	= $tahap_penilaian->NAMA_TAHAP;
+        }
+
+        if($bidang_lomba == false){
+            $data['bidang_lomba'] 		= "Semua";
+        }else{
+            $data['bidang_lomba'] 		= $bidang_lomba->BIDANG_LOMBA;
+        }
+        
+        $data['id_tahap'] 	= $tahap;
+        $data['id_bidang'] 	= $bidang;
+
+		    $data['tim']		= $this->M_manage->get_hasilPenilaian($tahap, $bidang);
+
+        $data['CI']			= $this;
 
     $data['module']     = "manage_kompetisi";
     $data['fileview']   = "kompetisi/hasil_penilaian";
@@ -734,6 +940,139 @@ class Manage_kompetisi extends MX_Controller {
     }
   }
   // END PROSES
+
+  // DATA TRANSAKSI
+
+  function data_transaksi(){
+    $data['jumlah_transaksi'] = $this->M_manage->get_jmlTransaksi();
+    $data['total_uang_masuk'] = $this->M_manage->get_totalUang();
+    $data['jumlah_pembayaran_sukses'] = $this->M_manage->get_pembayaranSukses();
+    $data['transaksi']        = $this->M_manage->get_dataTransaksi();
+    
+    $data['module']     = "manage_kompetisi";
+    $data['fileview']   = "data_transaksi";
+    echo Modules::run('template/manage_kompetisi_main', $data);
+  }
+
+	public function update_status_transaksi($kode_trans = "")
+	{
+		if ($kode_trans != "") {
+			if ($this->M_manage->update_status_transaksi($kode_trans) == true) {
+				$this->session->set_flashdata('success', "Status pembayaran #{$kode_trans} berhasil diperbarui!");
+				redirect($this->agent->referrer());
+			} else {
+				$this->session->set_flashdata('error', "Terjadi kesalahaan saat mengubah status pembayaran #{$kode_trans}!!");
+				redirect($this->agent->referrer());
+			}
+		} else {
+			redirect($this->agent->referrer());
+		}
+	}
+
+	public function delete_transaksi($kode_trans = "")
+	{
+		if ($kode_trans != "") {
+      if ($this->M_manage->delete_transaksi($kode_trans) == true) {
+        $this->session->set_flashdata('success', "Berhasil menghapus Transaksi # " . $kode_trans);
+        redirect($this->agent->referrer());
+      } else {
+        $this->session->set_flashdata('error', "Terjadi kesalahan, saat menghapus transaksi!");
+        redirect($this->agent->referrer());
+      }
+		} else {
+			$this->session->set_flashdata('error', "Kode Transaksi tidak ditemukan!!");
+			redirect($this->agent->referrer());
+		}
+  }
+  
+
+  // SELEKSI
+	
+	public function get_seleksiTIM($id_bidang = 0, $tim = 0, $id_tahap = 0){
+		if ($id_tahap == 0) {
+      $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($id_bidang);
+      if($bidang_lomba == false){
+          $data['max_tim']	= $tim;
+          $data['tahap']		= $id_tahap;
+    $data['tim']		= $this->M_manage->get_seleksiTIM($param = 0, $id_bidang, $id_tahap);
+      }else{
+          $data['id_bidang'] 	= $bidang_lomba->BIDANG_LOMBA;
+          $data['max_tim']	= $tim;
+          $data['tahap']		= $id_tahap;
+    $data['tim']		= $this->M_manage->get_seleksiTIM($param = 0, $bidang_lomba->ID_BIDANG, $id_tahap);
+      }
+
+      $data['CI']			= $this;
+      $data['module'] 	= "manage_kompetisi";
+      $data['fileview'] 	= "ajax/ajax_tableSeleksiAwal";
+      echo Modules::run('template/blank_template', $data);
+		}else{
+	        $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($id_bidang);
+	        if($bidang_lomba == false){
+	            $data['max_tim']	= $tim;
+	            $data['tahap']		= $id_tahap;
+				$data['tim']		= $this->M_manage->get_seleksiTIM($param = 1, $id_bidang, $id_tahap);
+	        }else{
+	            $data['id_bidang'] 	= $bidang_lomba->BIDANG_LOMBA;
+	            $data['max_tim']	= $tim;
+	            $data['tahap']		= $id_tahap;
+				$data['tim']		= $this->M_manage->get_seleksiTIM($param = 1, $bidang_lomba->ID_BIDANG, $id_tahap);
+	        }
+
+	        $data['CI']			= $this;
+			$data['module'] 	= "manage_kompetisi";
+			$data['fileview'] 	= "ajax/ajax_tableSeleksi";
+			echo Modules::run('template/blank_template', $data);
+		}
+	}
+	
+	// public function hasil_seleksi($param = 0){
+
+  //       $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($param);
+  //       if($bidang_lomba == false){
+  //           $data['all_bidang_lomba'] 	= $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+  //           $data['bidang_lomba'] 		= "Semua";
+  //           $data['id_bidang'] 			= 0;
+	// 		$data['tahap']		= $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
+	// 		$data['tim']		= $this->M_manage->get_daftarTIM($param = 0, $id_bidang = 0, $id_tahap = 0);
+  //       }else{
+  //           $data['all_bidang_lomba'] 	= $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+  //           $data['bidang_lomba'] 		= $bidang_lomba->BIDANG_LOMBA;
+  //           $data['id_bidang'] 			= $bidang_lomba->ID_BIDANG;
+	// 		$data['tahap']		= $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
+	// 		$data['tim']		= $this->M_manage->get_daftarTIM($param = 0, $bidang_lomba->ID_BIDANG, $id_tahap = 0);
+  //       }
+
+
+  //       $data['CI']			= $this;
+	// 	$data['module'] 	= "manage_kompetisi";
+	// 	$data['fileview'] 	= "hasil_seleksi";
+	// 	echo Modules::run('template/manage_kompetisi_main', $data);
+	// }
+	
+	public function seleksi($param = 0){
+
+        $bidang_lomba = $this->M_manage->get_bidangLomba_by_id($param);
+        if($bidang_lomba == false){
+            $data['all_bidang_lomba'] 	= $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+            $data['bidang_lomba'] 		= "Semua";
+            $data['id_bidang'] 			= 0;
+			$data['tahap']		= $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
+			$data['tim']		= $this->M_manage->get_daftarTIM($param, $id_bidang = 0, $id_tahap = 1);
+        }else{
+            $data['all_bidang_lomba'] 	= $this->M_manage->get_bidangLomba($this->session->userdata('manage_kompetisi'));
+            $data['bidang_lomba'] 		= $bidang_lomba->BIDANG_LOMBA;
+            $data['id_bidang'] 			= $bidang_lomba->ID_BIDANG;
+			$data['tahap']		= $this->M_manage->get_tahapPenilaian($this->session->userdata('manage_kompetisi'));
+			$data['tim']		= $this->M_manage->get_daftarTIM($param, $bidang_lomba->ID_BIDANG, $id_tahap = 1);
+        }
+
+
+        $data['CI']			= $this;
+		$data['module'] 	= "manage_kompetisi";
+		$data['fileview'] 	= "seleksi";
+		echo Modules::run('template/manage_kompetisi_main', $data);
+	}
 
 	function body_html($message){
     $PENYELENGGARA = $this->session->userdata('penyelenggara_akses');

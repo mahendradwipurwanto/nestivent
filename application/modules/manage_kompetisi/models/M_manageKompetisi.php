@@ -440,9 +440,10 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_dataPendaftaran($kode){
-		$this->db->select("a.*, b.NAMA");
+		$this->db->select("a.*, b.NAMA, b.HP, c.BIDANG_LOMBA AS NAMA_LOMBA");
 		$this->db->from("PENDAFTARAN_KOMPETISI a");
 		$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
+		$this->db->join("BIDANG_LOMBA c", "a.BIDANG_LOMBA = c.ID_BIDANG");
 		$this->db->where("a.KODE_KOMPETISI", $kode);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -453,7 +454,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_form($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode));
+		$query = $this->db->get_where("FORM_META", array('KODE' => $kode, 'TYPE !=' => 'FILE'));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -473,7 +474,7 @@ class M_manageKompetisi extends CI_Model {
 	function get_formData($kode, $id){
 		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
-			return $query->result();
+			return $query->row()->JAWABAN;
 		}else{
 			return false;
 		}
@@ -808,6 +809,403 @@ class M_manageKompetisi extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
+
+	// DATA PESERTA
+
+	function get_peserta($bidang){
+		$query 	= $this->db->query("SELECT * FROM tb_auth a JOIN tb_pengguna b ON a.KODE_USER = b.KODE_USER JOIN pendaftaran_kompetisi c ON a.KODE_USER = c.KODE_USER WHERE a.ROLE = 1 AND c.BIDANG_LOMBA = '$bidang'");
+		return $query->result();
+	}
+
+	function get_countMhs($bidang){
+		return $this->db->query("
+			SELECT COUNT(ta.ID_ANGGOTA) AS JML_MHS
+			FROM pendaftaran_kompetisi pk , tb_anggota ta 
+			WHERE pk.KODE_PENDAFTARAN = ta.KODE_PENDAFTARAN AND ta.PERAN IN('1','3') AND BIDANG_LOMBA = '$bidang'
+		")->row();
+	}
+	function get_countTim($bidang){
+		return $this->db->query("
+			SELECT COUNT(pk.KODE_PENDAFTARAN) AS JML_TIM
+			FROM pendaftaran_kompetisi pk WHERE BIDANG_LOMBA = '$bidang'
+		")->row();
+	}
+	function get_countPTS($bidang){
+		return $this->db->query("
+			SELECT COUNT(pk.ASAL_PTS) AS JML_PTS
+			FROM pendaftaran_kompetisi pk WHERE BIDANG_LOMBA = '$bidang'
+			GROUP BY pk.ASAL_PTS 
+		")->result();
+	}
+
+	function get_dataPeserta($kode){
+		$query 	= $this->db->query("SELECT * FROM tb_auth a JOIN tb_pengguna b ON a.KODE_USER = b.KODE_USER JOIN pendaftaran_kompetisi c ON a.KODE_USER = c.KODE_USER WHERE a.KODE_USER = '$kode'");
+		return $query->row();
+	}
+
+	function get_pesertaPendaftaran($KODE_USER){
+		$query 	= $this->db->query("SELECT *, c.BIDANG_LOMBA as LOMBA FROM pendaftaran_kompetisi a LEFT JOIN pt b ON a.ASAL_PTS = b.kodept LEFT JOIN bidang_lomba c ON a.BIDANG_LOMBA = c.ID_BIDANG WHERE a.KODE_USER = '$KODE_USER'");
+		if ($query->num_rows() > 0) {
+			return $query->row();	
+		}else{
+			return false;
+		}
+	}
+
+	function get_anggota_tim($kode_pendaftaran)
+	{
+			$query = $this->db->query("SELECT * FROM pendaftaran_kompetisi AS a, tb_anggota AS b 
+			WHERE a.`KODE_PENDAFTARAN` = b.`KODE_PENDAFTARAN`
+			AND a.`KODE_PENDAFTARAN` = '$kode_pendaftaran'");
+			if ($query->num_rows() > 0) {
+					return $query->result();
+			} else {
+					return false;
+			}
+	}
+
+	function cek_pembayaranPeserta($KODE_PENDAFTARAN){
+		$query 	= $this->db->query("SELECT * FROM tb_transaksi WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN'");
+		if ($query->num_rows() > 0) {
+		
+			return $query->row();
+		} else {
+			return false;
+		}
+	}
+
+	// TRANSAKSI
+
+	function get_dataTransaksi(){
+		$this->db->select('tt.*, pk.NAMA_TIM, ta.EMAIL, tp.NAMA');
+		$this->db->from('tb_transaksi tt');
+		$this->db->join('pendaftaran_kompetisi pk', 'tt.KODE_PENDAFTARAN = pk.KODE_PENDAFTARAN');
+		$this->db->join('tb_auth ta', 'pk.KODE_USER = ta.KODE_USER');
+		$this->db->join('tb_pengguna tp', 'pk.KODE_USER = tp.KODE_USER');
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return false;
+		}
+		
+	}
+
+	function get_jmlTransaksi(){
+		return $this->db->get('tb_transaksi')->num_rows();
+	}
+
+	function get_totalUang(){
+		$this->db->select('sum(TOT_BAYAR) as total');
+		$this->db->from('tb_transaksi');
+		return $this->db->get()->row()->total;
+	}
+
+	function get_pembayaranSukses(){
+		return $this->db->get_where('tb_transaksi', array('STAT_BAYAR' => 1))->num_rows();
+	}
+
+	function update_status_transaksi($kode_trans){
+		$status = $this->input->post('status_transaksi');
+		$this->db->where('KODE_TRANS', $kode_trans);
+		$this->db->update('tb_transaksi', array('STAT_BAYAR' => $status));
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
+	function delete_transaksi($kode_trans){
+		$this->db->where('KODE_TRANS', $kode_trans);
+		$this->db->delete('tb_transaksi');
+		return ($this->db->affected_rows() != 1) ? false : true;
+	}
+
+
+	// VERIFIKASI BERKAS
+
+    function get_dataPendaftaran_by_bidang_lomba($id_bidang)
+    {
+        $this->db->select("a.*, b.*, c.BIDANG_LOMBA as NAMA_LOMBA");
+        $this->db->from("pendaftaran_kompetisi a");
+        $this->db->join("tb_pengguna b","a.KODE_USER = b.KODE_USER", 'left');
+        $this->db->join("bidang_lomba c","a.BIDANG_LOMBA = c.ID_BIDANG", 'left');
+        $this->db->where('a.BIDANG_LOMBA', $id_bidang);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    function get_jumlah_tim($id_lomba = "")
+    {
+        if ($id_lomba == "") {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_tim FROM pendaftaran_kompetisi AS a");
+        } else {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_tim FROM pendaftaran_kompetisi AS a WHERE a.`BIDANG_LOMBA` = $id_lomba");
+        }
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+    function get_jumlah_berkas_belum_terverifikasi($id_bidang = "")
+    {
+        if ($id_bidang == "") {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_belum_terverifikasi 
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 0");
+        } else {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_belum_terverifikasi 
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 0
+            AND a.`BIDANG_LOMBA` = $id_bidang");
+        }
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+    function get_jumlah_berkas_terverifikasi($id_bidang = "")
+    {
+        if ($id_bidang == "") {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_terverifikasi 
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 1");
+        } else {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_terverifikasi 
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 1
+            AND a.`BIDANG_LOMBA` = $id_bidang");
+        }
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+    function get_jumlah_berkas_ditolak($id_bidang = "")
+    {
+        if ($id_bidang == "") {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_ditolak
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 2");
+        } else {
+            $query = $this->db->query("SELECT COUNT(a.`KODE_PENDAFTARAN`) AS jumlah_berkas_ditolak 
+            FROM pendaftaran_kompetisi AS a 
+            WHERE a.`STATUS` = 2
+            AND a.`BIDANG_LOMBA` = $id_bidang");
+        }
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+
+    function get_karya_by_kode_pendaftaran($kode_pendaftaran)
+    {
+        $query = $this->db->query("SELECT a.* , b.`NAMA_TIM`, b.`KODE_USER`,
+        c.`BIDANG_LOMBA`, c.`ID_BIDANG`, c.`TIPE_KARYA`
+        FROM tb_karya AS a, pendaftaran_kompetisi AS b, bidang_lomba AS c  WHERE a.`KODE_PENDAFTARAN` = b.`KODE_PENDAFTARAN`
+        AND b.`BIDANG_LOMBA` = c.`ID_BIDANG`
+        AND a.`KODE_PENDAFTARAN` = '$kode_pendaftaran'
+       ");
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+    function get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran)
+    {
+        $this->db->select("a.*, b.*, c.*, d.BIDANG_LOMBA AS NAMA_LOMBA");
+        $this->db->from("pendaftaran_kompetisi a");
+        $this->db->join("tb_pengguna b", "a.KODE_USER = b.KODE_USER");
+        $this->db->join("tb_auth c", "c.KODE_USER = b.KODE_USER");
+        $this->db->join("bidang_lomba d", "a.BIDANG_LOMBA = d.ID_BIDANG");
+        $this->db->where('a.KODE_PENDAFTARAN', $kode_pendaftaran);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
+
+
+
+    function terima_pendaftaran()
+    {
+        $KODE_USER = $this->input->post('KODE_USER');
+
+        $this->db->where('KODE_USER', $KODE_USER);
+        $this->db->update('pendaftaran_kompetisi', array('STATUS' => 1));
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+    function tolak_pendaftaran()
+    {
+        $KODE_USER = $this->input->post('KODE_USER');
+
+        $this->db->where('KODE_USER', $KODE_USER);
+        $this->db->update('pendaftaran_kompetisi', array('STATUS' => 2));
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+		public function seleksi_tim($kode, $tahap){
+			$this->db->where('KODE_PENDAFTARAN', $kode);
+			$this->db->update('pendaftaran_kompetisi', array('STATUS_SELEKSI' => $tahap));
+			
+		}
+
+		function get_daftarTIM($param, $id_bidang, $id_tahap){
+			// case
+			// 0. Seluruh TIM yang telah diverifikasi / STATUS = 1 (belum dinilai)
+			// 1. Berdasarkan nilai tertinggi (sudah ada data penilaian) / berdasarkan id tahap
+			$this->db->select('*');
+			switch ($param) {
+				case 0:
+					$this->db->from('v_tim');
+					
+					if ($id_bidang != 0) {
+						$this->db->where('ID_BIDANG', $id_bidang);
+					}
+					
+					if ($id_tahap != 0) {
+						$this->db->where('TAHAP', $id_tahap);
+					}
+	
+					$this->db->where('STATUS', 1);
+					break;
+				case 1:
+					$this->db->from('v_penilaian');
+					
+					if ($id_bidang != 0) {
+						$this->db->where('ID_BIDANG', $id_bidang);
+					}
+	
+					$this->db->where('TAHAP', $id_tahap);
+					break;
+					
+				default:
+					$this->db->from('v_tim');
+					$this->db->where('STATUS', 1);
+					break;
+			}
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}else{
+				return false;
+			}
+		}
+
+		function get_seleksiTIM($param, $id_bidang, $id_tahap){
+			// case
+			// 0. Seluruh TIM yang telah diverifikasi / STATUS = 1 (belum dinilai)
+			// 1. Berdasarkan nilai tertinggi (sudah ada data penilaian) / berdasarkan id tahap
+			$this->db->select('*');
+			switch ($param) {
+				case 0:
+					$this->db->from('v_tim');
+					
+					if ($id_bidang != 0) {
+						$this->db->where('ID_BIDANG', $id_bidang);
+					}
+					
+					if ($id_tahap != 0) {
+						$this->db->where('TAHAP !=', $id_tahap);
+					}
+	
+					$this->db->where('STATUS', 1);
+					break;
+				case 1:
+					$this->db->from('v_penilaian');
+					
+					if ($id_bidang != 0) {
+						$this->db->where('ID_BIDANG', $id_bidang);
+					}
+	
+					$this->db->where('TAHAP', $id_tahap);
+					break;
+				default:
+					$this->db->from('v_tim');
+					$this->db->where('STATUS', 1);
+					break;
+			}
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}else{
+				return false;
+			}
+		}
+
+		public function get_TotNilai($KODE_PENDAFTARAN, $id_tahap = 1){
+			$query = $this->db->query("
+				SELECT KODE_PENDAFTARAN,
+				ROUND((SUM(NILAI) /
+				(SELECT COUNT(*)  AS JML_JURI FROM (SELECT COUNT(KODE_PENDAFTARAN)
+				FROM tb_penilaian WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap'
+				GROUP BY KODE_JURI) t)), 2) AS TOT_NILAI,
+				(SELECT COUNT(*)  AS JML_JURI FROM
+				(SELECT COUNT(KODE_PENDAFTARAN) FROM tb_penilaian
+				WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap' GROUP BY KODE_JURI) t) AS JML_JURI
+				FROM tb_penilaian WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap'
+				");
+			if ($query->num_rows() > 0) {
+				return $query->row();
+			}else{
+				return false;
+			}
+		}
+
+		function get_tahapData($id_tahap){
+			$query = $this->db->get_where('tahap_penilaian', array('ID_TAHAP' => $id_tahap));
+			if ($query->num_rows() > 0 ){
+				return $query->row();
+			}else{
+				return false;
+			}
+		}
+
+		// HASIL PENILAIAN
+	function get_tahapLomba_by_id($id_tahap){
+		$query = $this->db->get_where('tahap_penilaian', array('ID_TAHAP' => $id_tahap));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+		function get_hasilPenilaian($id_tahap, $id_bidang){
+			// case
+			// 1. Berdasarkan nilai tertinggi (sudah ada data penilaian) / berdasarkan id tahap
+			$this->db->select('*');
+			$this->db->from('v_penilaian');
+			
+			if ($id_bidang != 0) {
+				$this->db->where('ID_BIDANG', $id_bidang);
+			}
+			
+			if ($id_tahap != 0) {
+				$this->db->where('TAHAP', $id_tahap);
+			}
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}else{
+				return false;
+			}
+		}
 
 
 }

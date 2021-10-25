@@ -65,10 +65,10 @@
                   </td>
                   <td><?= $key->namapt;?></td>
                   <td class="text-left">
-                    <?php if ($CI->M_admin->get_TotNilai($key->KODE_PENDAFTARAN)->JML_JURI <= 0) :?>
+                    <?php if ($controller->M_juri->get_TotNilai($key->KODE_PENDAFTARAN, $id_tahap)->JML_JURI <= 0) :?>
                       <span class="badge badge-danger">belum dinilai</span>
                     <?php else:?>
-                      <i class="tio-star text-warning mr-1"></i> <?= $CI->M_admin->get_TotNilai($key->KODE_PENDAFTARAN, $id_tahap)->TOT_NILAI;?> dari (<?= $CI->M_admin->get_TotNilai($key->KODE_PENDAFTARAN, $id_tahap)->JML_JURI;?> Juri)
+                      <i class="tio-star text-warning mr-1"></i> <?= $controller->M_juri->get_TotNilai($key->KODE_PENDAFTARAN, $id_tahap)->TOT_NILAI;?> dari (<?= $controller->M_juri->get_TotNilai($key->KODE_PENDAFTARAN, $id_tahap)->JML_JURI;?> Juri)
                     <?php endif;?>
                   </td>
                 </tr>

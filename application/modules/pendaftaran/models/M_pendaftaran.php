@@ -48,7 +48,7 @@ class M_pendaftaran extends CI_Model {
 	function cek_dataPeserta($id, $kode){
 		$kode 	= $this->db->escape($kode);
 		$id 	= $this->db->escape($id);
-		$query 	= $this->db->query("SELECT KODE_PENDAFTARAN as KODE, STATUS FROM {$tabel} WHERE KODE_EVENT = '$id' AND KODE_USER = $kode");
+		$query 	= $this->db->query("SELECT KODE_PENDAFTARAN as KODE, STATUS FROM pendaftaran_event WHERE KODE_EVENT = $id AND KODE_USER = $kode");
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{

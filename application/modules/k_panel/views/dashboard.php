@@ -31,7 +31,7 @@
   </div>
   <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
     <!-- Card -->
-    <a class="card card-hover-shadow h-100" href="<?= site_url('k-panel/eventku') ?>">
+    <a class="card card-hover-shadow h-100" href="<?= site_url('dashboard-penyelenggara/eventku') ?>">
       <div class="card-body">
         <h6 class="card-subtitle">Total event</h6>
 
@@ -47,7 +47,7 @@
   </div>
   <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
     <!-- Card -->
-    <a class="card card-hover-shadow h-100" href="<?= site_url('k-panel/kompetisiku') ?>">
+    <a class="card card-hover-shadow h-100" href="<?= site_url('dashboard-penyelenggara/kompetisiku') ?>">
       <div class="card-body">
         <h6 class="card-subtitle">Total Kompetisi</h6>
 

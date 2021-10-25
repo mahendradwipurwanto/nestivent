@@ -69,7 +69,7 @@
 					<label class="input-label"><?= $key->PERTANYAAN;?> <span class="text-danger">*</span></label>
 					<div>
 						<?php if(!empty($controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM))):?>
-							<a href="<?= base_url();?>berkas/pendaftaran/kompetisi/lokreatif/<?= $this->session->userdata('kode_user');?>/<?= $controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM);?>" class="btn btn-sm btn-primary transition-3d-hover" target="_blank">Cek Berkas</a>
+							<a href="<?= base_url();?>berkas/pendaftaran/kompetisi/<?= preg_replace("/[^a-zA-Z]+/", "_", $dataPendaftaran->BIDANG_LOMBA);?>/<?= preg_replace("/[^a-zA-Z]+/", "_", $dataPendaftaran->NAMA_TIM);?>_<?= $this->session->userdata('kode_user');?>/<?= $controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM);?>" class="btn btn-sm btn-primary transition-3d-hover" target="_blank">Cek Berkas</a>
 						<?php endif;?>
 						<label class="btn btn-sm btn-primary transition-3d-hover file-attachment-btn" for="fileAttachmentBtn<?= $no;?>">
 							<span id="customFileUpload<?= $no;?>"><?= empty($controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM)) ? 'Tambahkan file' : $controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM);?></span>

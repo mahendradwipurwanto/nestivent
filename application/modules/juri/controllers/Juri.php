@@ -29,7 +29,7 @@ class Juri extends MX_Controller {
 
 	function get_karyaTim($kode){
 		$karya = $this->M_juri->get_karyaTim($kode);
-		if ($karya == false || empty($karya->FILE)) {
+		if ($karya == false) {
 			$this->load->view('ajax/karya_404');
 		}else{
 			$data['berkas']	= $karya;

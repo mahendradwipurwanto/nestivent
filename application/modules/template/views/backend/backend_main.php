@@ -143,7 +143,6 @@
     <!-- Toast -->
     <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
       <div class="toast-header">
-        <img class="avatar avatar-sm avatar-circle mr-2" src="<?= ($pFoto->PROFIL == null ? base_url().'assets/frontend/img/100x100/img12.jpg' : base_url().'berkas/pengguna/'.$this->session->userdata('kode_user').'/foto/'.$pFoto->PROFIL);?>" alt="<?= $this->session->userdata('nama') ?>" alt="Image description">
         <h5 class="mb-0">
           <?= ($this->session->flashdata('success') ? "Berhasil !!" : ($this->session->flashdata('warning') ? "Perhatian !!" : "Terjadi Kesalahan !!"))?>
         </h5>
@@ -190,6 +189,28 @@ $('#myTable').DataTable( {
   },
   "scrollX": true
 } );
+
+
+var t = $('#myTableNilai').DataTable( {
+    "columnDefs": [ {
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+    } ],
+    "language": {
+      "emptyTable": '<div class="text-center p-4">' +
+      '<img class="mb-3" src="<?= base_url() ?>assets/backend/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+      '<p class="mb-0">Tidak ada data untuk ditampilkan</p>' +
+      '</div>'
+    },
+    "order": [[ 3, 'desc' ]]
+} );
+
+t.on( 'order.dt search.dt', function () {
+    t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell.innerHTML = i+1;
+    } );
+} ).draw();
 
 
   // INITIALIZATION OF MEGA MENU

@@ -65,8 +65,8 @@ class M_penyelenggara extends CI_Model {
 	}
 
 	function cek_hakPenyelenggara($kode){
-		$user 	= $this->session->userdata("email");
-		$query 	= $this->db->query("SELECT * FROM TB_KOLABOLATOR WHERE KODE_PENYELENGGARA = '$kode' AND EMAIL = '$user'");
+		$user 	= $this->session->userdata("kode_user");
+		$query 	= $this->db->query("SELECT * FROM TB_PENYELENGGARA WHERE KODE_PENYELENGGARA = '$kode' AND KODE_USER = '$user'");
 		return $query->num_rows();
 	}
 

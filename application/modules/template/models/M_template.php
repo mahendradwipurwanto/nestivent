@@ -340,6 +340,15 @@ class M_template extends CI_Model {
 
 	}
 
+	function get_kompetisi($kode_kompetisi){
+		$query = $this->db->get_where('tb_kompetisi', array('KODE_KOMPETISI' => $kode_kompetisi));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
 	// PENDAFTARAN
 
 	function cek_form($kode){

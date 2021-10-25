@@ -74,23 +74,24 @@
 						</a>
 					</li>
 
-					<li class="nav-item ">
+					<!-- <li class="nav-item ">
 						<a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'data-koordinator' ? 'active' : '') ?>"
 							href="<?= site_url('manage-kompetisi/data-koordinator') ?>" title="Data Koordinator"
 							data-placement="left">
 							<i class="tio-user nav-icon"></i>
 							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data Koordinator</span>
 						</a>
-					</li>
+					</li> -->
 
 					<li class="nav-item ">
 						<a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'data-peserta' ? 'active' : '') ?>"
-							href="<?= site_url('manage-kompetisi/data-juri') ?>" title="Data Peserta" data-placement="left">
+							href="<?= site_url('manage-kompetisi/data-peserta') ?>" title="Data Peserta" data-placement="left">
 							<i class="tio-user nav-icon"></i>
 							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data Peserta</span>
 						</a>
 					</li>
 
+					<?php if($kegiatan->BAYAR == 1):?>
 					<li class="nav-item">
 						<small class="nav-subtitle" title="Data Kompetisi">Pembayaran</small>
 						<small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -103,7 +104,7 @@
 							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Data Transaksi</span>
 						</a>
 					</li>
-
+					<?php endif;?>
 					<li class="nav-item">
 						<small class="nav-subtitle" title="Data Kompetisi">Data Master</small>
 						<small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -163,6 +164,15 @@
 							data-placement="left">
 							<i class="tio-files nav-icon"></i>
 							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Verifikasi Berkas</span>
+						</a>
+					</li>
+
+					<li class="nav-item ">
+						<a class="js-nav-tooltip-link nav-link <?= ($this->uri->segment(2) == 'seleksi' ? 'active' : '') ?>"
+							href="<?= site_url('manage-kompetisi/seleksi') ?>" title="Seleksi"
+							data-placement="left">
+							<i class="tio-files nav-icon"></i>
+							<span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Seleksi</span>
 						</a>
 					</li>
 					<!-- End Dashboards -->

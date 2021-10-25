@@ -106,6 +106,25 @@ class M_juri extends CI_Model {
 		}
 	}
 
+	public function get_TotNilai($KODE_PENDAFTARAN, $id_tahap){
+		$query = $this->db->query("
+			SELECT KODE_PENDAFTARAN,
+			ROUND((SUM(NILAI) /
+			(SELECT COUNT(*)  AS JML_JURI FROM (SELECT COUNT(KODE_PENDAFTARAN)
+			FROM tb_penilaian WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap'
+			GROUP BY KODE_JURI) t)), 2) AS TOT_NILAI,
+			(SELECT COUNT(*)  AS JML_JURI FROM
+			(SELECT COUNT(KODE_PENDAFTARAN) FROM tb_penilaian
+			WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap' GROUP BY KODE_JURI) t) AS JML_JURI
+			FROM tb_penilaian WHERE KODE_PENDAFTARAN = '$KODE_PENDAFTARAN' AND ID_TAHAP = '$id_tahap'
+			");
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
 	function get_karyaTim($KODE_PENDAFTARAN){
 		$this->db->select('*');
 		$this->db->from('pendaftaran_kompetisi a');

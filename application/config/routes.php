@@ -148,7 +148,10 @@ $route['manage-kompetisi/aktivitas-kompetisi']	= 'manage_kompetisi/aktivitas';
 $route['manage-kompetisi/pengaturan']			= 'manage_kompetisi/pengaturan';
 $route['manage-kompetisi/atur-pendaftaran']		= 'manage_kompetisi/atur_pendaftaran';
 $route['manage-kompetisi/data-peserta']			= 'manage_kompetisi/data_peserta';
-$route['manage-kompetisi/verifikasi-peserta']	= 'manage_kompetisi/verifikasi_berkas';
+$route['manage-kompetisi/data-transaksi']			= 'manage_kompetisi/data_transaksi';
+$route['manage-kompetisi/data-peserta/(:num)']			= 'manage_kompetisi/data_peserta/$1';
+$route['manage-kompetisi/verifikasi-berkas']	= 'manage_kompetisi/verifikasi_berkas';
+$route['manage-kompetisi/verifikasi-berkas/(:num)']	= 'manage_kompetisi/verifikasi_berkas/$1';
 $route['manage-kompetisi/berkas-lomba']       = 'manage_kompetisi/berkas_lomba';
 
 $route['manage-kompetisi/pengaturan-umum']		= 'manage_kompetisi/pengaturan_umum';
@@ -158,8 +161,10 @@ $route['manage-kompetisi/data-koordinator']     = 'manage_kompetisi/data_koordin
 $route['manage-kompetisi/bidang-lomba']						= 'manage_kompetisi/bidang_lomba';
 $route['manage-kompetisi/tahap-penilaian']					= 'manage_kompetisi/tahap_penilaian';
 $route['manage-kompetisi/kriteria-penilaian']				= 'manage_kompetisi/kriteria_penilaian';
+$route['manage-kompetisi/seleksi']			  	        = 'manage_kompetisi/seleksi';
 $route['manage-kompetisi/kriteria-penilaian/(:num)/(:num)']	= 'manage_kompetisi/data_kriteria/$1/$2';
 $route['manage-kompetisi/hasil-penilaian']					= 'manage_kompetisi/hasil_penilaian';
+$route['manage-kompetisi/hasil-penilaian/(:num)/(:num)']					= 'manage_kompetisi/hasil_penilaian/$1/$2';
 
 // END MANAGE KOMPETISI
 
