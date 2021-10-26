@@ -190,7 +190,7 @@
 					class="js-file-attach file-attachment-btn-label" data-hs-file-attach-options='{
 									"textTarget": "#customFileUploadBayar",
 									"maxFileSize": 10240
-								}' required>
+								}' <?= empty($dataPendaftaran->BUKTI_BAYAR) ? "required" : '';?>>
 			</label>
 			<script type="text/javascript">
 				$('#fileAttachmentBtnBayar').change(function () {

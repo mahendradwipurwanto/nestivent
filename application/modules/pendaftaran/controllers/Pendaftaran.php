@@ -40,9 +40,9 @@ class Pendaftaran extends MX_Controller {
 	function prosesPendaftaran($kegiatan){
 
 		if ($kegiatan == "event") {
-			$tabel = "PENDAFTARAN_EVENT";
+			$tabel = "pendaftaran_event";
 		}else{
-			$tabel = "PENDAFTARAN_KOMPETISi";
+			$tabel = "pendaftaran_kompetisi";
 		}
 
 		$uniqid		= strtolower($this->session->userdata('kode_user'));
