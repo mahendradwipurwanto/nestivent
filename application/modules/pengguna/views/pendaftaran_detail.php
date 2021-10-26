@@ -47,7 +47,7 @@
 	<input type="hidden" name="FILE_SIZE[]" value="<?= $key->FILE_SIZE;?>">
 
 	<div class="card card-frame card-body mb-4">
-		<label class="input-label"><?= $key->PERTANYAAN;?> <span class="text-danger">*</span></label>
+		<label class="input-label"><?= $key->PERTANYAAN;?> <?= ($key->REQUIRED == 1) ? "<span class='text-danger'>*</span>" : "";?></label>
 		<div>
 			<?php if(!empty($controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM))):?>
 			<a href="<?= base_url();?>berkas/pendaftaran/<?= $this->session->userdata('kode_user');?>/event/<?= $KODE_EVENT;?>/<?= $controller->M_pengguna->get_formData($dataPendaftaran->KODE_PENDAFTARAN, $key->ID_FORM);?>"
