@@ -381,7 +381,7 @@ class K_panel extends MX_Controller {
       }else {
 
         $this->db->where('KODE_PENYELENGGARA', $this->session->userdata('kode_akses'));
-        $this->db->update('TB_PENYELENGGARA', array('LOGO' => $filename));
+        $this->db->update('tb_penyelenggara', array('LOGO' => $filename));
         $cek = ($this->db->affected_rows() != 1) ? false : true;
         if ($cek == TRUE) {
           $this->session->set_flashdata('success', 'Berhasil mengubah logo!!');

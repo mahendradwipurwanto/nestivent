@@ -17,7 +17,7 @@ class M_manageKompetisi extends CI_Model {
 			'TYPE'	 		=> $TYPE,
 			'RECEIVER_GROUP'=> $GROUP,
 		);
-		$this->db->insert('LOG_AKTIVITAS', $data);
+		$this->db->insert('log_aktivitas', $data);
 	}
 
 	function cek_hakakses($kode){
@@ -31,21 +31,21 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function count_peserta($kode){
-		return $this->db->get_where("PENDAFTARAN_KOMPETISI", array('KODE_KOMPETISI' => $kode))->num_rows();
+		return $this->db->get_where("pendaftaran_kompetisi", array('KODE_KOMPETISI' => $kode))->num_rows();
 	}
 
 	function count_pesertaVerif($kode){
-		return $this->db->get_where("PENDAFTARAN_KOMPETISI", array('KODE_KOMPETISI' => $kode, 'STATUS' => 1))->num_rows();
+		return $this->db->get_where("pendaftaran_kompetisi", array('KODE_KOMPETISI' => $kode, 'STATUS' => 1))->num_rows();
 	}
 
 	// AKTIVITAS & NOTIFIKASI
 	public function count_aktivitasKompetisi($kode_akses){
-		$query = $this->db->query("SELECT * FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
+		$query = $this->db->query("SELECT * FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
 		return $query->num_rows();
 	}
 
 	public function get_aktivitasKompetisi($limit, $start, $kode_akses){
-		$query = $this->db->query("SELECT a.*, b.* FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -54,12 +54,12 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	public function count_notifikasiKompetisi($kode_akses){
-		$query = $this->db->query("SELECT * FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.READ = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
+		$query = $this->db->query("SELECT * FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.READ = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
 		return $query->num_rows();
 	}
 
 	public function get_notifikasiKompetisi($limit, $start, $kode_akses){
-		$query = $this->db->query("SELECT a.*, b.* FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -69,7 +69,7 @@ class M_manageKompetisi extends CI_Model {
 
 	//BIDANG LOMBA
 	function get_bidangLomba($kode_kompetisi){
-		$query	= $this->db->get_where('BIDANG_LOMBA', array('KODE_KOMPETISI' => $kode_kompetisi));
+		$query	= $this->db->get_where('bidang_lomba', array('KODE_KOMPETISI' => $kode_kompetisi));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -104,7 +104,7 @@ class M_manageKompetisi extends CI_Model {
 			'BIDANG_LOMBA' 	=> $BIDANG_LOMBA,
 			'KETERANGAN' 		=> $KETERANGAN,
 		);
-		$this->db->insert('BIDANG_LOMBA', $data);
+		$this->db->insert('bidang_lomba', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -128,7 +128,7 @@ class M_manageKompetisi extends CI_Model {
 		);
 
 		$this->db->where('ID_BIDANG', $ID_BIDANG);
-		$this->db->update('BIDANG_LOMBA', $data);
+		$this->db->update('bidang_lomba', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -136,14 +136,14 @@ class M_manageKompetisi extends CI_Model {
 		$ID_BIDANG 		= $this->input->post('ID_BIDANG');
 
 		$this->db->where('ID_BIDANG', $ID_BIDANG);
-		$this->db->delete('BIDANG_LOMBA');
+		$this->db->delete('bidang_lomba');
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
 
 	//DATA JURI
 	function get_dataJuri($kode_kompetisi){
-		$query = $this->db->query("SELECT * FROM TB_AUTH a JOIN TB_PENGGUNA b ON a.KODE_USER = b.KODE_USER LEFT JOIN bidang_juri c ON a.KODE_USER = c.KODE_USER WHERE a.ROLE = 2 AND a.KODE_USER IN (SELECT KODE_USER FROM BIDANG_JURI WHERE ID_BIDANG IN (SELECT ID_BIDANG FROM BIDANG_LOMBA WHERE KODE_KOMPETISI = '$kode_kompetisi'))");
+		$query = $this->db->query("SELECT * FROM tb_auth a JOIN tb_pengguna b ON a.KODE_USER = b.KODE_USER LEFT JOIN bidang_juri c ON a.KODE_USER = c.KODE_USER WHERE a.ROLE = 2 AND a.KODE_USER IN (SELECT KODE_USER FROM bidang_juri WHERE ID_BIDANG IN (SELECT ID_BIDANG FROM bidang_lomba WHERE KODE_KOMPETISI = '$kode_kompetisi'))");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -152,9 +152,9 @@ class M_manageKompetisi extends CI_Model {
 	}
 	function get_bidangJuri($kode_user){
 		$this->db->select('a.ID, a.ID_BIDANG, b.BIDANG_LOMBA');
-		$this->db->from('BIDANG_JURI a');
-		$this->db->join('BIDANG_LOMBA b', 'a.ID_BIDANG = b.ID_BIDANG');
-		$query = $this->db->get_where('BIDANG_JURI', array('a.KODE_USER' => $kode_user));
+		$this->db->from('bidang_juri a');
+		$this->db->join('bidang_lomba b', 'a.ID_BIDANG = b.ID_BIDANG');
+		$query = $this->db->get_where('bidang_juri', array('a.KODE_USER' => $kode_user));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{
@@ -164,14 +164,14 @@ class M_manageKompetisi extends CI_Model {
 
 	public function cek_kodeUser($kode_user){
 		$kode_user 	= $this->db->escape($kode_user);
-		$query 		= $this->db->query("SELECT * FROM TB_AUTH WHERE KODE_USER = $kode_user");
+		$query 		= $this->db->query("SELECT * FROM tb_auth WHERE KODE_USER = $kode_user");
 		return $query->num_rows();
 	}
 
 	public function del_user($kode_user){
 		$kode_user 			= $this->db->escape($kode_user);
 		$this->db->where('KODE_USER', $kode_user);
-		$this->db->delete('TB_AUTH');
+		$this->db->delete('tb_auth');
 	}
 
 	function tambah_juri($KODE_USER, $file){
@@ -188,7 +188,7 @@ class M_manageKompetisi extends CI_Model {
 			'PASSWORD'		=> password_hash($PASSWORD, PASSWORD_DEFAULT),
 			'ROLE'				=> 2,
 		);
-		$this->db->insert('TB_AUTH', $data);
+		$this->db->insert('tb_auth', $data);
 
 		if ($this->db->affected_rows() == true) {
 
@@ -199,7 +199,7 @@ class M_manageKompetisi extends CI_Model {
 				'HP' 						=> $HP,
 			);
 
-			$this->db->insert('TB_PENGGUNA', $pengguna);
+			$this->db->insert('tb_pengguna', $pengguna);
 
 			if ($this->db->affected_rows() == true) {
 
@@ -208,7 +208,7 @@ class M_manageKompetisi extends CI_Model {
 					'ID_BIDANG'  		=> $BIDANG_JURI,
 				);
 
-				$this->db->insert('BIDANG_JURI', $bidang);
+				$this->db->insert('bidang_juri', $bidang);
 				return ($this->db->affected_rows() != 1) ? false : true;
 
 			}else{
@@ -240,7 +240,7 @@ class M_manageKompetisi extends CI_Model {
 		);
 
 		$this->db->where('KODE_USER', $KODE_USER);
-		$this->db->update('TB_PENGGUNA', $pengguna);
+		$this->db->update('tb_pengguna', $pengguna);
 
 		$bidang = array(
 			'ID_BIDANG'  		=> $BIDANG_JURI,
@@ -248,7 +248,7 @@ class M_manageKompetisi extends CI_Model {
 		);
 
 		$this->db->where('ID', $ID);
-		$this->db->update('BIDANG_JURI', $bidang);
+		$this->db->update('bidang_juri', $bidang);
 
 		$data = array(
 			'EMAIL'	=> $EMAIL,
@@ -280,17 +280,17 @@ class M_manageKompetisi extends CI_Model {
 		$KODE_USER 		= $this->input->post('KODE_USER');
 
 		$this->db->where('ID', $ID);
-		$this->db->delete('BIDANG_JURI');
+		$this->db->delete('bidang_juri');
 
 		$this->db->where('KODE_USER', $KODE_USER);
-		$this->db->delete('TB_AUTH');
+		$this->db->delete('tb_auth');
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
 
 	//TAHAP PENILAIAN
 	function get_tahapPenilaian($kode_kompetisi){
-		$query	= $this->db->get_where('TAHAP_PENILAIAN', array('KODE_KOMPETISI' => $kode_kompetisi));
+		$query	= $this->db->get_where('tahap_penilaian', array('KODE_KOMPETISI' => $kode_kompetisi));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -317,7 +317,7 @@ class M_manageKompetisi extends CI_Model {
 			'TIME_END'			=> $WAKTU_BERAKHIR,
 			'TEAM'				=> $TEAM,
 		);
-		$this->db->insert('TAHAP_PENILAIAN', $data);
+		$this->db->insert('tahap_penilaian', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -343,7 +343,7 @@ class M_manageKompetisi extends CI_Model {
 		);
 
 		$this->db->where('ID_TAHAP', $ID_TAHAP);
-		$this->db->update('TAHAP_PENILAIAN', $data);
+		$this->db->update('tahap_penilaian', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -351,7 +351,7 @@ class M_manageKompetisi extends CI_Model {
 		$ID_TAHAP 		= $this->input->post('ID_TAHAP');
 
 		$this->db->where('ID_TAHAP', $ID_TAHAP);
-		$this->db->delete('TAHAP_PENILAIAN');
+		$this->db->delete('tahap_penilaian');
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
@@ -359,11 +359,11 @@ class M_manageKompetisi extends CI_Model {
 	//KRITERIA PENILAIAN
 
 	function cek_kriteriaAtur($id_tahap, $id_bidang){
-		return $this->db->get_where('KRITERIA_PENILAIAN', array('ID_TAHAP' => $id_tahap, 'ID_BIDANG' => $id_bidang))->num_rows();
+		return $this->db->get_where('kriteria_penilaian', array('ID_TAHAP' => $id_tahap, 'ID_BIDANG' => $id_bidang))->num_rows();
 	}
 
 	function get_kriteriaPenilaian($id_tahap, $id_bidang){
-		$query	= $this->db->get_where('KRITERIA_PENILAIAN', array('ID_TAHAP' => $id_tahap, 'ID_BIDANG' => $id_bidang));
+		$query	= $this->db->get_where('kriteria_penilaian', array('ID_TAHAP' => $id_tahap, 'ID_BIDANG' => $id_bidang));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -371,7 +371,7 @@ class M_manageKompetisi extends CI_Model {
 		}
 	}
 	function get_bidangKriteria($id_tahap){
-		$query	= $this->db->get_where('BIDANG_LOMBA', array('KODE_KOMPETISI' => $kode_kompetisi));
+		$query	= $this->db->get_where('bidang_lomba', array('KODE_KOMPETISI' => $kode_kompetisi));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -415,7 +415,7 @@ class M_manageKompetisi extends CI_Model {
 		);
 
 		$this->db->where('ID_KRITERIA', $ID_KRITERIA);
-		$this->db->update('KRITERIA_PENILAIAN', $data);
+		$this->db->update('kriteria_penilaian', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -423,7 +423,7 @@ class M_manageKompetisi extends CI_Model {
 		$ID_KRITERIA 		= $this->input->post('ID_KRITERIA');
 
 		$this->db->where('ID_KRITERIA', $ID_KRITERIA);
-		$this->db->delete('KRITERIA_PENILAIAN');
+		$this->db->delete('kriteria_penilaian');
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
@@ -431,7 +431,7 @@ class M_manageKompetisi extends CI_Model {
 	// FORMULIR
 
 	function cek_form($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode));
 		if ($query->num_rows() > 0) {
 			return true;
 		}else{
@@ -441,9 +441,9 @@ class M_manageKompetisi extends CI_Model {
 
 	function get_dataPendaftaran($kode){
 		$this->db->select("a.*, b.NAMA, b.HP, c.BIDANG_LOMBA AS NAMA_LOMBA");
-		$this->db->from("PENDAFTARAN_KOMPETISI a");
-		$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
-		$this->db->join("BIDANG_LOMBA c", "a.BIDANG_LOMBA = c.ID_BIDANG");
+		$this->db->from("pendaftaran_kompetisi a");
+		$this->db->join("tb_pengguna b", "a.KODE_USER = b.KODE_USER");
+		$this->db->join("bidang_lomba c", "a.BIDANG_LOMBA = c.ID_BIDANG");
 		$this->db->where("a.KODE_KOMPETISI", $kode);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -454,7 +454,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_form($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode, 'TYPE !=' => 'FILE'));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode, 'TYPE !=' => 'FILE'));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -463,7 +463,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_formItem($kode){
-		$query = $this->db->get_where("FORM_ITEM", array('ID_FORM' => $kode));
+		$query = $this->db->get_where("form_item", array('ID_FORM' => $kode));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -472,7 +472,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_formData($kode, $id){
-		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
+		$query = $this->db->get_where("pendaftaran_data", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row()->JAWABAN;
 		}else{
@@ -481,7 +481,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_formBerkas($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode, 'TYPE' => 'FILE'));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode, 'TYPE' => 'FILE'));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -490,7 +490,7 @@ class M_manageKompetisi extends CI_Model {
 	}
 
 	function get_formDataBerkas($kode, $id){
-		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
+		$query = $this->db->get_where("pendaftaran_data", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -524,7 +524,7 @@ class M_manageKompetisi extends CI_Model {
 				'FILE_SIZE'     => isset($FILE_SIZE[$i]) ? $FILE_SIZE[$i] : null,
 				'FILE_TYPE'     => isset($FILE_TYPE[$i]) ? $FILE_TYPE[$i] : null,
 			);
-			$this->db->insert('FORM_META', $data);
+			$this->db->insert('form_meta', $data);
 			$cek    = ($this->db->affected_rows() != 1) ? false : true;
 
 			if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT" && $cek == true) {
@@ -539,7 +539,7 @@ class M_manageKompetisi extends CI_Model {
 							'ID_FORM'     => $ID_FORM,
 							'ITEM'        => isset($ITEM[$ct]) ? $ITEM[$ct] : null,
 						);
-						$this->db->insert('FORM_ITEM', $data);
+						$this->db->insert('form_item', $data);
 						$ct++;
 					}
 				}
@@ -547,7 +547,7 @@ class M_manageKompetisi extends CI_Model {
 
 			if ($cek == false) {        
 				$this->db->where('KODE', $kode);
-				$this->db->delete('FORM_META');
+				$this->db->delete('form_meta');
 				break;
 				return false;
 			}
@@ -557,7 +557,7 @@ class M_manageKompetisi extends CI_Model {
 
 	function hapus_formPendaftaran($ID_FORM){
 		$this->db->where('ID_FORM', $ID_FORM);
-		$this->db->delete('FORM_META');
+		$this->db->delete('form_meta');
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -590,7 +590,7 @@ class M_manageKompetisi extends CI_Model {
 				);
 
 			if ($ID_FORM[$i] == "") {
-				$this->db->insert('FORM_META', $data);
+				$this->db->insert('form_meta', $data);
 
 				if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT") {
 					$ID_FORM 	= $this->db->insert_id();
@@ -600,7 +600,7 @@ class M_manageKompetisi extends CI_Model {
 							'ID_FORM' 		=> $ID_FORM,
 							'ITEM' 			=> isset($ITEM[$ct]) ? $ITEM[$ct] : null,
 						);
-						$this->db->insert('FORM_ITEM', $data);
+						$this->db->insert('form_item', $data);
 						$ct++;
 					}
 				}
@@ -608,7 +608,7 @@ class M_manageKompetisi extends CI_Model {
 
 			}else{
 				$this->db->where('ID_FORM', isset($ID_FORM[$i]) ? $ID_FORM[$i] : null);
-				$this->db->update('FORM_META', $data);
+				$this->db->update('form_meta', $data);
 			}
 
 		}

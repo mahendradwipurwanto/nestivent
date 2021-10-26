@@ -387,7 +387,7 @@ class Admin extends MX_Controller {
 			}else {
 
 				$this->db->where('KEY', 'LOGO_FAV');
-				$this->db->update('TB_PENGATURAN', array('VALUE' => $filename));
+				$this->db->update('tb_pengaturan', array('VALUE' => $filename));
 				$cek = ($this->db->affected_rows() != 1) ? false : true;
 				if ($cek == TRUE) {
 					$this->session->set_flashdata('success', 'Berhasil mengubah logo!!');
@@ -427,7 +427,7 @@ class Admin extends MX_Controller {
 			}else {
 
 				$this->db->where('KEY', 'LOGO_BLACK');
-				$this->db->update('TB_PENGATURAN', array('VALUE' => $filename));
+				$this->db->update('tb_pengaturan', array('VALUE' => $filename));
 				$cek = ($this->db->affected_rows() != 1) ? false : true;
 				if ($cek == TRUE) {
 					$this->session->set_flashdata('success', 'Berhasil mengubah logo!!');
@@ -467,7 +467,7 @@ class Admin extends MX_Controller {
 			}else {
 
 				$this->db->where('KEY', 'LOGO_WHITE');
-				$this->db->update('TB_PENGATURAN', array('VALUE' => $filename));
+				$this->db->update('tb_pengaturan', array('VALUE' => $filename));
 				$cek = ($this->db->affected_rows() != 1) ? false : true;
 				if ($cek == TRUE) {
 					$this->session->set_flashdata('success', 'Berhasil mengubah logo!!');

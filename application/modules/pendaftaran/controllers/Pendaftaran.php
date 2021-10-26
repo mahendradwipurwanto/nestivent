@@ -158,7 +158,7 @@ class Pendaftaran extends MX_Controller {
 				if ($this->upload->do_upload('BUKTI_BAYAR')){
 					$upload_data 	= $this->upload->data();
 					$this->db->where('KODE_PENDAFTARAN', $KODE_PENDAFTARAN);
-					$this->db->update('PENDAFTARAN_EVENT', array('BUKTI_BAYAR' => $upload_data['file_name']));
+					$this->db->update('pendaftaran_event', array('BUKTI_BAYAR' => $upload_data['file_name']));
 				}
 			}
 			foreach ($ID_FORM as $i => $a) {

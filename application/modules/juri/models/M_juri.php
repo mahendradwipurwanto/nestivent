@@ -234,4 +234,5 @@ class M_juri extends CI_Model {
 			return false;
 		}
 	}
+
 }

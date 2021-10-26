@@ -7,17 +7,17 @@ class M_penyelenggara extends CI_Model {
 	}
 
 	function count_BidangLomba($KODE_KOMPETISI){
-		$query = $this->db->query("SELECT * FROM BIDANG_LOMBA WHERE KODE_KOMPETISI = '$KODE_KOMPETISI'");
+		$query = $this->db->query("SELECT * FROM bidang_lomba WHERE KODE_KOMPETISI = '$KODE_KOMPETISI'");
 		return $query->num_rows();
 	}
 
 	function count_penyelenggara(){
-		$query = $this->db->query("SELECT * FROM TB_PENYELENGGARA");
+		$query = $this->db->query("SELECT * FROM tb_penyelenggara");
 		return $query->num_rows();
 	}
 
 	function get_penyelenggara($limit, $start){
-		$query = $this->db->query("SELECT * FROM TB_PENYELENGGARA LIMIT $start, $limit");
+		$query = $this->db->query("SELECT * FROM tb_penyelenggara LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -26,7 +26,7 @@ class M_penyelenggara extends CI_Model {
 	}
 
 	function get_featuredPenyelenggara(){
-		$query = $this->db->query("SELECT * FROM TB_PENYELENGGARA WHERE FEATURED = 1 LIMIT 4");
+		$query = $this->db->query("SELECT * FROM tb_penyelenggara WHERE FEATURED = 1 LIMIT 4");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -36,7 +36,7 @@ class M_penyelenggara extends CI_Model {
 
 	function get_penyelenggaraDetail($kode){
 		$kode = $this->db->escape($kode);
-		$query = $this->db->query("SELECT a.*, (SELECT COUNT(*) FROM TB_EVENT b WHERE b.KODE_PENYELENGGARA = $kode) as JML_EVENT, (SELECT COUNT(*) FROM TB_KOMPETISI b WHERE b.KODE_PENYELENGGARA = $kode) as JML_KOMPETISI FROM TB_PENYELENGGARA a WHERE a.KODE_PENYELENGGARA = $kode AND a.STATUS = 1");
+		$query = $this->db->query("SELECT a.*, (SELECT COUNT(*) FROM tb_event b WHERE b.KODE_PENYELENGGARA = $kode) as JML_EVENT, (SELECT COUNT(*) FROM tb_kompetisi b WHERE b.KODE_PENYELENGGARA = $kode) as JML_KOMPETISI FROM tb_penyelenggara a WHERE a.KODE_PENYELENGGARA = $kode AND a.STATUS = 1");
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else {
@@ -46,7 +46,7 @@ class M_penyelenggara extends CI_Model {
 
 	function get_Eventpenyelenggara($kode){
 		$kode = $this->db->escape($kode);
-		$query = $this->db->query("SELECT * FROM TB_EVENT WHERE KODE_PENYELENGGARA = $kode");
+		$query = $this->db->query("SELECT * FROM tb_event WHERE KODE_PENYELENGGARA = $kode");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -56,7 +56,7 @@ class M_penyelenggara extends CI_Model {
 
 	function get_Kompetisipenyelenggara($kode){
 		$kode = $this->db->escape($kode);
-		$query = $this->db->query("SELECT * FROM TB_KOMPETISI WHERE KODE_PENYELENGGARA = $kode");
+		$query = $this->db->query("SELECT * FROM tb_kompetisi WHERE KODE_PENYELENGGARA = $kode");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -66,7 +66,7 @@ class M_penyelenggara extends CI_Model {
 
 	function cek_hakPenyelenggara($kode){
 		$user 	= $this->session->userdata("kode_user");
-		$query 	= $this->db->query("SELECT * FROM TB_PENYELENGGARA WHERE KODE_PENYELENGGARA = '$kode' AND KODE_USER = '$user'");
+		$query 	= $this->db->query("SELECT * FROM tb_penyelenggara WHERE KODE_PENYELENGGARA = '$kode' AND KODE_USER = '$user'");
 		return $query->num_rows();
 	}
 
@@ -85,7 +85,7 @@ class M_penyelenggara extends CI_Model {
 			'TARGET' 	=> $KODE_PENYELENGGARA,
 		);
 
-		$this->db->insert('TB_LAPORAN', $data);
+		$this->db->insert('tb_laporan', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
@@ -100,7 +100,7 @@ class M_penyelenggara extends CI_Model {
 			'MESSAGE' 	=> $PESAN, 
 		);
 
-		$this->db->insert('TB_PESAN', $data);
+		$this->db->insert('tb_pesan', $data);
 		return ($this->db->affected_rows() != 1) ? false : true;
 		
 	}

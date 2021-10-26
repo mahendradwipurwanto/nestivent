@@ -7,15 +7,15 @@ class M_utilities extends CI_Model {
 	}
 
 	function c_penyelenggara(){
-		return $this->db->get_where("TB_PENYELENGGARA", array('STATUS' => 1))->num_rows();
+		return $this->db->get_where("tb_penyelenggara", array('STATUS' => 1))->num_rows();
 	}
 
 	function c_kegiatan(){
-		return $this->db->query("SELECT a.KODE_EVENT as KODE FROM TB_EVENT a UNION SELECT b.KODE_KOMPETISI as KODE FROM TB_KOMPETISI b")->num_rows();
+		return $this->db->query("SELECT a.KODE_EVENT as KODE FROM tb_event a UNION SELECT b.KODE_KOMPETISI as KODE FROM tb_kompetisi b")->num_rows();
 	}
 
 	function c_pengguna(){
-		return $this->db->get_where("TB_AUTH", array('ROLE' => 1))->num_rows();
+		return $this->db->get_where("tb_auth", array('ROLE' => 1))->num_rows();
 	}
 
 }

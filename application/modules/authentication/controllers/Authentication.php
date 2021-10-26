@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// TB_TOKEN
+// tb_token
 // 1. AKTIVASI
 // 2. RECOVERY ACCOUNT
 
@@ -257,7 +257,7 @@ class Authentication extends MX_Controller {
 					if ($attempt == 3) {
 						$this->db->set('attempt', 'attempt+120', FALSE);
 						$this->db->where('EMAIL', $email);
-                        $this->db->update('TB_AUTH'); // gives UPDATE mytable SET field = field+1 WHERE id = 2
+                        $this->db->update('tb_auth'); // gives UPDATE mytable SET field = field+1 WHERE id = 2
                         $attempt = 0;
                         $this->session->set_userdata('attempt', $attempt);
 
@@ -462,7 +462,7 @@ class Authentication extends MX_Controller {
 
     			$kode_user = $this->db->escape($kode_user);
 
-    			$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 1));
+    			$this->db->delete("tb_token", array('KODE' => $kode_user, 'TYPE' => 1));
     			$this->session->set_flashdata('error', 'Token aktivasi akun untuk akun anda telah melewati batas waktu. Harap melakukan proses pendaftaran akun kembali. ');
     			redirect(site_url('pendaftaran/pengguna'));
     		}
@@ -490,7 +490,7 @@ class Authentication extends MX_Controller {
 
     		$kode_user = $this->db->escape($user->KODE_USER);
 
-    		$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
+    		$this->db->delete("tb_token", array('KODE' => $kode_user, 'TYPE' => 2));
 
     		do {
     			$token = bin2hex(random_bytes(32));
@@ -503,7 +503,7 @@ class Authentication extends MX_Controller {
 				'DATE_CREATED' => time()
 			);
 
-    		$this->db->insert("TB_TOKEN", $data);
+    		$this->db->insert("tb_token", $data);
 
     		$email 		= htmlspecialchars($this->input->post("email"), TRUE);
 
@@ -548,7 +548,7 @@ class Authentication extends MX_Controller {
 
     			$kode_user = $this->db->escape($user->KODE_USER);
 
-    			$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
+    			$this->db->delete("tb_token", array('KODE' => $kode_user, 'TYPE' => 2));
     			$this->session->set_flashdata('error', 'Token URL recovery password untuk akun anda telah melewati batas. Harap melakukan proses recovery password kembali. ');
     			redirect(site_url('lupa-password'));
     		}
@@ -564,7 +564,7 @@ class Authentication extends MX_Controller {
     		$data = array('PASSWORD' => password_hash(htmlspecialchars($this->input->post("password"), TRUE), PASSWORD_DEFAULT));
 
     		$this->db->where("EMAIL", htmlspecialchars($this->input->post("email"), TRUE));
-    		$this->db->update('TB_AUTH', $data);
+    		$this->db->update('tb_auth', $data);
 
     		$cek = ($this->db->affected_rows() != 1) ? false : true;
 
@@ -576,7 +576,7 @@ class Authentication extends MX_Controller {
 
     			$kode_user = $this->db->escape($user->KODE_USER);
 
-    			$this->db->delete("TB_TOKEN", array('KODE' => $kode_user, 'TYPE' => 2));
+    			$this->db->delete("tb_token", array('KODE' => $kode_user, 'TYPE' => 2));
 
     			$subject	= "PERUBAHAN PASSWORD AKUN NESTIVENT";
     			$now 			= date("H:i | d-m-Y");

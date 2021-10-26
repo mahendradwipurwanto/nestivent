@@ -17,7 +17,7 @@ class M_manageEvent extends CI_Model {
 			'TYPE'	 		=> $TYPE,
 			'RECEIVER_GROUP'=> $GROUP,
 		);
-		$this->db->insert('LOG_AKTIVITAS', $data);
+		$this->db->insert('log_aktivitas', $data);
 	}
 
 	function cek_hakakses($kode){
@@ -31,21 +31,21 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function count_peserta($kode){
-		return $this->db->get_where("PENDAFTARAN_EVENT", array('KODE_EVENT' => $kode))->num_rows();
+		return $this->db->get_where("pendaftaran_event", array('KODE_EVENT' => $kode))->num_rows();
 	}
 
 	function count_pesertaVerif($kode){
-		return $this->db->get_where("PENDAFTARAN_EVENT", array('KODE_EVENT' => $kode, 'STATUS' => 1))->num_rows();
+		return $this->db->get_where("pendaftaran_event", array('KODE_EVENT' => $kode, 'STATUS' => 1))->num_rows();
 	}
 
 	// AKTIVITAS & NOTIFIKASI
 	public function count_aktivitasEvent($kode_akses){
-		$query = $this->db->query("SELECT * FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
+		$query = $this->db->query("SELECT * FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
 		return $query->num_rows();
 	}
 
 	public function get_aktivitasEvent($limit, $start, $kode_akses){
-		$query = $this->db->query("SELECT a.*, b.* FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -54,12 +54,12 @@ class M_manageEvent extends CI_Model {
 	}
 
 	public function count_notifikasiEvent($kode_akses){
-		$query = $this->db->query("SELECT * FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.READ = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
+		$query = $this->db->query("SELECT * FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.READ = 0 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses'");
 		return $query->num_rows();
 	}
 
 	public function get_notifikasiEvent($limit, $start, $kode_akses){
-		$query = $this->db->query("SELECT a.*, b.* FROM LOG_AKTIVITAS a JOIN LOG_TYPE b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
+		$query = $this->db->query("SELECT a.*, b.* FROM log_aktivitas a JOIN log_type b ON a.TYPE = b.ID_TYPE WHERE b.TYPE = 1 AND a.RECEIVER_GROUP = 4 AND a.RECEIVER = '$kode_akses' ORDER BY a.CREATED_AT DESC LIMIT $start, $limit");
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else {
@@ -70,7 +70,7 @@ class M_manageEvent extends CI_Model {
 	// FORMULIR
 
 	function cek_form($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode));
 		if ($query->num_rows() > 0) {
 			return true;
 		}else{
@@ -80,8 +80,8 @@ class M_manageEvent extends CI_Model {
 
 	function get_dataPendaftaran($kode){
 		$this->db->select("a.*, b.NAMA, b.HP");
-		$this->db->from("PENDAFTARAN_EVENT a");
-		$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
+		$this->db->from("pendaftaran_event a");
+		$this->db->join("tb_pengguna b", "a.KODE_USER = b.KODE_USER");
 		$this->db->where("a.KODE_EVENT", $kode);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -94,8 +94,8 @@ class M_manageEvent extends CI_Model {
 	function get_pendaftaran_by_kode_pendaftaran($kode_pendaftaran)
 	{
 			$this->db->select("*");
-			$this->db->from("PENDAFTARAN_EVENT a");
-			$this->db->join("TB_PENGGUNA b", "a.KODE_USER = b.KODE_USER");
+			$this->db->from("pendaftaran_event a");
+			$this->db->join("tb_pengguna b", "a.KODE_USER = b.KODE_USER");
 			$this->db->join("tb_auth c", "c.KODE_USER = b.KODE_USER");
 			$this->db->where('a.KODE_PENDAFTARAN', $kode_pendaftaran);
 			$query = $this->db->get();
@@ -107,11 +107,11 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function cek_hargaTiket($ID_TIKET){
-		return $this->db->get_where('TB_TIKET', array('ID_TIKET' => $ID_TIKET))->row()->HARGA_TIKET;
+		return $this->db->get_where('tb_tiket', array('ID_TIKET' => $ID_TIKET))->row()->HARGA_TIKET;
 	}
 
 	function get_form($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -120,7 +120,7 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function get_formItem($kode){
-		$query = $this->db->get_where("FORM_ITEM", array('ID_FORM' => $kode));
+		$query = $this->db->get_where("form_item", array('ID_FORM' => $kode));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -129,7 +129,7 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function get_formBerkas($kode){
-		$query = $this->db->get_where("FORM_META", array('KODE' => $kode, 'TYPE' => 'FILE'));
+		$query = $this->db->get_where("form_meta", array('KODE' => $kode, 'TYPE' => 'FILE'));
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}else{
@@ -138,7 +138,7 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function get_formData($kode, $id){
-		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
+		$query = $this->db->get_where("pendaftaran_data", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row()->JAWABAN;
 		}else{
@@ -147,7 +147,7 @@ class M_manageEvent extends CI_Model {
 	}
 
 	function get_formDataBerkas($kode, $id){
-		$query = $this->db->get_where("PENDAFTARAN_DATA", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
+		$query = $this->db->get_where("pendaftaran_data", array('KODE_PENDAFTARAN' => $kode, 'ID_FORM' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row()->JAWABAN;
 		}else{
@@ -181,7 +181,7 @@ class M_manageEvent extends CI_Model {
 				'FILE_SIZE'     => isset($FILE_SIZE[$i]) ? $FILE_SIZE[$i] : null,
 				'FILE_TYPE'     => isset($FILE_TYPE[$i]) ? $FILE_TYPE[$i] : null,
 			);
-			$this->db->insert('FORM_META', $data);
+			$this->db->insert('form_meta', $data);
 			$cek    = ($this->db->affected_rows() != 1) ? false : true;
 
 			if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT" && $cek == true) {
@@ -196,7 +196,7 @@ class M_manageEvent extends CI_Model {
 							'ID_FORM'     => $ID_FORM,
 							'ITEM'        => isset($ITEM[$ct]) ? $ITEM[$ct] : null,
 						);
-						$this->db->insert('FORM_ITEM', $data);
+						$this->db->insert('form_item', $data);
 						$ct++;
 					}
 				}
@@ -204,7 +204,7 @@ class M_manageEvent extends CI_Model {
 
 			if ($cek == false) {        
 				$this->db->where('KODE', $kode);
-				$this->db->delete('FORM_META');
+				$this->db->delete('form_meta');
 				break;
 				return false;
 			}
@@ -214,7 +214,7 @@ class M_manageEvent extends CI_Model {
 
 	function hapus_formPendaftaran($ID_FORM){
 		$this->db->where('ID_FORM', $ID_FORM);
-		$this->db->delete('FORM_META');
+		$this->db->delete('form_meta');
 		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
@@ -247,7 +247,7 @@ class M_manageEvent extends CI_Model {
 				);
 
 			if ($ID_FORM[$i] == "") {
-				$this->db->insert('FORM_META', $data);
+				$this->db->insert('form_meta', $data);
 
 				if ($TYPE[$i] == "RADIO" || $TYPE[$i] == "CHECK" || $TYPE[$i] == "SELECT") {
 					$ID_FORM 	= $this->db->insert_id();
@@ -257,7 +257,7 @@ class M_manageEvent extends CI_Model {
 							'ID_FORM' 		=> $ID_FORM,
 							'ITEM' 			=> isset($ITEM[$ct]) ? $ITEM[$ct] : null,
 						);
-						$this->db->insert('FORM_ITEM', $data);
+						$this->db->insert('form_item', $data);
 						$ct++;
 					}
 				}
@@ -265,7 +265,7 @@ class M_manageEvent extends CI_Model {
 
 			}else{
 				$this->db->where('ID_FORM', isset($ID_FORM[$i]) ? $ID_FORM[$i] : null);
-				$this->db->update('FORM_META', $data);
+				$this->db->update('form_meta', $data);
 			}
 
 		}
