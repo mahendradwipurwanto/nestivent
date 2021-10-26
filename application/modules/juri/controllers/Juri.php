@@ -24,7 +24,7 @@ class Juri extends MX_Controller {
 		}
 		$this->load->model('M_juri');
 		$this->load->model('Admin/M_admin');
-		$this->load->model('Manage_kompetisi/M_manageKompetisi', 'M_manage');
+// 		$this->load->model('Manage_kompetisi/M_manageKompetisi', 'M_manage');
 	}
 
 	function get_karyaTim($kode){
@@ -144,7 +144,7 @@ class Juri extends MX_Controller {
 			$this->session->set_flashdata('warning', "Penilaian hanya dapat dilakukan melalui dekstop browser");
 			redirect(base_url());
 		}else{
-			$data['tahap']			= $this->M_juri->get_tahapPenilaian();
+			$data['tahap']			= $this->M_juri->get_tahapPenilaian($this->bidang_juri(3));
 			$data['bidang_juri']    = $this->tahap_aktif(2);
 			$data['dataKriteria']   = $this->M_juri->get_kriteriaPenilaian($this->tahap_aktif(1), $this->bidang_juri(1));
 			$data['tim']			= $this->M_juri->get_countTIM($this->tahap_aktif(1), $this->bidang_juri(1), $this->session->userdata('kode_user'));
@@ -163,8 +163,8 @@ class Juri extends MX_Controller {
 
 	public function hasil_penilaian($tahap = 0){
 
-				$data['tahap']				= $this->M_manage->get_tahapPenilaian($this->bidang_juri(3));
-        $bidang_lomba 				= $this->M_manage->get_bidangLomba_by_id($this->bidang_juri(1));
+				$data['tahap']				= $this->M_juri->get_tahapPenilaianAll($this->bidang_juri(3));
+        $bidang_lomba 				= $this->M_juri->get_bidangLomba_by_id($this->bidang_juri(1));
         $tahap_penilaian 			= $this->M_juri->get_tahapLomba_by_id($tahap);
 
         if($tahap == false){
@@ -204,7 +204,7 @@ class Juri extends MX_Controller {
 
 			$data['controller']				= $this;
 
-			$data['tahap']			= $this->M_juri->get_tahapPenilaian();
+			$data['tahap']			= $this->M_juri->get_tahapPenilaianAll($this->bidang_juri(3));
 	        $data['id_tahap'] 		= $this->tahap_aktif(1);
 	        $data['id_bidang'] 		= $this->bidang_juri(1);
 

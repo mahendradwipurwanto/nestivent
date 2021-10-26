@@ -37,8 +37,8 @@ class K_panel extends MX_Controller {
 
   function tinymce_upload() {
     $config['upload_path'] = './berkas/tmp/post/';
-    $config['allowed_types'] = 'jpg|png|jpeg';
-    $config['max_size'] = 0;
+      $config['allowed_types']  = '*';
+      $config['max_size']       = 10*1024;
     $config['file_name'] = time();
     $this->load->library('upload', $config);
     if ( ! $this->upload->do_upload('file')) {
@@ -231,8 +231,8 @@ class K_panel extends MX_Controller {
 
       // UPLOAD FILE
       $config['upload_path']    = $folder;
-      $config['allowed_types']  = 'JPEG|jpeg|JPG|jpg|PNG|png';
-      $config['max_size']       = 2048;
+      $config['allowed_types']  = '*';
+      $config['max_size']       = 10*1024;
       $config['file_name']      = $filename;
       $config['overwrite']      = TRUE;
 
@@ -298,8 +298,8 @@ class K_panel extends MX_Controller {
 
       // UPLOAD FILE
       $config['upload_path']    = $folder;
-      $config['allowed_types']  = 'JPEG|jpeg|JPG|jpg|PNG|png';
-      $config['max_size']       = 2048;
+      $config['allowed_types']  = '*';
+      $config['max_size']       = 10*1024;
       $config['file_name']      = $filename;
       $config['overwrite']      = TRUE;
 
@@ -368,8 +368,8 @@ class K_panel extends MX_Controller {
 
       // UPLOAD FILE
       $config['upload_path']    = $folder;
-      $config['allowed_types']  = 'JPEG|jpeg|JPG|jpg|PNG|png';
-      $config['max_size']       = 10048;
+      $config['allowed_types']  = '*';
+      $config['max_size']       = 10*1024;
       $config['file_name']      = $filename;
       $config['overwrite']      = TRUE;
 

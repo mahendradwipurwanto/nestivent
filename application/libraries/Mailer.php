@@ -12,7 +12,7 @@ class Mailer{
   }
 
   public function get_data($param){
-    $query = $this->_ci->db->query("SELECT a.VALUE FROM TB_PENGATURAN a WHERE a.KEY = '$param'");
+    $query = $this->_ci->db->query("SELECT a.VALUE FROM tb_pengaturan a WHERE a.KEY = '$param'");
     return $query->row()->VALUE;
   }
   // gcjsicbeapygyvko

@@ -310,6 +310,18 @@ class M_authentication extends CI_Model {
 
 		$this->db->insert('tb_pengguna', $pengguna);
 
+    	$chiper 	= $this->create_aktivasi();
+    
+    	$aktivasi = array(
+    		'KODE' 			=> $KODE_USER,
+    		'KEY'  			=> $chiper,
+    		'TYPE' 			=> 1,
+    		'STATUS'		=> 0,
+    		'DATE_CREATED'	=> time()
+    	);
+    
+    	$this->db->insert('tb_token', $aktivasi);
+
 		$penyelenggara = array(
 			'KODE_PENYELENGGARA' 	=> $KODE,
 			'KODE_USER' 					=> $KODE_USER,
@@ -319,7 +331,7 @@ class M_authentication extends CI_Model {
 			'DESKRIPSI' 					=> $DESKRIPSI
 		);
 		$this->db->insert('tb_penyelenggara', $penyelenggara);
-		$cek = ($this->db->affected_rows() != 1) ? false : true;
+		return ($this->db->affected_rows() != 1) ? false : true;
 
 	}
 

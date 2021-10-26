@@ -604,12 +604,16 @@ class Authentication extends MX_Controller {
 	// PENGAJUAN PENYELENGGARA
 
     function daftar_penyelenggara(){
-    	if ($this->session->userdata("logged_in") == TRUE || $this->session->userdata("logged_in")) {
 
-    		if ($this->M_auth->cek_owner() == true) {
-    			$this->session->set_flashdata('error', 'Maaf anda hanya dapat mengajukan, maksimal 1 akun penyelenggara untuk setiap email!!');
-    			redirect($this->agent->referrer());
-    		}else{
+    	$email        = htmlspecialchars($this->input->post('email'), true);
+    	$password     = htmlspecialchars($this->input->post('password'), true);
+    	$password_ver = htmlspecialchars($this->input->post('confirmPassword'), true);
+
+    	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+    		if ($password == $password_ver) {
+
+    			if ($this->M_auth->get_auth($email) == FALSE) {
 
 					// MAKE KODE
 
@@ -649,8 +653,8 @@ class Authentication extends MX_Controller {
 
 						// UPLOAD FILE
     				$config['upload_path']          = $folder;
-    				$config['allowed_types']        = 'JPEG|jpeg|JPG|jpg|PNG|png';
-    				$config['max_size']             = 10048;
+    				$config['allowed_types']        = '*';
+    				$config['max_size']             = 10*1024;
     				$config['file_name']		    		= $filename;
     				$config['overwrite']						= TRUE;
 
@@ -666,29 +670,38 @@ class Authentication extends MX_Controller {
 			// SEND-IN
     			if ($this->M_auth->daftar_penyelenggara($filename, $KODE) == TRUE){
 
-    				$subject	= "Pengajuan AKUN PENYELENGGARA oleh {$this->session->userdata("email")}";
-    				$message	= "Hai, kami telah menerima pengajuan <mark>AKUN PENYELENGGARA</mark> dengan atas nama akun <b>{$this->session->userdata("nama")}</b>.</br>Anda akan menerima balasan mengenai pengajuan anda dalam kurun waktu <b>2x24JAM</b>. Harap hubungi kami jika belum ada balasan hingga batas waktu yang ditentukan.</br></br></br><small class='text-muted'>Regards,</br></br>NESTIVENT</small>";
+    					$pengguna 				= $this->M_auth->get_auth($email);
+
+    					$sessiondata = array(
+    						'kode_user'     => $pengguna->KODE_USER,
+    						'email'         => $pengguna->EMAIL,
+    						'nama'       		=> $pengguna->NAMA,
+    						'role'       		=> $pengguna->ROLE,
+    						'logged_in' 		=> TRUE
+    					);
+
+    					$this->session->set_userdata($sessiondata);
 
 						// SAVE LOG
-    				$this->M_auth->log_aktivitas($this->session->userdata('kode_user'), $this->session->userdata('kode_user'), 5);
-						$this->send_email($this->input->post('email'), $subject, $message);
-    				$this->session->set_flashdata('success', 'Berhasil membuat AKUN PENYELENGGARA!');
-    				redirect(site_url('dashboard-penyelenggara'));
+    					$this->M_auth->log_aktivitas($pengguna->KODE_USER, $pengguna->KODE_USER, 2);
+
+    					redirect(site_url('email-verification'));
     			}else{
     				$this->session->set_flashdata('error', 'Gagal mengirimkan membuat AKUN PENYELENGGARA!!');
     				redirect($this->agent->referrer());
     			}
+
+    			}else{
+    				$this->session->set_flashdata('error', 'Email telah digunakan, harap gunakan email lain !!');
+    				redirect($this->agent->referrer());
+    			}
+    		}else{
+    			$this->session->set_flashdata('error', 'Kombinasi password anda tidak cocok !!');
+    			redirect($this->agent->referrer());
     		}
-    	}else {
-    		if (!empty($_SERVER['QUERY_STRING'])) {
-    			$uri = uri_string() . '?' . $_SERVER['QUERY_STRING'];
-    		} else {
-    			$uri = uri_string();
-    		}
-    		$this->session->unset_userdata('redirect');
-    		$this->session->set_userdata('redirect', $uri);
-    		$this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
-    		redirect('login');
+    	}else{
+    		$this->session->set_flashdata('error', 'Email tidak valid, harap masukkan email dengan benar !!');
+    		redirect($this->agent->referrer());
     	}
 
     }

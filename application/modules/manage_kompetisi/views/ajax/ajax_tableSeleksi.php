@@ -51,7 +51,7 @@
         <td>'.$checkbox.'</td>
         <td>'.$item->NAMA_TIM.'</td>
         <td>'.($CI->M_manage->get_tahapData($item->TAHAP) == false ? "Menunggu seleksi" : $CI->M_manage->get_tahapData($item->TAHAP)->NAMA_TAHAP).'</td>
-        <td><i class="tio-star text-warning mr-1"></i>'.$CI->M_manage->get_TotNilai($item->KODE_PENDAFTARAN)->TOT_NILAI.' dari ('.$CI->M_manage->get_TotNilai($item->KODE_PENDAFTARAN)->JML_JURI.' Juri)</td>
+        <td><i class="tio-star text-warning mr-1"></i>'.$CI->M_manage->get_TotNilai($item->KODE_PENDAFTARAN, $tahap)->TOT_NILAI.' dari ('.$CI->M_manage->get_TotNilai($item->KODE_PENDAFTARAN, $tahap)->JML_JURI.' Juri)</td>
         </tr>
         ';
         $no++;

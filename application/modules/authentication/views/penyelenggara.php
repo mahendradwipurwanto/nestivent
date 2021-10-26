@@ -1,7 +1,7 @@
 <!-- Login Form -->
 <div class="container space-2 space-lg-3">
 	<form class="js-validate w-md-75 w-lg-50 mx-md-auto" action="<?= site_url('authentication/daftar_penyelenggara') ?>"
-		method="post">
+		method="post" enctype="multipart/form-data">
 		<!-- Title -->
 		<div class="mb-5 mb-md-7">
 			<h1 class="h2 mb-0">Gabung sekarang!</h1>
@@ -70,21 +70,21 @@
 
 		<!-- Form Group -->
 		<div class="js-form-message form-group">
-			<label class="input-label" for="signinSrAlamat">Deskripsi <small class="text-muted">(Optional))</small></label>
+			<label class="input-label" for="signinSrAlamat">Deskripsi <small class="text-muted">(Optional)</small></label>
 			<textarea type="text" class="form-control" name="deskripsi" id="signinSrAlamat"
-				placeholder="Alamat lengkap anda" aria-label="Alamat lengkap anda" required rows="3"></textarea>
+				placeholder="Deskripsi" aria-label="Deskripsi" rows="3"></textarea>
 		</div>
 		<!-- End Form Group -->
 
 		<!-- Form Group -->
 		<div class="form-group">
-			<label for="fotoLabel" class="input-label">Logo <small class="text-muted">(Optional)</small></label>
+			<label for="fotoLabel" class="input-label">Logo <small class="text-danger">*</small></small></label>
 			<label for="GETL_FOTO" class="upload-card">
 				<img id="L_FOTO" class="mb-2 upload-img w-100 L_FOTO cursor"
 					src="<?php echo base_url();?>assets/frontend/img/others/Pickanimage.png" alt="Placeholder">
 			</label>
 			<input type="file" id="GETL_FOTO" class="form-control-file hidden" name="logo"
-				onchange="previewL_FOTO(this);" accept="image/*">
+				onchange="previewL_FOTO(this);" accept="image/*" required>
 			<small class="text-muted">Max 2Mb size, and use 1:1 ratio.</small>
 		</div>
 		<!-- End Form Group -->

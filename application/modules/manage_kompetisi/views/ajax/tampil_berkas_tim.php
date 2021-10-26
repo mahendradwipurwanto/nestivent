@@ -25,7 +25,7 @@
             </div>
             <div class="card-body">
                 <div class="responsive-iframe">
-                    <iframe src="<?= base_url();?>berkas/pendaftaran/kompetisi/<?= preg_replace("/[^a-zA-Z]+/", "_", $berkas->BIDANG_LOMBA);?>/<?= preg_replace("/[^a-zA-Z]+/", "_", $berkas->NAMA_TIM);?>_<?= $this->session->userdata('kode_user');?>/karya/<?= $berkas->FILE;?>"  frameborder="0" allowfullscreen></iframe>
+                    <iframe src="<?= base_url();?>berkas/pendaftaran/kompetisi/<?= preg_replace("/[^a-zA-Z]+/", "_", $berkas->BIDANG_LOMBA);?>/<?= preg_replace("/[^a-zA-Z]+/", "_", $berkas->NAMA_TIM);?>_<?= $berkas->KODE_USER;?>/karya/<?= $berkas->FILE;?>"  frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         <?php } ?>

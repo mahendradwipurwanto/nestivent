@@ -164,6 +164,7 @@ $route['manage-kompetisi/kriteria-penilaian']				= 'manage_kompetisi/kriteria_pe
 $route['manage-kompetisi/seleksi']			  	        = 'manage_kompetisi/seleksi';
 $route['manage-kompetisi/kriteria-penilaian/(:num)/(:num)']	= 'manage_kompetisi/data_kriteria/$1/$2';
 $route['manage-kompetisi/hasil-penilaian']					= 'manage_kompetisi/hasil_penilaian';
+$route['manage-kompetisi/hasil-penilaian/(:num)']					= 'manage_kompetisi/hasil_penilaian/$1';
 $route['manage-kompetisi/hasil-penilaian/(:num)/(:num)']					= 'manage_kompetisi/hasil_penilaian/$1/$2';
 
 // END MANAGE KOMPETISI

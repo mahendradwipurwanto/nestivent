@@ -221,13 +221,14 @@ class M_template extends CI_Model {
 	public function get_profil($kode){
 		$part	= explode("_", $kode);
 
-		$this->db->select("PROFIL");
 		if($part[0] == "USR" || $part[0] == "ADM" || $part[0] == "JRI"):
+		$this->db->select("PROFIL");
 			$this->db->where("KODE_USER", $kode);
 			$sender = $this->db->get("tb_pengguna")->row()->PROFIL;
 		elseif($part[0] == "PYL"):
-			$this->db->where("KODE_PENYELENGGARA", $kode);
-			$sender = $this->db->get("tb_penyelenggara")->row()->PROFIL;
+		$this->db->select("LOGO");
+			$this->db->where("KODE_USER", $kode);
+			$sender = $this->db->get("tb_penyelenggara")->row()->LOGO;
 		else:
 			$sender = "System";
 		endif;
@@ -242,12 +243,13 @@ class M_template extends CI_Model {
 		}else {
 			$part	= explode("_", $kode);
 
-			$this->db->select("NAMA");
 			if($part[0] == "USR" || $part[0] == "ADM" || $part[0] == "JRI"):
+			$this->db->select("NAMA");
 				$this->db->where("KODE_USER", $kode);
 				$sender = $this->db->get("tb_pengguna")->row()->NAMA;
 			elseif($part[0] == "PYL"):
-				$this->db->where("KODE_PENYELENGGARA", $kode);
+			$this->db->select("NAMA");
+			$this->db->where("KODE_USER", $kode);
 				$sender = $this->db->get("tb_penyelenggara")->row()->NAMA;
 			else:
 				$sender = "System";

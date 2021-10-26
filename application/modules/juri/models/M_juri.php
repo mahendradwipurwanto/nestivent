@@ -50,11 +50,22 @@ class M_juri extends CI_Model {
 
 	}
 
-	function get_tahapPenilaian(){
+	function get_tahapPenilaian($kode_kompetisi){
 		$now = date("Y-m-d");
-		$query = $this->db->query("SELECT * FROM tahap_penilaian WHERE STATUS = 1 AND '$now' BETWEEN DATE_START AND DATE_END");
+		$query = $this->db->query("SELECT * FROM tahap_penilaian WHERE STATUS = 1 AND '$now' BETWEEN DATE_START AND DATE_END AND KODE_KOMPETISI = '$kode_kompetisi'");
 		if ($query->num_rows() > 0) {
 			return $query->row();
+		}else{
+			return false;
+		}
+
+	}
+
+	function get_tahapPenilaianAll($kode_kompetisi){
+		$now = date("Y-m-d");
+		$query = $this->db->query("SELECT * FROM tahap_penilaian WHERE KODE_KOMPETISI = '$kode_kompetisi'");
+		if ($query->num_rows() > 0) {
+			return $query->result();
 		}else{
 			return false;
 		}
@@ -233,6 +244,18 @@ class M_juri extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+	
+// 	TAMBAHAN 
+
+	function get_bidangLomba_by_id($id_bidang)
+	{
+			$query    = $this->db->query("SELECT * FROM bidang_lomba WHERE id_bidang = $id_bidang");
+			if ($query->num_rows() > 0) {
+					return $query->row();
+			} else {
+					return false;
+			}
 	}
 
 }

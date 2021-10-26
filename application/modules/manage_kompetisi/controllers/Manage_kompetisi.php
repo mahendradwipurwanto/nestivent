@@ -20,6 +20,10 @@ class Manage_kompetisi extends MX_Controller {
       $this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
       redirect('login');
     }
+    if ($this->session->userdata('status_akses') == FALSE || !$this->session->userdata('status_akses')) {
+      $this->session->set_flashdata('error', "Harap re-akses kompetisi anda");
+      redirect(site_url('dashboard-penyelenggara/kompetisiku'));
+    }
     
     $this->load->model('M_manageKompetisi', 'M_manage');
     $this->load->model('Template/M_template');
