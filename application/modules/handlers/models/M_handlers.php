@@ -13,13 +13,13 @@ class M_handlers extends CI_Model {
 			'TYPE'	 		=> $TYPE,
 			'RECEIVER_GROUP'=> $GROUP,
 		);
-		$this->db->insert('LOG_AKTIVITAS', $data);
+		$this->db->insert('log_aktivitas', $data);
 	}
 
 	public function get_kpanelData($email){
 		$this->db->select('*');
-		$this->db->from('TB_AUTH a');
-		$this->db->join('TB_PENYELENGGARA b', 'a.KODE_USER = b.KODE_USER');
+		$this->db->from('tb_auth a');
+		$this->db->join('tb_penyelenggara b', 'a.KODE_USER = b.KODE_USER');
 		$this->db->where('a.EMAIL', $email); 
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -31,7 +31,7 @@ class M_handlers extends CI_Model {
 	}
 
 	public function get_eventData($kode){
-		$query = $this->db->get_where('TB_EVENT', array('KODE_EVENT' => $kode));
+		$query = $this->db->get_where('tb_event', array('KODE_EVENT' => $kode));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		} else {
@@ -41,7 +41,7 @@ class M_handlers extends CI_Model {
 	}
 
 	public function get_kompetisiData($kode){
-		$query = $this->db->get_where('TB_KOMPETISI', array('KODE_KOMPETISI' => $kode));
+		$query = $this->db->get_where('tb_kompetisi', array('KODE_KOMPETISI' => $kode));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		} else {
