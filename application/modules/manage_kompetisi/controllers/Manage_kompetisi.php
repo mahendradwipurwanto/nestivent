@@ -20,7 +20,7 @@ class Manage_kompetisi extends MX_Controller {
       $this->session->set_flashdata('error', "Harap login ke akun anda, untuk melanjutkan");
       redirect('login');
     }
-    if ($this->session->userdata('status_akses') == FALSE || !$this->session->userdata('status_akses')) {
+    if ($this->session->userdata('manage_kompetisi') == FALSE || !$this->session->userdata('manage_kompetisi')) {
       $this->session->set_flashdata('error', "Harap re-akses kompetisi anda");
       redirect(site_url('dashboard-penyelenggara/kompetisiku'));
     }
@@ -199,8 +199,8 @@ class Manage_kompetisi extends MX_Controller {
 
   public function index(){
 
-    $data['c_peserta']  = $this->M_manage->count_peserta($this->session->userdata('manage_event'));
-    $data['c_verif']    = $this->M_manage->count_pesertaVerif($this->session->userdata('manage_event'));
+    $data['c_peserta']  = $this->M_manage->count_peserta($this->session->userdata('manage_kompetisi'));
+    $data['c_verif']    = $this->M_manage->count_pesertaVerif($this->session->userdata('manage_kompetisi'));
 
     $data['module']     = "manage_kompetisi";
     $data['fileview']   = "dashboard";
