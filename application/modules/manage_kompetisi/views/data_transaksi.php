@@ -100,6 +100,11 @@
 						</button>
 
 						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#buktiBayar<?= $no ?>">
+							<i class="tio-receipt-outlined"></i>
+						</button>
+
+						<!-- Button trigger modal -->
 						<button type="button" class="btn btn-danger btn-xs" data-toggle="modal"
 							data-target="#deletetrans<?= $no ?>">
 							<i class="tio-delete"></i>
@@ -207,6 +212,26 @@
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 								<a href="<?= base_url('manage_kompetisi/delete_transaksi/' . $row->KODE_TRANS) ?>"
 									class="btn btn-danger">Ya, Hapus</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="buktiBayar<?= $no ?>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+					aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Bukti Transaksi #<?= $row->KODE_TRANS ?></h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+							<center>
+								<img src="<?= base_url();?>berkas/pendaftaran/kompetisi/<?= preg_replace("/[^a-zA-Z]+/", "_", $row->BIDANG_LOMBA);?>/<?= preg_replace("/[^a-zA-Z]+/", "_", $row->NAMA_TIM);?>_<?= $row->KODE_USER;?>/pembayaran/<?= $row->BUKTI_BAYAR;?>" <style="width: 100%; heigth: 100%">
+								</center>
 							</div>
 						</div>
 					</div>

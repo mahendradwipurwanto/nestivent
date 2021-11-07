@@ -877,9 +877,10 @@ class M_manageKompetisi extends CI_Model {
 	// TRANSAKSI
 
 	function get_dataTransaksi(){
-		$this->db->select('tt.*, pk.NAMA_TIM, ta.EMAIL, tp.NAMA');
+		$this->db->select('tt.*, bl.BIDANG_LOMBA, pk.KODE_USER, pk.NAMA_TIM, ta.EMAIL, tp.NAMA');
 		$this->db->from('tb_transaksi tt');
 		$this->db->join('pendaftaran_kompetisi pk', 'tt.KODE_PENDAFTARAN = pk.KODE_PENDAFTARAN');
+		$this->db->join('bidang_lomba bl', 'pk.BIDANG_LOMBA = bl.ID_BIDANG');
 		$this->db->join('tb_auth ta', 'pk.KODE_USER = ta.KODE_USER');
 		$this->db->join('tb_pengguna tp', 'pk.KODE_USER = tp.KODE_USER');
 		$query = $this->db->get();
