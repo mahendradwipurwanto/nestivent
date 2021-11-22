@@ -82,7 +82,11 @@
 					aria-labelledby="deskripsi-detail-tab">
 
 					<?= $kompetisi->DESKRIPSI;?>
+					
+					<hr class="my-6">
 
+					<h4 class="mb-1">Informasi Lomba</h4>
+						<p>Diselenggarakan pada <?= date("d F Y", strtotime($kompetisi->TANGGAL));?></p>
 					<hr class="my-6">
 
 					<h4 class="mb-1">Biaya Pendaftaran</h4>
